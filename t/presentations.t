@@ -26,7 +26,7 @@ $app->model->user->create({
 my ($err, $data);
 $app->model->presentation->create({
   conference => 'mojoconf2015',
-  username => 'jberger',
+  author => 'jberger',
   title => 'My Talk',
   url_name => 'my-talk',
 }, sub { (undef, $err, undef) = @_ });
@@ -37,10 +37,7 @@ ok !$err or diag $err;
 $data = $data->hash;
 is $data->{title}, 'My Talk';
 is $data->{author}, 'Joel Berger';
-is $data->{url_title}, 'my-talk';
-
-done_testing;
-__END__
+is $data->{url_name}, 'my-talk';
 
 $app->model->user->update('mojoconf2015', 'my-talk', {title => 'Another Title'}, sub { (undef, $err, undef) = @_ });
 ok !$err or diag $err;

@@ -30,10 +30,11 @@ sub create {
   # http://sqlfiddle.com/#!15/e1168/1/3
   $self->_query(<<'  SQL', @values, $cb);
     INSERT INTO presentations (conference, author, url_name, title, subtitle, abstract)
-    SELECT 
-      (SELECT id FROM conferences c WHERE c.identifier=?), 
-      (SELECT id FROM users u WHERE u.username=?), 
+    VALUES(
+      (SELECT c.id FROM conferences c WHERE c.identifier=?),
+      (SELECT u.id FROM users u WHERE u.username=?),
       ?, ?, ?, ?
+    )
   SQL
 }
 

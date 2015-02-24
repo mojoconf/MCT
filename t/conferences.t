@@ -11,6 +11,7 @@ my $t = Test::Mojo->new('MCT');
 my $app = $t->app;
 $app->config->{db} = $db;
 
+$app->migrations->migrate(0);
 $app->migrations->migrate;
 
 my $ident = '';

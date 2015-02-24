@@ -15,8 +15,8 @@ CREATE TABLE users (
 );
 CREATE TABLE presentations (
   id SERIAL PRIMARY KEY,
-  conference INTEGER REFERENCES conferences (id),
-  author INTEGER REFERENCES users (id),
+  conference INTEGER NOT NULL REFERENCES conferences (id),
+  author INTEGER NOT NULL REFERENCES users (id),
   url_name TEXT NOT NULL,
   title TEXT NOT NULL,
   subtitle TEXT,

@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= conference_name %></title>
+  </head>
+  <body>
+    <%= conference_name %>
+    <%= conference_tagline %>
+  </body>
+</html>

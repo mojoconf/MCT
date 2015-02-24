@@ -46,8 +46,9 @@ sub update {
   $self->_query(<<"  SQL", @values, $conference, $url_name, $cb);
     UPDATE presentations
     SET $cols
-    JOIN conferences c ON c.identifier=?
-    WHERE url_name=?
+    FROM conferences c
+    WHERE c.identifier=?
+      AND url_name=?
   SQL
 }
 

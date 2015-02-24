@@ -39,10 +39,10 @@ is $data->{title}, 'My Talk';
 is $data->{author}, 'Joel Berger';
 is $data->{url_name}, 'my-talk';
 
-$app->model->user->update('mojoconf2015', 'my-talk', {title => 'Another Title'}, sub { (undef, $err, undef) = @_ });
+$app->model->presentation->update('mojoconf2015', 'my-talk', {title => 'Another Title'}, sub { (undef, $err, undef) = @_ });
 ok !$err or diag $err;
 
-$app->model->user->get('mojoconf2015', 'my-talk', sub { (undef, $err, $data) = @_ });
+$app->model->presentation->get('mojoconf2015', 'my-talk', sub { (undef, $err, $data) = @_ });
 $data = $data->hash;
 ok !$err or diag $err;
 is $data->{title}, 'Another Title';

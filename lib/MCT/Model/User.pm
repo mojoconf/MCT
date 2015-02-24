@@ -24,11 +24,11 @@ sub create {
 }
 
 sub update {
-  my ($self, $ident, $conf, $cb) = @_;
-  my @cols = grep { exists $valid{$_} } keys %$conf;
+  my ($self, $username, $data, $cb) = @_;
+  my @cols = grep { exists $valid{$_} } keys %$data;
   my $cols = join ', ', map { "$_=?" } @cols;
-  my @values = @{$conf}{@cols};
-  $self->_query(<<"  SQL", @values, $ident, $cb);
+  my @values = @{$data}{@cols};
+  $self->_query(<<"  SQL", @values, $username, $cb);
     UPDATE users
     SET $cols
     WHERE username=?

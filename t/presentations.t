@@ -14,39 +14,45 @@ $app->config->{db} = $db;
 $app->migrations->migrate(0);
 $app->migrations->migrate;
 
-$app->model->conference->create({
+$app->model->conference(
   identifier => 'mojoconf2015',
   name => 'MojoConf 2015',
-});
-$app->model->user->create({
+)->save;
+$app->model->user(
   username => 'jberger',
   name => 'Joel Berger',
-});
+)->save;
 
-my ($err, $data);
-$app->model->presentation->create({
-  conference => 'mojoconf2015',
+my $err;
+my $presentation = $app->model->presentation(
   author => 'jberger',
+  conference => 'mojoconf2015',
   title => 'My Talk',
   url_name => 'my-talk',
-}, sub { (undef, $err, undef) = @_ });
+)->save;
+ok $presentation->id, 'id';
+is $presentation->author, 'jberger', 'author';
 ok !$err or diag $err;
 
-$app->model->presentation->get('mojoconf2015', 'my-talk', sub { (undef, $err, $data) = @_ });
+$presentation = $app->model->presentation(conference => 'mojoconf2015', url_name => 'my-talk')->load;
 ok !$err or diag $err;
-$data = $data->hash;
-is $data->{title}, 'My Talk';
-is $data->{author}, 'Joel Berger';
-is $data->{url_name}, 'my-talk';
+is $presentation->author, 'Joel Berger';
+is $presentation->conference, 'mojoconf2015';
+is $presentation->title, 'My Talk';
+is $presentation->url_name, 'my-talk';
 
-$app->model->presentation->update('mojoconf2015', 'my-talk', {title => 'Another Title'}, sub { (undef, $err, undef) = @_ });
-ok !$err or diag $err;
+$presentation->title('Another Title')->save;
+$presentation = $app->model->presentation(conference => 'mojoconf2015', url_name => 'my-talk')->load;
 
-$app->model->presentation->get('mojoconf2015', 'my-talk', sub { (undef, $err, $data) = @_ });
-$data = $data->hash;
-ok !$err or diag $err;
-is $data->{title}, 'Another Title';
-is $data->{author}, 'Joel Berger';
+is_deeply $presentation->TO_JSON, {
+  id => $presentation->id,
+  abstract => '',
+  author => 'Joel Berger',
+  conference => 'mojoconf2015',
+  subtitle => '',
+  title => 'Another Title',
+  url_name => 'my-talk',
+};
 
 $app->migrations->migrate(0);
 

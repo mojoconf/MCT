@@ -27,9 +27,9 @@ sub startup {
     },
   });
 
-  $app->helper('model.conference'   => sub { MCT::Model::Conference->new(pg => shift->app->pg) });
-  $app->helper('model.user'         => sub { MCT::Model::User->new(pg => shift->app->pg) });
-  $app->helper('model.presentation' => sub { MCT::Model::Presentation->new(pg => shift->app->pg) });
+  $app->helper('model.conference'   => sub { MCT::Model::Conference->new(pg => shift->app->pg, @_) });
+  $app->helper('model.user'         => sub { MCT::Model::User->new(pg => shift->app->pg, @_) });
+  $app->helper('model.presentation' => sub { MCT::Model::Presentation->new(pg => shift->app->pg, @_) });
 
   $app->helper(conference_name    => sub { shift->app->conference->name });
   $app->helper(conference_tagline => sub { shift->app->conference->tagline });

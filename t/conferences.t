@@ -15,28 +15,32 @@ $app->migrations->migrate(0);
 $app->migrations->migrate;
 
 my $ident = '';
-my ($err, $data);
-$app->model->conference->create({
+my $err;
+my $conference = $app->model->conference(
   identifier => 'mojoconf2015',
   name => 'MojoConf 2015',
   tagline => 'All the Mojo you can Conf',
-}, sub { (undef, $err, undef) = @_ });
+)->save(sub { (undef, $err, undef) = @_ });
 ok !$err or diag $err;
 
-$app->model->conference->get('mojoconf2015', sub { (undef, $err, $data) = @_ });
-$data = $data->hash;
-ok !$err or diag $err;
-is $data->{name}, 'MojoConf 2015';
-is $data->{tagline}, 'All the Mojo you can Conf';
+ok $conference->in_storage;
+is $conference->name, 'MojoConf 2015';
 
-$app->model->conference->update('mojoconf2015', {tagline => 'Confing all the Mojo'}, sub { (undef, $err, undef) = @_ });
+$conference = $app->model->conference(identifier => 'mojoconf2015')->load;
 ok !$err or diag $err;
+is $conference->name, 'MojoConf 2015';
+is $conference->tagline, 'All the Mojo you can Conf';
+ok $conference->id;
 
-$app->model->conference->get('mojoconf2015', sub { (undef, $err, $data) = @_ });
-$data = $data->hash;
+$conference->tagline('Confing all the Mojo')->save;
+$app->model->conference(identifier => 'mojoconf2015')->load(sub { (undef, $err) = @_ });
 ok !$err or diag $err;
-is $data->{name}, 'MojoConf 2015';
-is $data->{tagline}, 'Confing all the Mojo';
+is_deeply $conference->TO_JSON, {
+  id => $conference->id,
+  identifier => 'mojoconf2015',
+  name => 'MojoConf 2015',
+  tagline => 'Confing all the Mojo',
+};
 
 $app->migrations->migrate(0);
 

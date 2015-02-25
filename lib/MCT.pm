@@ -36,7 +36,7 @@ sub startup {
 sub _ensure_conference {
   my $app = shift;
   my $conference = $app->config('conference');
-  my $model = $app->model->conference(identifier => $conference->{identifier});
+  my $model = $app->model->conference(%$conference);
 
   $app->defaults(conference => $model->load->save($conference));
 }

@@ -9,5 +9,6 @@ my $t = Test::Mojo->new('MCT');
 $t->app->config->{db} = $db;
 
 $t->get_ok('/')->status_is(200)->text_is('title', 'Mojoconf 2015');
+$t->get_ok('/.json')->status_is(200)->json_is('/name', 'Mojoconf 2015')->json_is('/identifier', 'mojoconf-2015');
 
 done_testing;

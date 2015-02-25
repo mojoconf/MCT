@@ -32,7 +32,7 @@ is $conference->name, 'MojoConf 2015';
 is $conference->tagline, 'All the Mojo you can Conf';
 ok $conference->id;
 
-$conference->tagline('Confing all the Mojo')->save;
+$conference->save({ tagline => 'Confing all the Mojo' });
 $app->model->conference(identifier => 'mojoconf2015')->load(sub { (undef, $err) = @_ });
 ok !$err or diag $err;
 is_deeply $conference->TO_JSON, {

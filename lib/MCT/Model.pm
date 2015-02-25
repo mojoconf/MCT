@@ -34,7 +34,8 @@ sub load {
 }
 
 sub save {
-  my ($self, $cb) = @_;
+  my $cb = ref $_[-1] eq 'CODE' ? pop : undef;
+  my ($self, $attrs) = @_;
   my $method = $self->id ? '_update_sst' : '_insert_sst';
   my $err;
 
@@ -42,6 +43,7 @@ sub save {
 
   Mojo::IOLoop->delay(
     sub {
+      $self->$_($attrs->{$_}) for keys %$attrs;
       $self->_query($self->$method, shift->begin);
     },
     sub {

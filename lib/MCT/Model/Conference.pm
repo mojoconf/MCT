@@ -18,8 +18,8 @@ sub _load_sst {
 sub _insert_sst {
   my $self = shift;
   <<'  SQL', map { $self->$_ } qw( identifier name tagline );
-    INSERT INTO conferences (identifier, name, tagline)
-    VALUES (?, ?, ?)
+    INSERT INTO conferences (created, identifier, name, tagline)
+    VALUES (CURRENT_TIMESTAMP, ?, ?, ?)
     RETURNING id
   SQL
 }

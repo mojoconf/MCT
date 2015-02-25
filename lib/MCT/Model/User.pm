@@ -18,8 +18,8 @@ sub _load_sst {
 sub _insert_sst {
   my $self = shift;
   <<'  SQL', map { $self->$_ } qw( name username email );
-    INSERT INTO users (name, username, email)
-    VALUES (?, ?, ?)
+    INSERT INTO users (registered, name, username, email)
+    VALUES (CURRENT_TIMESTAMP, ?, ?, ?)
     RETURNING id
   SQL
 }

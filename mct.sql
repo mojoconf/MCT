@@ -4,11 +4,13 @@ CREATE TABLE conferences (
   identifier TEXT NOT NULL UNIQUE,
   name TEXT NOT NULL,
   tagline TEXT,
+  created TIMESTAMP,
   start_date DATE,
   end_date DATE
 );
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
+  registered TIMESTAMP,
   name TEXT NOT NULL,
   username TEXT NOT NULL UNIQUE,
   email TEXT

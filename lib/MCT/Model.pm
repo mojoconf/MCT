@@ -27,7 +27,7 @@ sub load {
       @$self{keys %$data} = values %$data;
       $self->$cb('') if $cb;
     },
-  )->catch(sub{ $self->$cb($_[1], undef) })->wait;
+  )->catch(sub{ $self->$cb($_[1]) })->wait;
 
   die $err if $err;
   return $self;
@@ -50,7 +50,7 @@ sub save {
       $self->id($results->hash->{id}) if $method eq '_insert_sst';
       $self->$cb('') if $cb;
     },
-  )->catch(sub{ $self->$cb($_[1], undef) })->wait;
+  )->catch(sub{ $self->$cb($_[1]) })->wait;
 
   die $err if $err;
   return $self;

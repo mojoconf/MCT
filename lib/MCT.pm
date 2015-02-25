@@ -2,6 +2,8 @@ package MCT;
 
 use Mojo::Base 'Mojolicious';
 
+our $VERSION = '0.01';
+
 use Mojo::Pg;
 use MCT::Model::Conference;
 use MCT::Model::User;

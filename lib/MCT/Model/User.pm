@@ -2,37 +2,40 @@ package MCT::Model::User;
 
 use Mojo::Base 'MCT::Model';
 
-my @valid = qw/name username email/;
-my %valid; @valid{@valid} = (1)x@valid;
+has name => '';
+has username => '';
+has email => '';
 
-sub get {
-  my ($self, $username, $cb) = @_;
-  $self->_query(<<'  SQL', $username, $cb);
-    SELECT name, username, email
+sub _load_sst {
+  my $self = shift;
+  <<'  SQL', $self->username;
+    SELECT id, name, username, email
     FROM users
     WHERE username=?
   SQL
 }
 
-sub create {
-  my ($self, $user, $cb) = @_;
-  my @values = @{$user}{qw/name username email/};
-  $self->_query(<<'  SQL', @values, $cb);
+sub _insert_sst {
+  my $self = shift;
+  <<'  SQL', map { $self->$_ } qw( name username email );
     INSERT INTO users (name, username, email)
     VALUES (?, ?, ?)
+    RETURNING id
   SQL
 }
 
-sub update {
-  my ($self, $username, $data, $cb) = @_;
-  my @cols = grep { exists $valid{$_} } keys %$data;
-  my $cols = join ', ', map { "$_=?" } @cols;
-  my @values = @{$data}{@cols};
-  $self->_query(<<"  SQL", @values, $username, $cb);
+sub _update_sst {
+  my $self = shift;
+  <<"  SQL", map { $self->$_ } qw( name username email id );
     UPDATE users
-    SET $cols
-    WHERE username=?
+    SET name=?, username=?, email=?
+    WHERE id=?
   SQL
+}
+
+sub TO_JSON {
+  my $self = shift;
+  return { map { ($_, $self->$_) } qw( name username email id ) };
 }
 
 1;

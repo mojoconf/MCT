@@ -16,3 +16,4 @@
 /public/packed
 /node_modules
 .sass-cache
+mct.development.conf

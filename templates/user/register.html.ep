@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= $conference->name %></title>
+  </head>
+  <body>
+    <h1>Register</h1>
+    %= form_for 'register', method => 'post', begin
+    %= text_field 'email'
+    %= text_field 'password'
+    <button>Register</button>
+    % end
+  </body>
+</html>

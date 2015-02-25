@@ -13,6 +13,7 @@ CREATE TABLE users (
   registered TIMESTAMP,
   name TEXT NOT NULL,
   username TEXT NOT NULL UNIQUE,
+  password bytea NOT NULL,
   email TEXT
 );
 CREATE TABLE presentations (

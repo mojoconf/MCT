@@ -52,7 +52,11 @@ sub _routes {
   my $app = shift;
   my $r = $app->routes;
 
-  $r->any('/')->to('home#landing_page')->name('landing_page');
+  $r->get('/')->to('home#landing_page')->name('landing_page');
+  $r->get('/register')->to(template => 'user/register')->name('register');
+  $r->post('/register')->to('user#register');
+  $r->any('/profile')->to('user#profile')->name('profile');
+  $r->get('/login')->to(template => 'user/login')->name('login');
 }
 
 1;

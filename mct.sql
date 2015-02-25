@@ -4,13 +4,16 @@ CREATE TABLE conferences (
   identifier TEXT NOT NULL UNIQUE,
   name TEXT NOT NULL,
   tagline TEXT,
+  created TIMESTAMP,
   start_date DATE,
   end_date DATE
 );
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
+  registered TIMESTAMP,
   name TEXT NOT NULL,
   username TEXT NOT NULL UNIQUE,
+  password bytea NOT NULL,
   email TEXT
 );
 CREATE TABLE presentations (
@@ -24,7 +27,6 @@ CREATE TABLE presentations (
   UNIQUE (url_name, conference)
 );
 -- 1 down
-DROP TABLE presentations;
-DROP TABLE conferences;
-DROP TABLE users;
-
+DROP TABLE IF EXISTS presentations;
+DROP TABLE IF EXISTS conferences;
+DROP TABLE IF EXISTS users;

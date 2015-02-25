@@ -14,29 +14,41 @@ $app->config->{db} = $db;
 $app->migrations->migrate(0);
 $app->migrations->migrate;
 
-my ($err, $data);
-$app->model->user->create({
+my $err;
+my $user = $app->model->user(
   name => 'Joel Berger',
   username => 'jberger',
   email => 'joel.a.berger@gmail.com',
-}, sub { (undef, $err, undef) = @_ });
+);
+
+is $user->in_storage, 0, 'in_storage=0';
+$user->save(sub { (undef, $err) = @_ });
+is $user->in_storage, 1, 'in_storage=1';
+is $user->email, 'joel.a.berger@gmail.com', 'email';
+is $user->name, 'Joel Berger', 'name';
+is $user->username, 'jberger', 'username';
 ok !$err or diag $err;
 
-$app->model->user->get('jberger', sub { (undef, $err, $data) = @_ });
-$data = $data->hash;
+$user = $app->model->user(username => 'jberger')->load(sub { (undef, $err) = @_ });
 ok !$err or diag $err;
-is $data->{name}, 'Joel Berger';
-is $data->{username}, 'jberger';
-is $data->{email}, 'joel.a.berger@gmail.com';
+is $user->in_storage, 1, 'in_storage=1';
+is $user->name, 'Joel Berger';
+is $user->username, 'jberger';
+is $user->email, 'joel.a.berger@gmail.com';
 
-$app->model->user->update('jberger', {email => 'jberger@nospam.org'}, sub { (undef, $err, undef) = @_ });
+$user->email('jberger@nospam.org');
+is $user->save, $user, 'save sync';
 ok !$err or diag $err;
 
-$app->model->user->get('jberger', sub { (undef, $err, $data) = @_ });
-$data = $data->hash;
+$user = $app->model->user(username => 'jberger')->load;
 ok !$err or diag $err;
-is $data->{name}, 'Joel Berger';
-is $data->{email}, 'jberger@nospam.org';
+
+is_deeply $user->TO_JSON, {
+  id => $user->id,
+  name => 'Joel Berger',
+  email => 'jberger@nospam.org',
+  username => 'jberger',
+};
 
 $app->migrations->migrate(0);
 

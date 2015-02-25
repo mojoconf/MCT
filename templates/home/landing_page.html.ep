@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= $conference->name %></title>
+  </head>
+  <body>
+    <h1><%= $conference->name %></h1>
+    <p><%= $conference->tagline %></p>
+    <p><%= link_to 'Register', 'register' %></p>
+  </body>
+</html>

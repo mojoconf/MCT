@@ -24,7 +24,6 @@ CREATE TABLE presentations (
   UNIQUE (url_name, conference)
 );
 -- 1 down
-DROP TABLE presentations;
-DROP TABLE conferences;
-DROP TABLE users;
-
+DROP TABLE IF EXISTS presentations;
+DROP TABLE IF EXISTS conferences;
+DROP TABLE IF EXISTS users;

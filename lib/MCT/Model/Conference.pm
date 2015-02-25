@@ -2,7 +2,13 @@ package MCT::Model::Conference;
 
 use Mojo::Base 'MCT::Model';
 
-has identifier => '';
+has identifier => sub {
+  my $self = shift;
+  my $identifier = lc $self->name;
+  $identifier =~ s!\W!-!g;
+  $identifier;
+};
+
 has name => '';
 has tagline => '';
 

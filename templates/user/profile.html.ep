@@ -5,11 +5,22 @@
   </head>
   <body>
     <h1>Register</h1>
-    %= form_for 'register', method => 'post', begin
-    %= text_field 'email', $user->email
-    %= text_field 'name', $user->name
-    %= text_field 'password'
-    <button>Update profile</button>
+    %= form_for 'profile', method => 'post', begin
+      <div class="row">
+        <label>Email</label>
+        %= text_field 'email', $user->email
+      </div>
+      <div class="row">
+        <label>Name</label>
+        %= text_field 'name', $user->name
+      </div>
+      <div class="row">
+        <label>Password</label>
+        %= password_field 'password'
+      </div>
+      <div class="row">
+        <button>Update profile</button>
+      </div>
     % end
   </body>
 </html>

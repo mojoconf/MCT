@@ -6,9 +6,17 @@
   <body>
     <h1>Register</h1>
     %= form_for 'register', method => 'post', begin
-    %= text_field 'email'
-    %= text_field 'password'
-    <button>Register</button>
+      <div class="row">
+        <label>Email</label>
+        %= text_field 'email'
+      </div>
+      <div class="row">
+        <label>Password</label>
+        %= text_field 'password'
+      </div>
+      <div class="row">
+        <button>Register</button>
+      </div>
     % end
   </body>
 </html>

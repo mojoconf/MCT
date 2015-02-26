@@ -4,18 +4,27 @@ use Mojo::Base 'Mojolicious::Controller';
 
 sub profile {
   my $c = shift;
-  my $user = $c->model->user(username => $c->session('username'));
+  my $validation = $c->validation;
+  my $user = $c->model->user(id => $c->session('uid'));
+  my $update = $c->req->method eq 'POST';
 
-  return $c->redirect_to('login') unless $user->username;
-  return $c->delay(
+  if (!$user->id) {
+    return $c->redirect_to('login');
+  }
+  if ($update and $user->validate($c->validation)->has_error) {
+    return;
+  }
+
+  $c->delay(
     sub {
       my ($delay) = @_;
-      $user->load($delay->begin);
+      return $user->save($validation->output, $delay->begin) if $update;
+      return $user->load($delay->begin);
     },
     sub {
       my ($delay, $err) = @_;
       return $c->reply->exception($err) if $err; # TODO: Better error handling
-      return $c->redirect_to('register') unless $user->id; # TODO: Is this even possible?
+      return $c->session(uid => 0)->redirect_to('register') unless $user->id; # TODO: Is this even possible?
       return $c->respond_to(
         json => {json => $user},
         any => sub {shift->render(user => $user)}
@@ -29,9 +38,12 @@ sub register {
   my $user = $c->model->user;
   my $validation = $c->validation;
 
-  $validation->required('email')->like(qr{.\@.}); # poor mans regex
-  $validation->optional('username')->like(qr/^[a-z][a-z0-9]{2,}$/i); # at least three characters
-  $validation->has_error and return $c->render;
+  if ($c->session('uid')) {
+    return $c->redirect_to('profile');
+  }
+  if ($user->validate($validation)->has_error) {
+    return;
+  }
 
   $c->delay(
     sub {
@@ -41,7 +53,7 @@ sub register {
     sub {
       my ($delay, $err) = @_;
       return $c->reply->exception($err) if $err; # TODO: Better error handling
-      return $c->session(username => $user->username)->redirect_to('profile');
+      return $c->session(uid => $user->id)->redirect_to('profile');
     },
   );
 }

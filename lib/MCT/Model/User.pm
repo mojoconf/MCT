@@ -31,6 +31,15 @@ sub password {
   }
 }
 
+sub validate {
+  my ($self, $validation) = @_;
+
+  $validation->required('email')->like(qr{.\@.}); # poor mans regex
+  $validation->optional('username')->like(qr/^[a-z][a-z0-9]{2,}$/i); # at least three characters
+  $validation->optional('name')->like(qr/../i); # TODO
+  $validation;
+}
+
 sub validate_password {
   my ($self, $plain) = @_;
 

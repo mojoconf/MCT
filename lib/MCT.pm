@@ -53,8 +53,7 @@ sub _routes {
   my $r = $app->routes;
 
   $r->get('/')->to('home#landing_page')->name('landing_page');
-  $r->get('/register')->to(template => 'user/register')->name('register');
-  $r->post('/register')->to('user#register');
+  $r->any('/register')->to('user#register')->name('register');
   $r->any('/profile')->to('user#profile')->name('profile');
   $r->get('/login')->to(template => 'user/login')->name('login');
 }

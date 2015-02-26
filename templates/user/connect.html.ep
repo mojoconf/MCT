@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= $conference->name %></title>
+  </head>
+  <body>
+  % if (flash 'logged_out') {
+    <h1>Logged out</h1>
+    <p>You have been logged out.</p>
+  % }
+    <h1>Connect with Eventbrite</h1>
+    <p>Some message which will make the visitor think this is a good idea.</p>
+    <p><%= link_to 'Connect', get_authorize_url('eventbrite'), class => 'btn' %></p>
+  </body>
+</html>

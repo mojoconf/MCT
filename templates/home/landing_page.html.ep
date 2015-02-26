@@ -6,5 +6,6 @@
   <body>
     <h1><%= $conference->name %></h1>
     <p><%= $conference->tagline %></p>
+    <p><%= link_to 'Connect with eventbrite', 'connect' %></p>
   </body>
 </html>

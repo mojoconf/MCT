@@ -4,19 +4,16 @@ use Mojo::Base 'MCT::Model';
 
 has email => '';
 has name => '';
-has username => sub {
-  my $self = shift;
-  my $username = $self->email;
-  $username =~ s!\W!-!g;
-  $username;
-};
+has username => sub { shift->email };
 
 sub _load_sst {
   my $self = shift;
-  <<'  SQL', $self->username;
+  my $key = $self->id ? 'id' : 'username';
+
+  <<"  SQL", $self->$key;
     SELECT id, name, username, email
     FROM users
-    WHERE username=?
+    WHERE $key=?
   SQL
 }
 

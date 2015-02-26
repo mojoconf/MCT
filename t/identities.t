@@ -24,16 +24,17 @@ my $data = {
 
 # try to copy logic from MCT::Controller::User::_connect_with_oauth_provider()
 my $identity = $t->app->model->identity(provider => 'eventbrite');
-$identity->token('s3cret');
 ok !$identity->in_storage, 'identity.not_in_storage';
 ok !$user, 'no user';
+
+$identity->token('s3cret');
 $identity->uid($data->{id})->user($data, sub { (undef, $err, $user) = @_; Mojo::IOLoop->stop });
 Mojo::IOLoop->start;
 ok !$err, 'no error' or diag $err;
 ok $identity->in_storage, 'identity.in_storage';
 ok $user->in_storage, 'user.in_storage';
 is $user->email, 'mitch@eventbrite.com', 'user.email';
-is $user->username, 'mitch-eventbrite-com', 'user.username';
+is $user->username, 'mitch@eventbrite.com', 'user.username';
 ok $user->id, 'user.id';
 
 $t->app->migrations->migrate(0);

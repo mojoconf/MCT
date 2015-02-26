@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= $conference->name %> - <%= $user->email %></title>
+  </head>
+  <body>
+    <h1>Register</h1>
+    %= form_for 'profile', method => 'post', begin
+    %= text_field 'email', $user->email
+    %= text_field 'name', $user->name
+    %= text_field 'password'
+    <button>Update profile</button>
+    % end
+  </body>
+</html>

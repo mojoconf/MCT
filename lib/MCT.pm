@@ -5,6 +5,7 @@ use Mojo::Base 'Mojolicious';
 our $VERSION = '0.01';
 
 use Mojo::Pg;
+use Mojo::Eventbrite;
 use MCT::Model;
 
 has pg => sub { Mojo::Pg->new(shift->config->{db}) };
@@ -24,14 +25,17 @@ sub startup {
     },
   });
 
+  $app->helper('eventbrite'         => sub { shift->stash->{eventbrite} ||= Mojo::Eventbrite->new });
   $app->helper('model.conference'   => sub { MCT::Model->new_object(Conference => pg => shift->app->pg, @_) });
   $app->helper('model.identity'     => sub { MCT::Model->new_object(Identity => pg => shift->app->pg, @_) });
   $app->helper('model.presentation' => sub { MCT::Model->new_object(Presentation => pg => shift->app->pg, @_) });
   $app->helper('model.user'         => sub { MCT::Model->new_object(User => pg => shift->app->pg, @_) });
 
+  $app->_oauth2;
   $app->_migrate_database;
   $app->_ensure_conference;
   $app->_routes;
+  $app->plugin('MCT::Plugin::Mock') if $ENV{MCT_MOCK};
 }
 
 sub _ensure_conference {
@@ -49,11 +53,30 @@ sub _migrate_database {
   $app->pg->migrations->migrate;
 }
 
+sub _oauth2 {
+  my $app = shift;
+  my $config = $app->config('oauth2');
+
+  $app->plugin(
+    OAuth2 => {
+      eventbrite => {
+        authorize_url => 'https://www.eventbrite.com/oauth/authorize',
+        token_url => 'https://www.eventbrite.com/oauth/token',
+        key => $config->{eventbrite}{key} || 'REQUIRED',
+        secret => $config->{eventbrite}{secret} || 'REQUIRED',
+      }
+    }
+  );
+}
+
 sub _routes {
   my $app = shift;
   my $r = $app->routes;
 
-  $r->any('/')->to('home#landing_page')->name('landing_page');
+  $r->get('/')->to('home#landing_page')->name('landing_page');
+  $r->get('/connect')->to(template => 'user/connect');
+  $r->get('/logout')->to('user#logout');
+  $r->any('/profile')->to('user#profile')->name('profile');
 }
 
 1;

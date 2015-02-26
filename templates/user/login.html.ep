@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= $conference->name %> - Login</title>
+  </head>
+  <body>
+    <h1>Login</h1>
+    %= form_for 'login', method => 'post', begin
+      <div class="row">
+        <label>Email</label>
+        %= text_field 'email'
+      </div>
+      <div class="row">
+        <label>Password</label>
+        %= text_field 'password'
+      </div>
+      <div class="row">
+        <button>Login</button>
+      </div>
+    % end
+  </body>
+</html>

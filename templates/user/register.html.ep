@@ -1,10 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= $conference->name %></title>
+    <title><%= $conference->name %> - Register</title>
   </head>
   <body>
     <h1>Register</h1>
+    % if ($error) {
+    <p class="error">
+      % $error =~ s! at \S+.*!!s;
+      % if ($error =~ /DUPLICATE/i) {
+        Email is already registered.
+        Please <%= link_to 'log in', url_for('login')->query(email => param('email')) %> if it's yours
+      % } else {
+        %= $error
+      % }
+    </p>
+    % }
     %= form_for 'register', method => 'post', begin
       <div class="row">
         <label>Email</label>

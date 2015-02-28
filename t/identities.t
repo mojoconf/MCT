@@ -22,7 +22,7 @@ my $data = {
 
 {
   # rollback
-  no warnings 'redefine';
+  no warnings qw( redefine once );
   local *MCT::Model::Identity::save = sub { die 'ROLLBACK' };
   my $identity = $t->app->model->identity(provider => 'eventbrite', token => 's3cret', uid => 42);
   my $user;

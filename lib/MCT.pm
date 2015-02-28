@@ -89,6 +89,7 @@ sub _oauth2 {
         token_url => 'https://www.eventbrite.com/oauth/token',
         key => $config->{eventbrite}{key} || 'REQUIRED',
         secret => $config->{eventbrite}{secret} || 'REQUIRED',
+        scope => $config->{eventbrite}{scope} || '',
       }
     }
   );

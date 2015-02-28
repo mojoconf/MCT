@@ -25,6 +25,7 @@ sub startup {
   });
 
   $app->helper('model.conference'   => sub { MCT::Model->new_object(Conference => pg => shift->app->pg, @_) });
+  $app->helper('model.identity'     => sub { MCT::Model->new_object(Identity => pg => shift->app->pg, @_) });
   $app->helper('model.presentation' => sub { MCT::Model->new_object(Presentation => pg => shift->app->pg, @_) });
   $app->helper('model.user'         => sub { MCT::Model->new_object(User => pg => shift->app->pg, @_) });
 

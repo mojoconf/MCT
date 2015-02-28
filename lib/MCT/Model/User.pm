@@ -2,9 +2,14 @@ package MCT::Model::User;
 
 use Mojo::Base 'MCT::Model';
 
-has name => '';
-has username => '';
 has email => '';
+has name => '';
+has username => sub {
+  my $self = shift;
+  my $username = $self->email;
+  $username =~ s!\W!-!g;
+  $username;
+};
 
 sub _load_sst {
   my $self = shift;

@@ -15,6 +15,14 @@ CREATE TABLE users (
   username TEXT NOT NULL UNIQUE,
   email TEXT
 );
+CREATE TABLE user_identities (
+  id SERIAL PRIMARY KEY,
+  id_user INTEGER NOT NULL REFERENCES users (id),
+  identity_provider TEXT NOT NULL,
+  identity_uid TEXT NOT NULL,
+  identity_token TEXT,
+  UNIQUE (identity_provider, identity_uid)
+);
 CREATE TABLE presentations (
   id SERIAL PRIMARY KEY,
   conference INTEGER NOT NULL REFERENCES conferences (id),
@@ -28,4 +36,5 @@ CREATE TABLE presentations (
 -- 1 down
 DROP TABLE IF EXISTS presentations;
 DROP TABLE IF EXISTS conferences;
+DROP TABLE IF EXISTS user_identities;
 DROP TABLE IF EXISTS users;

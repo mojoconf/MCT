@@ -1,0 +1,101 @@
+body {
+}
+
+.header {
+  height: 50px !important;
+}
+
+a {
+  color: #6FBEF3 !important;
+  text-decoration: none;
+}
+.home-menu {
+    /*background: black;*/
+  height: 60px;
+}
+.mojoconf-logo {
+  font-family: "myriad-pro",sans-serif;
+  font-size: 2em !important;
+  margin-top: -8px;
+  text-transform: none !important;
+}
+ .mojoconf-logo a {
+  color: #e1e1e1 !important;
+}
+
+.mojoconf-content-header {
+  font-family: "myriad-pro",sans-serif;
+  text-transform: none;
+  margin-top: -50px;
+}
+
+.mojoconf-content-header h2 {
+  text-transform: none !important;
+  letter-spacing: 0;
+  font-weight: bold;
+  font-size: 3em;
+}
+
+.mojoconf-content-header h3 {
+  padding: 0;
+  margin: 0;
+  /*opacity: 0.75;*/
+  position: relative;
+  top: -30px;
+}
+
+.content section {
+  max-width: 620px;
+  margin: auto;
+  padding: 30px;
+  margin-top: 0;
+  padding-top: 0;
+  overflow: hidden;
+}
+
+.content section h3 i.fa {
+  margin-left: -30px;
+  color: #6FBEF3;
+  margin-right: 10px;
+}
+
+.content section h3 {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  font-family: "myriad-pro",sans-serif;
+  font-size: 1.7em;
+}
+
+.content section .speakers {
+  width: 100%;
+  overflow: hidden;
+}
+.content section .speaker {
+  padding: 10px;
+  width: 150px;
+  float: left;
+  font-size: 1em;
+}
+.content section .speaker .description {
+  float: left;
+  font-size: 0.8em;
+}
+.content section .speaker img {
+  border-radius: 50px;
+  width: 100px;
+  border: solid black 1px;
+}
+
+.content .accommodations iframe {
+  float: right;
+  border: solid #c0c0c0 1px;
+}
+
+.content .accommodations .hotel {
+  width: 100%;
+  overflow: hidden;
+}
+
+.content .accommodations .hotel {
+  padding-bottom: 10px;
+}

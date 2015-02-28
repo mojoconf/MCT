@@ -1,0 +1,16 @@
+language: perl
+addons:
+  postgresql: "9.3"
+perl:
+  - "5.20"
+  - "5.16"
+  - "5.12"
+before_script:
+  - psql -c 'create database mct_test;' -U postgres
+env:
+  - "TEST_ONLINE=postgresql://postgresql@localhost/mct_test"
+install:
+  - "cpanm -n Test::Pod"
+  - "cpanm -n --installdeps ."
+notifications:
+  email: false

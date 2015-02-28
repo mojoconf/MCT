@@ -1,15 +1,28 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= $conference->name %> - <%= $user->email %></title>
-  </head>
-  <body>
-    <h1>Register</h1>
-    %= form_for 'profile', method => 'post', begin
-    %= text_field 'email', $user->email
-    %= text_field 'name', $user->name
-    %= text_field 'password'
-    <button>Update profile</button>
-    % end
-  </body>
-</html>
+% layout 'default';
+% title 'Connect';
+%= include 'header';
+
+<div class="content-wrapper no-scroll-over">
+  <section>
+    <div class="content">
+      <h1>Profile</h1>
+      <div class="row">
+        %= form_for 'profile', method => 'post', begin
+      </div>
+      <div class="row">
+        <label for="form_email">Email</label>
+        %= text_field 'email', $user->email, id => 'form_email'
+      </div>
+      <div class="row">
+        <label for="form_name">Name</label>
+        %= text_field 'name', $user->name, id => 'form_name'
+      </div>
+      <div class="row">
+        <button>Update profile</button>
+      </div>
+      % end
+    </div>
+  </section>
+
+  %= include 'footer';
+</div>

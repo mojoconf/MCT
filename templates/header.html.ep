@@ -1,11 +1,11 @@
 <div class="header">
     <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-      <div class="pure-menu-heading mojoconf-logo"><a href="/">#mojoconf</a></div>
+      <div class="pure-menu-heading mojoconf-logo"><%= link_to '#mojoconf', 'landing_page' %></a></div>
         <ul class="pure-menu-list">
-            <!--<li class="pure-menu-item pure-menu-selected"><a href="#" class="pure-menu-link">Home</a></li>-->
-            <li class="pure-menu-item"><a href="/" class="pure-menu-link">Home</a></li>
-            <li class="pure-menu-item"><a href="/travel" class="pure-menu-link">Travel</a></li>
-            <li class="pure-menu-item"><a href="https://www.eventbrite.com/e/mojoconf-2015-nyc-tickets-15825231694" class="pure-menu-link">Register</a></li>
+            <li class="pure-menu-item"><%= link_to 'Home', 'landing_page', class => 'pure-menu-link' %></li>
+            <li class="pure-menu-item"><%= link_to 'Travel', 'travel', class => 'pure-menu-link' %></li>
+            <li class="pure-menu-item"><%= link_to 'Register', 'connect', class => 'pure-menu-link' %></li>
+            <li class="pure-menu-item"><%= link_to 'Login', get_authorize_url('eventbrite'), class => 'pure-menu-link' %></li>
         </ul>
     </div>
 </div>

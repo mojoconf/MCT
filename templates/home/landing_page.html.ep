@@ -1,16 +1,17 @@
 % layout 'default';
+% title 'Home';
 %= include 'header';
 
 <div class="splash-container">
     <div class="splash">
-        <img src="/images/mojoconf_logo.png" />
+        %= image '/images/mojoconf_logo.png'
     </div>
 </div>
 
 <div class="content-wrapper">
     <div class="content">
         <div class="mojoconf-content-header">
-          <h2 class="content-head is-center">mojoconf 2015</h2>
+          <h2 class="content-head is-center"><%= $conference->name %></h2>
           <h3 class="content-head is-center">June 4 - 6 | New York, New York</h3>
         </div>
 
@@ -30,7 +31,7 @@
           <h3><i class="fa fa-user"></i>Speakers</h3>
             <div class="speakers">
             <p>
-            We're still working out all our speakers, but we've already gotten the following lined up:
+              We're still working out all our speakers, but we've already gotten the following lined up:
             </p>
 
             <div class="speaker">
@@ -80,12 +81,12 @@
             Don’t be a Jerk; Strive to be Excellent.
           </p>
           <p>
-            <a href="/conduct">Full Code of Conduct</a>
+            %= link_to 'Full Code of Conduct', 'conduct'
           </p>
 
           <h3><i class="fa fa-phone"></i>Contact</h3>
           <p>
-          Please ask any questions about Mojoconf on the #mojo irc channel in irc.perl.org, or the <a href="mailto: mojolicious@googlegroups.com">Mojolicious Mailing List</a>.
+          Please ask any questions about Mojoconf on the #mojo irc channel in irc.perl.org, or the <a href="mailto:mojolicious@googlegroups.com">Mojolicious Mailing List</a>.
           </p>
         </section>
     </div>

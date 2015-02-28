@@ -1,34 +1,33 @@
 <!DOCTYPE html>
 <html>
   <head>
-  <title>Mojoconf 2015 <%= title %></title>
+    <title><%= $conference->name %> - <%= title %></title>
 
-  <script src="//use.typekit.net/kyp4lea.js"></script>
-  <script>try{Typekit.load();}catch(e){}</script>
-
-   <!--[if lte IE 8]>
-       <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
-   <![endif]-->
-   <!--[if gt IE 8]><!-->
-       <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
-   <!--<![endif]-->
+    <script src="//use.typekit.net/kyp4lea.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
 
     <!--[if lte IE 8]>
-        <link rel="stylesheet" href="css/layouts/marketing-old-ie.css">
+      <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
     <![endif]-->
     <!--[if gt IE 8]><!-->
-        <link rel="stylesheet" href="css/layouts/marketing.css">
+      <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
     <!--<![endif]-->
 
-   <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
-   <link rel="stylesheet" type="text/css" href="/css/main.css" />
-   <link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
-   <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'>
-   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <!--[if lte IE 8]>
+      %= stylesheet '/css/layouts/marketing-old-ie.css'
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+      %= stylesheet '/css/layouts/marketing.css'
+    <!--<![endif]-->
 
-   <script src="//use.typekit.net/kyp4lea.js"></script>
-   <script>try{Typekit.load();}catch(e){}</script>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    %= stylesheet '/css/main.css'
+    <link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
+    <script src="//use.typekit.net/kyp4lea.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
   </head>
   <body><%= content %></body>
 </html>

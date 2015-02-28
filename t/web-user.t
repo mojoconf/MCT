@@ -10,7 +10,7 @@ my $t = Test::Mojo->new('MCT');
 
 $t->app->config->{db} = $db;
 
-$t->get_ok('/connect')->status_is(200)->text_is('a[href^="https://www.eventbrite.com/oauth/authorize"]', 'Connect');
+$t->get_ok('/connect')->status_is(200)->text_is('a[href^="https://www.eventbrite.com/oauth/authorize"]', 'Login');
 $t->get_ok('/logout')->status_is(302);
 $t->get_ok($t->tx->res->headers->location)->content_unlike(qr{Logged out});
 

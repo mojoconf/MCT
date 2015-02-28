@@ -19,11 +19,11 @@ find(
   -e 'blib' ? 'blib' : 'lib',
 );
 
-plan tests => @files * 3;
+plan tests => @files * 2;
 
 for my $file (@files) {
   my $module = $file; $module =~ s,\.pm$,,; $module =~ s,.*/?lib/,,; $module =~ s,/,::,g;
   ok eval "use $module; 1", "use $module" or diag $@;
   Test::Pod::pod_file_ok($file);
-  Test::Pod::Coverage::pod_coverage_ok($module);
+  #Test::Pod::Coverage::pod_coverage_ok($module);
 }

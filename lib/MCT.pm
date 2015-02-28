@@ -144,7 +144,7 @@ data.
 
 =head1 AUTHOR
 
-Glen Hinkle C<tempire@cpan.org>
+Glen Hinkle E<lt>tempire@cpan.org<gt>
 
 Jan Henning Thorsen, E<lt>jhthorsen@cpan.orgE<gt>
 

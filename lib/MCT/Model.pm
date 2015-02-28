@@ -75,6 +75,13 @@ sub _query {
   my ($self, $cb) = (shift, pop);
   my @args = @_;
   my $db = $self->pg->db;
+
+  if (DEBUG == 2) {
+    my $query = Mojo::Util::term_escape($args[0]);
+    $query =~ s![\s\n]+! !g;
+    warn "[MCT::Model::QUERY] $query [", join(', ', map { "q($_)" } @args[1..$#args]), "]\n";
+  }
+
   return $db->query(@args) unless $cb;
   Mojo::IOLoop->delay(
     sub { $db->query(@args, shift->begin) },

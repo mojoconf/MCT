@@ -17,7 +17,7 @@ sub profile {
     },
     sub {
       my ($delay, $err) = @_;
-      return $c->reply->exception($err) if $err; # TODO: Better error handling
+      die $err if $err;
       return $c->render('user/connect') unless $user->id; # TODO: Is this even possible?
       return $c->respond_to(
         json => {json => $user},

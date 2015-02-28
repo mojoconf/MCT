@@ -4,6 +4,7 @@ CREATE TABLE conferences (
   identifier TEXT NOT NULL UNIQUE,
   name TEXT NOT NULL,
   tagline TEXT,
+  analytics_code TEXT,
   created TIMESTAMP,
   start_date DATE,
   end_date DATE

@@ -3,7 +3,10 @@ package MCT::Model;
 use Mojo::Base -base;
 
 use Mojo::IOLoop;
+use Mojo::Loader 'load_class';
 use Mojo::Pg;
+
+use constant DEBUG => $ENV{MCT_MODEL_DEBUG} || 0;
 
 has id => undef;
 has pg => sub { Mojo::Pg->new };
@@ -22,6 +25,7 @@ sub load {
     },
     sub {
       my ($delay, $err, $results) = @_;
+      warn "[@{[ref $self]}] load: @{[grep { $_ } $err, $results ? 'OK' : '']}\n" if DEBUG;
       die $err if $err;
       my $data = $results->hash;
       @$self{keys %$data} = values %$data;
@@ -31,6 +35,14 @@ sub load {
 
   die $err if $err;
   return $self;
+}
+
+sub new_object {
+  my ($self, $moniker, @args) = @_;
+  my $class = "MCT::Model\::$moniker";
+  my $e = load_class $class;
+  die $e if ref $e;
+  return $class->new(@args);
 }
 
 sub save {
@@ -48,6 +60,7 @@ sub save {
     },
     sub {
       my ($delay, $err, $results) = @_;
+      warn "[@{[ref $self]}] save: @{[grep { $_ } $err, $results ? 'OK' : '']}\n" if DEBUG;
       die $err if $err;
       $self->id($results->hash->{id}) if $method eq '_insert_sst';
       $self->$cb('') if $cb;

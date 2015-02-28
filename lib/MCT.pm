@@ -5,9 +5,7 @@ use Mojo::Base 'Mojolicious';
 our $VERSION = '0.01';
 
 use Mojo::Pg;
-use MCT::Model::Conference;
-use MCT::Model::User;
-use MCT::Model::Presentation;
+use MCT::Model;
 
 has pg => sub { Mojo::Pg->new(shift->config->{db}) };
 
@@ -26,9 +24,9 @@ sub startup {
     },
   });
 
-  $app->helper('model.conference'   => sub { MCT::Model::Conference->new(pg => shift->app->pg, @_) });
-  $app->helper('model.user'         => sub { MCT::Model::User->new(pg => shift->app->pg, @_) });
-  $app->helper('model.presentation' => sub { MCT::Model::Presentation->new(pg => shift->app->pg, @_) });
+  $app->helper('model.conference'   => sub { MCT::Model->new_object(Conference => pg => shift->app->pg, @_) });
+  $app->helper('model.presentation' => sub { MCT::Model->new_object(Presentation => pg => shift->app->pg, @_) });
+  $app->helper('model.user'         => sub { MCT::Model->new_object(User => pg => shift->app->pg, @_) });
 
   $app->_migrate_database;
   $app->_ensure_conference;

@@ -1,0 +1,32 @@
+% layout 'default';
+% title 'Welcome';
+
+<img class="crossbones" src="/images/cloud and crossbones.svg">
+<!-- <img src="/images/mojoconf logo.svg" style="width: 300px;" /> -->
+
+<div class="logo">
+  <div class="mojoconf"><span class="mojo">mojo</span>conf</div>
+  <div class="slogan">TRAINING. TALKS. TRAMPOLINES&nbsp;!</div>
+</div>
+
+<div class="block">
+  <div class="announcement">
+    A SPECIAL ANNOUNCEMENT FROM THE MOJOLICIOUS TEAM
+  </div>
+
+  <table class="timer">
+  <tr class="count">
+    <td>5</td>
+    <td>18</td>
+    <td>36</td>
+    <td>12</td>
+  </tr>
+  <tr class="label">
+    <td>DAYS</td>
+    <td>HOURS</td>
+    <td>MINUTES</td>
+    <td>SECONDS</td>
+  </tr>
+  </table>
+
+</div>

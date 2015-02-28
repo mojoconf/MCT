@@ -35,7 +35,31 @@ sub startup {
   $app->_migrate_database;
   $app->_ensure_conference;
   $app->_routes;
+  $app->_auto_routes;
   $app->plugin('MCT::Plugin::Mock') if $ENV{MCT_MOCK};
+}
+
+sub _auto_routes {
+  my $app = shift;
+  my $r = $app->routes;
+
+  for my $p (@{$app->renderer->paths}) {
+    File::Find::find(
+      {
+        wanted => sub {
+          my $template = File::Spec->abs2rel($File::Find::name, $p);
+          my $path;
+          $template =~ s!\.html\.ep$!! or return;
+          $path = $template;
+          $path =~ s!.*auto\W+!!;
+          $app->log->debug("Adding auto route /$path for $template");
+          $r->get("/$path")->to(template => $template)->name($path);
+        },
+        no_chdir => 1,
+      },
+      "$p/auto",
+    );
+  }
 }
 
 sub _ensure_conference {

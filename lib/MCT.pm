@@ -25,11 +25,12 @@ sub startup {
     },
   });
 
-  $app->helper('eventbrite'         => sub { shift->stash->{eventbrite} ||= Mojo::Eventbrite->new });
-  $app->helper('model.conference'   => sub { MCT::Model->new_object(Conference => pg => shift->app->pg, @_) });
-  $app->helper('model.identity'     => sub { MCT::Model->new_object(Identity => pg => shift->app->pg, @_) });
-  $app->helper('model.presentation' => sub { MCT::Model->new_object(Presentation => pg => shift->app->pg, @_) });
-  $app->helper('model.user'         => sub { MCT::Model->new_object(User => pg => shift->app->pg, @_) });
+  $app->helper('eventbrite'         => sub { $_[0]->stash->{'mct.eventbrite'} ||= Mojo::Eventbrite->new });
+  $app->helper('model.db'           => sub { $_[0]->stash->{'mct.db'} ||= $_[0]->app->pg->db });
+  $app->helper('model.conference'   => sub { MCT::Model->new_object(Conference => db => shift->model->db, @_) });
+  $app->helper('model.identity'     => sub { MCT::Model->new_object(Identity => db => shift->model->db, @_) });
+  $app->helper('model.presentation' => sub { MCT::Model->new_object(Presentation => db => shift->model->db, @_) });
+  $app->helper('model.user'         => sub { MCT::Model->new_object(User => db => shift->model->db, @_) });
 
   $app->_oauth2;
   $app->_migrate_database;

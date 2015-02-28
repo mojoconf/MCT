@@ -9,7 +9,11 @@ has username => '';
 
 sub user {
   my ($self, $data, $cb) = @_;
-  my $user = $self->new_object('User', pg => $self->pg);
+  my $user = $self->new_object('User', db => $self->db);
+  my $tx = $self->begin;
+
+  # This is not the best solution, but it was the best I could come up with (batman)
+  $tx->track($self, $user);
 
   # TODO: Add transactions?
   Mojo::IOLoop->delay(
@@ -32,9 +36,10 @@ sub user {
     },
     sub {
       my ($delay, $err) = @_;
+      $tx->commit;
       $self->$cb($err, $user); # new identity saved
     },
-  );
+  )->catch(sub{ $self->$cb($_[1], $user) })->wait;
 
   return $self;
 }

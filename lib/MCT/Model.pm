@@ -2,6 +2,7 @@ package MCT::Model;
 
 use Mojo::Base -base;
 
+use MCT::Model::Transaction;
 use Mojo::IOLoop;
 use Mojo::Loader 'load_class';
 use Mojo::Pg;
@@ -9,7 +10,9 @@ use Mojo::Pg;
 use constant DEBUG => $ENV{MCT_MODEL_DEBUG} || 0;
 
 has id => undef;
-has pg => sub { Mojo::Pg->new };
+has db => sub { die "Usage: $_[0]->new(db => Mojo::Pg::Database->new)" };
+
+sub begin { MCT::Model::Transaction->new(dbh => shift->db->dbh) }
 
 sub in_storage { defined shift->id ? 1 : 0 }
 
@@ -28,6 +31,7 @@ sub load {
       warn "[@{[ref $self]}] load: @{[grep { $_ } $err, $results ? 'OK' : '']}\n" if DEBUG;
       die $err if $err;
       my $data = $results->hash;
+      map { $self->{_last}{$_} = $self->{$_} } grep { !exists $self->{_last}{$_} } keys %$self if $self->{_last};
       @$self{keys %$data} = values %$data;
       $self->$cb('') if $cb;
     },
@@ -62,6 +66,7 @@ sub save {
       my ($delay, $err, $results) = @_;
       warn "[@{[ref $self]}] save: @{[grep { $_ } $err, $results ? 'OK' : '']}\n" if DEBUG;
       die $err if $err;
+      $self->{_last}{id} = $self->{id} if $self->{_last} and !exists $self->{_last}{id};
       $self->id($results->hash->{id}) if $method eq '_insert_sst';
       $self->$cb('') if $cb;
     },
@@ -74,7 +79,6 @@ sub save {
 sub _query {
   my ($self, $cb) = (shift, pop);
   my @args = @_;
-  my $db = $self->pg->db;
 
   if (DEBUG == 2) {
     my $query = Mojo::Util::term_escape($args[0]);
@@ -82,9 +86,9 @@ sub _query {
     warn "[MCT::Model::QUERY] $query [", join(', ', map { "q($_)" } @args[1..$#args]), "]\n";
   }
 
-  return $db->query(@args) unless $cb;
+  return $self->db->query(@args) unless $cb;
   Mojo::IOLoop->delay(
-    sub { $db->query(@args, shift->begin) },
+    sub { $self->db->query(@args, shift->begin) },
     sub {
       my ($delay, $err, $results) = @_;
       die $err if $err;
@@ -95,4 +99,3 @@ sub _query {
 }
 
 1;
-

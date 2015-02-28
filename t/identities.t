@@ -11,8 +11,6 @@ $t->app->config->{db} = $db;
 $t->app->migrations->migrate(0);
 $t->app->migrations->migrate;
 
-Mojo::IOLoop->timer(1 => sub { Mojo::IOLoop->stop }); # guard
-
 my ($err, $user);
 my $data = {
   emails => [ { email => 'mitch@eventbrite.com', verified => 1, primary => 1 } ],
@@ -22,14 +20,25 @@ my $data = {
   last_name => 'Doe',
 };
 
+{
+  # rollback
+  no warnings 'redefine';
+  local *MCT::Model::Identity::save = sub { die 'ROLLBACK' };
+  my $identity = $t->app->model->identity(provider => 'eventbrite', token => 's3cret', uid => 42);
+  my $user;
+  $identity->user($data, sub { (undef, $err, $user) = @_ });
+  like $err, qr{ROLLBACK}, 'died';
+  ok !$identity->in_storage, 'identity rollback';
+  ok !$user->in_storage, 'user rollback';
+}
+
 # try to copy logic from MCT::Controller::User::_connect_with_oauth_provider()
 my $identity = $t->app->model->identity(provider => 'eventbrite');
 ok !$identity->in_storage, 'identity.not_in_storage';
 ok !$user, 'no user';
 
 $identity->token('s3cret');
-$identity->uid($data->{id})->user($data, sub { (undef, $err, $user) = @_; Mojo::IOLoop->stop });
-Mojo::IOLoop->start;
+$identity->uid($data->{id})->user($data, sub { (undef, $err, $user) = @_ });
 ok !$err, 'no error' or diag $err;
 ok $identity->in_storage, 'identity.in_storage';
 ok $user->in_storage, 'user.in_storage';

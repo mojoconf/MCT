@@ -4,7 +4,7 @@
         <ul class="pure-menu-list">
             <li class="pure-menu-item"><%= link_to 'Home', 'landing_page', class => 'pure-menu-link' %></li>
             <li class="pure-menu-item"><%= link_to 'Travel', 'travel', class => 'pure-menu-link' %></li>
-            <li class="pure-menu-item"><%= link_to 'Register', 'connect', class => 'pure-menu-link' %></li>
+            <li class="pure-menu-item"><%= link_to 'Register', 'register', class => 'pure-menu-link' %></li>
             <li class="pure-menu-item"><%= link_to 'Login', get_authorize_url('eventbrite'), class => 'pure-menu-link' %></li>
         </ul>
     </div>

@@ -21,8 +21,13 @@ sub register {
 
   Mojo::Util::monkey_patch('Mojo::Eventbrite', MOCKED => sub { 1 });
   Mojo::Util::monkey_patch('Mojo::Eventbrite', ua => sub { $app->ua });
-  $app->helper(get_token => sub { pop->(shift, 's3cret') });
+  Mojo::Util::monkey_patch('Mojolicious::Plugin::OAuth2', _ua => sub { $app->ua });
+
+  $app->defaults(oauth2_provider => 'mocked');
   $app->routes->get('/mocked/eventbrite/v3/users/me')->to(cb => sub { shift->render(json => $user) });
+  $app->routes->route('/mocked/oauth')
+    ->tap(get => '/authorize' => sub { shift->render('mocked/oauth/authorize') })
+    ->tap(post => '/token' => sub { shift->render(json => {access_token => 's3cret'}) });
 }
 
 1;

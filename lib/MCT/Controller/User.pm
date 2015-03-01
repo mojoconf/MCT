@@ -2,13 +2,14 @@ package MCT::Controller::User;
 
 use Mojo::Base 'Mojolicious::Controller';
 
+# it's important for the security of OAuth2 to have a fixed redirect_uri
+sub connect {
+  shift->reply->connect;
+}
+
 sub profile {
   my $c = shift;
   my $user = $c->model->user(id => $c->session('uid'));
-
-  unless ($user->id) {
-    return $c->_connect_with_oauth_provider;
-  }
 
   $c->delay(
     sub {
@@ -18,7 +19,7 @@ sub profile {
     sub {
       my ($delay, $err) = @_;
       die $err if $err;
-      return $c->render('user/connect') unless $user->id; # TODO: Is this even possible?
+      return $c->reply->connect_failed('Did not think this was possible.') unless $user->id;
       return $c->respond_to(
         json => {json => $user},
         any => {user => $user},
@@ -27,37 +28,10 @@ sub profile {
   );
 }
 
-sub _connect_with_oauth_provider {
-  my $c = shift;
-  my $identity = $c->model->identity(provider => 'eventbrite');
-
-  $c->delay(
-    sub {
-      my ($delay) = @_;
-      $c->get_token($identity->provider, $delay->begin);
-    },
-    sub {
-      my ($delay, $token, $tx) = @_;
-      return $c->reply->exception('Unable to fetch token.') unless $token;
-      $identity->token($token);
-      $c->eventbrite->token($token)->user($delay->begin);
-    },
-    sub {
-      my ($delay, $err, $data) = @_;
-      return $c->reply->exception($err || 'Unknown error from eventbrite.com') unless $data;
-      return $identity->uid($data->{id})->user($data, $delay->begin);
-    },
-    sub {
-      my ($delay, $err, $user) = @_;
-      return $c->reply->exception($err) if $err;
-      return $c->session(uid => $user->id)->redirect_to('profile');
-    }
-  );
-}
-
 sub logout {
   my $c = shift;
-  $c->flash(logged_out => defined delete $c->session->{uid})->redirect_to('connect');
+  delete $c->session->{uid};
+  $c->render;
 }
 
 1;

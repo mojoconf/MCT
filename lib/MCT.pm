@@ -27,8 +27,8 @@ sub startup {
   $app->helper('model.presentation' => sub { MCT::Model->new_object(Presentation => db => shift->model->db, @_) });
   $app->helper('model.user'         => sub { MCT::Model->new_object(User => db => shift->model->db, @_) });
 
-  $app->_oauth2;
   $app->_setup_database;
+  $app->plugin('MCT::Plugin::Auth');
   $app->_ensure_conference;
   $app->_routes;
   $app->_auto_routes;
@@ -66,31 +66,14 @@ sub _ensure_conference {
   $app->defaults(conference => $model->load->save($conference));
 }
 
-sub _oauth2 {
-  my $app = shift;
-  my $config = $app->config('oauth2');
-
-  $app->plugin(
-    OAuth2 => {
-      eventbrite => {
-        authorize_url => 'https://www.eventbrite.com/oauth/authorize',
-        token_url => 'https://www.eventbrite.com/oauth/token',
-        key => $config->{eventbrite}{key} || 'REQUIRED',
-        secret => $config->{eventbrite}{secret} || 'REQUIRED',
-        scope => $config->{eventbrite}{scope} || '',
-      }
-    }
-  );
-}
-
 sub _routes {
   my $app = shift;
   my $r = $app->routes;
 
   $r->get('/')->to('home#landing_page')->name('landing_page');
-  $r->get('/connect')->to(template => 'user/connect');
-  $r->get('/logout')->to('user#logout');
-  $r->any('/profile')->to('user#profile')->name('profile');
+  $r->get('/connect')->to('user#connect')->name('connect');
+  $r->get('/logout')->to('user#logout')->name('logout');
+  $r->authorized->get('/profile')->to('user#profile')->name('profile');
   $r->any('/presentations/:url_name')->to('presentation#')->name('presentation')
     ->tap(get => {action => 'show'})
     ->tap(put => {action => 'save'});

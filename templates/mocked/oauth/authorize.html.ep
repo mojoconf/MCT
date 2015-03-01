@@ -1,0 +1,2 @@
+<h1>Connect</h1>
+%= link_to 'Connect with eventbrite', url_for(param 'redirect_uri')->query(code => 42)

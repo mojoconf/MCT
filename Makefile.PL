@@ -16,7 +16,7 @@ WriteMakefile(
   },
   BUILD_REQUIRES => {'Test::More' => '0.88'},
   PREREQ_PM      => {
-    'Mojolicious'                 => '5.80',
+    'Mojolicious'                 => '6.00',
     'Mojo::Pg'                    => '1.10',
     'Mojolicious::Plugin::OAuth2' => '1.30',
   },

@@ -3,12 +3,12 @@ use Test::Mojo;
 use Test::More;
 
 plan skip_all => 'set TEST_ONLINE'
-  unless my $db = $ENV{TEST_ONLINE};
+  unless $ENV{MCT_DATABASE_DSN} = $ENV{TEST_ONLINE};
 
 $ENV{MCT_MOCK} = 1;
 my $t = Test::Mojo->new('MCT');
 
-$t->app->config->{db} = $db;
+$t->get_ok('/logout')->status_is(200);
 
 $t->get_ok('/connect')->status_is(200)->text_is('a[href^="https://www.eventbrite.com/oauth/authorize"]', 'Login');
 $t->get_ok('/logout')->status_is(302);

@@ -4,10 +4,9 @@ use Test::More;
 use Test::Mojo;
 
 plan skip_all => 'set TEST_ONLINE'
-  unless my $db = $ENV{TEST_ONLINE};
+  unless $ENV{MCT_DATABASE_DSN} = $ENV{TEST_ONLINE};
 
 my $t = Test::Mojo->new('MCT');
-$t->app->config->{db} = $db;
 $t->app->migrations->migrate(0);
 $t->app->migrations->migrate;
 

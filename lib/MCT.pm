@@ -18,12 +18,7 @@ sub migrations {
 sub startup {
   my $app = shift;
 
-  $app->plugin(Config => {
-    file => $app->home->rel_file('mct.conf'),
-    default => {
-      db => 'postgresql://localhost/mct_test',
-    },
-  });
+  $app->plugin('Config' => file => $ENV{MOJO_CONFIG} || $app->home->rel_file('mct.conf'));
 
   $app->helper('eventbrite'         => sub { $_[0]->stash->{'mct.eventbrite'} ||= Mojo::Eventbrite->new });
   $app->helper('model.db'           => sub { $_[0]->stash->{'mct.db'} ||= $_[0]->app->pg->db });
@@ -33,7 +28,7 @@ sub startup {
   $app->helper('model.user'         => sub { MCT::Model->new_object(User => db => shift->model->db, @_) });
 
   $app->_oauth2;
-  $app->_migrate_database;
+  $app->_setup_database;
   $app->_ensure_conference;
   $app->_routes;
   $app->_auto_routes;
@@ -71,13 +66,6 @@ sub _ensure_conference {
   $app->defaults(conference => $model->load->save($conference));
 }
 
-sub _migrate_database {
-  my $app = shift;
-  my $migrations = $app->migrations;
-  $app->pg->migrations->migrate(0) if $ENV{MCT_RESET_DATABASE}; # useful while developing
-  $app->pg->migrations->migrate;
-}
-
 sub _oauth2 {
   my $app = shift;
   my $config = $app->config('oauth2');
@@ -106,6 +94,21 @@ sub _routes {
   $r->any('/presentations/:url_name')->to('presentation#')->name('presentation')
     ->tap(get => {action => 'show'})
     ->tap(put => {action => 'save'});
+}
+
+sub _setup_database {
+  my $app = shift;
+  my $migrations;
+
+  unless ($app->config->{db} ||= $ENV{MCT_DATABASE_DSN}) {
+    my $db = sprintf 'postgresql://%s@/mct_%s', (getpwuid $<)[0] || 'postgresql', $app->mode;
+    $app->config->{db} = $db;
+    $app->log->warn("Using default database '$db'. (Neither MCT_DATABASE_DSN or config file was set up)");
+  }
+
+  $migrations = $app->migrations;
+  $migrations->migrate(0) if $ENV{MCT_RESET_DATABASE}; # useful while developing
+  $migrations->migrate;
 }
 
 1;

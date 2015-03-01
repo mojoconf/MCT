@@ -28,6 +28,7 @@ sub startup {
   $app->helper('model.user'         => sub { MCT::Model->new_object(User => db => shift->model->db, @_) });
 
   $app->_setup_database;
+  $app->_setup_secrets;
   $app->plugin('MCT::Plugin::Auth');
   $app->_ensure_conference;
   $app->_routes;
@@ -92,6 +93,19 @@ sub _setup_database {
   $migrations = $app->migrations;
   $migrations->migrate(0) if $ENV{MCT_RESET_DATABASE}; # useful while developing
   $migrations->migrate;
+}
+
+sub _setup_secrets {
+  my $app = shift;
+  my $secrets = $app->config('secrets') || [];
+
+  unless (@$secrets) {
+    my $unsafe = join ':', $app->config('db'), $<, $(, $^X, $^O, $app->home;
+    $app->log->warn('Using default (unsafe) session secrets. (Config file was not set up)');
+    $secrets = [Mojo::Util::md5_sum($unsafe)];
+  }
+
+  $app->secrets($secrets);
 }
 
 1;

@@ -103,6 +103,9 @@ sub _routes {
   $r->get('/connect')->to(template => 'user/connect');
   $r->get('/logout')->to('user#logout');
   $r->any('/profile')->to('user#profile')->name('profile');
+  $r->any('/presentations/:url_name')->to('presentation#')->name('presentation')
+    ->tap(get => {action => 'show'})
+    ->tap(put => {action => 'save'});
 }
 
 1;

@@ -1,0 +1,30 @@
+% title 'Register';
+% layout 'default';
+%= include 'header';
+
+<div class="splash-container">
+  <div class="splash">
+    %= image '/images/mojoconf_logo.png'
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <div class="content">
+    <div class="mojoconf-content-header">
+      <h2 class="content-head is-center">Register</h2>
+      <h3 class="content-head is-center">June 4 - 6 | New York, New York</h3>
+    </div>
+
+    <section>
+      <p>
+        Some awesome text that makes me want to click "Order Now".
+      </p>
+    </section>
+
+    <section>
+      <iframe class="eventbrite-tickets" src="http://www.eventbrite.com/tickets-external?eid=15825231694&ref=etckt&v=2" scrolling="auto" allowtransparency="true"></iframe>
+    </section>
+  </div>
+
+  %= include 'footer';
+</div>

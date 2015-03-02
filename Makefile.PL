@@ -18,7 +18,7 @@ WriteMakefile(
   PREREQ_PM      => {
     'Mojolicious'                 => '6.00',
     'Mojo::Pg'                    => '1.10',
-    'Mojolicious::Plugin::OAuth2' => '1.30',
+    'Mojolicious::Plugin::OAuth2' => '1.50',
   },
   test => {TESTS        => 't/*.t'},
 );

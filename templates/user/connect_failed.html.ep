@@ -1,0 +1,31 @@
+% layout 'default';
+% title 'Unable to connect with Eventbrite';
+% my $error = $self->param('error') || '';
+% my $original_path = $c->flash('original_path') || 'profile';
+%= include 'header';
+
+<div class="content-wrapper no-scroll-over">
+  <section>
+    <div class="content">
+      <h1>Unable to connect with Eventbrite</h1>
+    % if ($error eq 'access_denied') {
+      <p>
+        You refused to connect <%= link_to 'mojoconf.com', 'landing_page' %>
+        with <%= link_to 'Eventbrite', 'https://eventbrite.com' %>.
+      </p>
+      <p>
+        Please <%= link_to 'Try again', $original_path %> if that was not your
+        intention, or send us <a href="mailto:mojolicious@googlegroups.com">feedback</a>
+        if you think there should be another way.
+      </p>
+    % } else {
+      <p>
+        Something went wrong while connecting with Eventbrite.
+        Please <%= link_to 'Try again', $original_path %>.
+      </p>
+    % }
+    </div>
+  </section>
+
+  %= include 'footer';
+</div>

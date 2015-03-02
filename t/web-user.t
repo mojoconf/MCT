@@ -17,9 +17,16 @@ is $url->query->param('client_id'), 'mocked', 'oauth.client_id';
 like $url->query->param('redirect_uri'), qr{/connect$}, 'oauth.redirect_uri';
 like $url, qr{^/mocked/oauth/authorize}, 'oauth.base_path';
 
-# connect with eventbrite
+# fail to connect with eventbrite
 $t->get_ok($url)->status_is(200)->element_exists('a');
-$t->get_ok($t->tx->res->dom->at('a')->{href})->status_is(302)->header_is(Location => '/profile');
+
+$url = Mojo::URL->new($t->tx->res->dom->at('a')->{href})->query(error => 'access_denied');
+$t->get_ok($url)->status_is(200)->content_like(qr{Unable to connect with Eventbrite});
+
+# connect with eventbrite
+$url->query->remove('error');
+$url->query->param(code => 42);
+$t->get_ok($url)->status_is(302)->header_is(Location => '/profile');
 
 # access profile page
 $t->get_ok('/profile')->status_is(200)

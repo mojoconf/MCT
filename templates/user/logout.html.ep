@@ -1,14 +1,15 @@
 % layout 'default';
 % title 'Logged out';
 %= include 'header';
+%= include 'partial/top_image', splash => '/images/mojoconf_logo.png';
 
-<div class="content-wrapper no-scroll-over">
-  <section>
-    <div class="content">
+<div class="content-wrapper">
+  <div class="content">
+    <section>
       <h1>Logged out</h1>
       <p>You have been logged out.</p>
-    </div>
-  </section>
+    </section>
+  </div>
 
   %= include 'footer';
 </div>

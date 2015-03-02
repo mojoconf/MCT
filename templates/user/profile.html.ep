@@ -1,10 +1,11 @@
 % layout 'default';
-% title 'Connect';
+% title 'Connect with Eventbrite';
 %= include 'header';
+%= include 'partial/top_image', splash => '/images/mojoconf_logo.png';
 
-<div class="content-wrapper no-scroll-over">
-  <section>
-    <div class="content">
+<div class="content-wrapper">
+  <div class="content">
+    <section>
       <h1>Profile</h1>
       <div class="row">
         %= form_for 'profile', method => 'post', begin

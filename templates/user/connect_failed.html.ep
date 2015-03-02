@@ -2,13 +2,15 @@
 % title 'Unable to connect with Eventbrite';
 % my $error = $self->param('error') || '';
 % my $original_path = $c->flash('original_path') || 'profile';
-%= include 'header';
 
-<div class="content-wrapper no-scroll-over">
-  <section>
-    <div class="content">
+%= include 'header';
+%= include 'partial/top_image', splash => '/images/mojoconf_logo.png';
+
+<div class="content-wrapper">
+  <div class="content">
+    <section>
       <h1>Unable to connect with Eventbrite</h1>
-    % if ($error eq 'access_denied') {
+      % if ($error eq 'access_denied') {
       <p>
         You refused to connect <%= link_to 'mojoconf.com', 'landing_page' %>
         with <%= link_to 'Eventbrite', 'https://eventbrite.com' %>.
@@ -24,8 +26,8 @@
         Please <%= link_to 'Try again', $original_path %>.
       </p>
     % }
-    </div>
-  </section>
+    </section>
+  </div>
 
   %= include 'footer';
 </div>

@@ -1,11 +1,18 @@
 % layout 'default';
 % title $p->title; 
+%= include 'header';
+%= include 'partial/top_image', splash => '/images/mojoconf_logo.png';
 
-<h2 id="title"><%= $p->title %></h2>
-<h4 id="subtitle"><%= $p->subtitle %><h4>
+<div class="content-wrapper">
+  <div class="content">
+    <section>
+      <h2 id="title"><%= $p->title %></h2>
+      <h4 id="subtitle"><%= $p->subtitle %><h4>
+      <h4 id="author">Presented by: <%= $p->author %></h4>
+      <h3>Abstract</h3>
+      <p id="abstract"><%= $p->abstract %></p>
+    </section>
+  </div>
 
-<h4 id="author">Presented by: <%= $p->author %></h4>
-
-<h3>Abstract:</h3>
-<p id="abstract"><%= $p->abstract %></p>
-
+  %= include 'footer';
+</div>

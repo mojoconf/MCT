@@ -78,6 +78,9 @@ sub _routes {
   $r->any('/presentations/:url_name')->to('presentation#')->name('presentation')
     ->tap(get => {action => 'show'})
     ->tap(put => {action => 'save'});
+
+  # back compat
+  $app->plugin('MCT::Plugin::ACT' => { url => 'http://www.mojoconf.org/mojo2014' });
 }
 
 sub _setup_database {

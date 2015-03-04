@@ -1,7 +1,7 @@
 % layout 'default';
 
 % my $p = stash('p');
-% my @target = $p ? ( presentation => url_name => $p->url_name ) : ( 'presentations' );
+% my @target = $p ? ( presentation => url_name => $p->url_name, method => 'PUT' ) : ( 'presentations', method => 'POST' );
 
 % title $p ? 'Edit: ' . $p->title : 'Submit a talk';
 %= include 'header';
@@ -10,7 +10,7 @@
 <div class="content-wrapper">
   <div class="content">
     <section>
-      %= form_for @target => method => POST => begin
+      %= form_for @target => begin
         <p>Title: <input name="title"></p>
         <p>Subtitle: <input name="subtitle"></p>
         <p>Abstract:</p><textarea name="abstract"></textarea>

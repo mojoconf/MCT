@@ -34,8 +34,12 @@ CREATE TABLE presentations (
   abstract TEXT,
   UNIQUE (url_name, conference)
 );
+-- 2 up
+CREATE TABLE country (id VARCHAR(2) NOT NULL, name VARCHAR(64) NOT NULL, PRIMARY KEY(id));
 -- 1 down
 DROP TABLE IF EXISTS presentations;
 DROP TABLE IF EXISTS conferences;
 DROP TABLE IF EXISTS user_identities;
 DROP TABLE IF EXISTS users;
+-- 2 down
+DROP TABLE IF EXISTS country;

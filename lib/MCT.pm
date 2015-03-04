@@ -11,7 +11,9 @@ has pg => sub { Mojo::Pg->new(shift->config->{db}) };
 
 sub migrations {
   my $app = shift;
-  $app->pg->migrations->from_file($app->home->rel_file('mct.sql'));
+  $app->pg->migrations->from_string(
+    $app->build_controller->render_to_string(template => 'sql/migrations', format => 'sql')
+  );
 }
 
 sub startup {

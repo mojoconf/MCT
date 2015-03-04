@@ -32,13 +32,11 @@ sub startup {
   $app->plugin('MCT::Plugin::Auth');
   $app->_ensure_conference;
   $app->_routes;
-  $app->_auto_routes;
   $app->plugin('MCT::Plugin::Mock') if $ENV{MCT_MOCK};
 }
 
 sub _auto_routes {
-  my $app = shift;
-  my $r = $app->routes;
+  my ($app, $r) = @_;
 
   for my $p (@{$app->renderer->paths}) {
     File::Find::find(
@@ -69,15 +67,20 @@ sub _ensure_conference {
 
 sub _routes {
   my $app = shift;
-  my $r = $app->routes;
+  my $r = $app->routes->get('/');
 
-  $r->get('/')->to('home#landing_page')->name('landing_page');
+  $r->get('/')->to(cb => sub { shift->redirect_to('/2015') });
   $r->get('/connect')->to('user#connect')->name('connect');
   $r->get('/logout')->to('user#logout')->name('logout');
   $r->authorized->get('/profile')->to('user#profile')->name('profile');
+
+  $r = $app->routes->get('/2015');
+  $r->get('/')->to('home#landing_page')->name('landing_page');
   $r->any('/presentations/:url_name')->to('presentation#')->name('presentation')
     ->tap(get => {action => 'show'})
     ->tap(put => {action => 'save'});
+
+  $app->_auto_routes($r);
 
   # back compat
   $app->plugin('MCT::Plugin::ACT' => { url => 'http://www.mojoconf.org/mojo2014' });

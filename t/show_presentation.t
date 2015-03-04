@@ -31,7 +31,7 @@ my $presentation = $app->model->presentation(
   abstract => 'What I will be talking about',
 )->save;
 
-$t->get_ok('/presentations/my-talk')
+$t->get_ok('/2015/presentations/my-talk')
   ->status_is(200)
   ->text_is('title' => 'MojoConf 2015 - My Talk')
   ->text_is('#title' => 'My Talk')

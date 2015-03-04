@@ -1,0 +1,22 @@
+% layout 'default';
+
+% my $p = stash('p');
+% my @target = $p ? ( presentation => url_name => $p->url_name ) : ( 'presentations' );
+
+% title $p ? 'Edit: ' . $p->title : 'Submit a talk';
+%= include 'header';
+%= include 'partial/top_image', splash => '/images/mojoconf_logo.png';
+
+<div class="content-wrapper">
+  <div class="content">
+    <section>
+      %= form_for @target => method => POST => begin
+        <p>Title: <input name="title"></p>
+        <p>Subtitle: <input name="subtitle"></p>
+        <p>Abstract:</p><textarea name="abstract"></textarea>
+      % end
+    </section>
+  </div>
+
+  %= include 'footer';
+</div>

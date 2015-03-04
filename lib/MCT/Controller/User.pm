@@ -14,7 +14,14 @@ sub profile {
   $c->delay(
     sub {
       my ($delay) = @_;
-      $user->load($delay->begin);
+      return $delay->pass if $c->req->method ne 'POST';
+      return $user->validate($c->validation, $delay->begin);
+    },
+    sub {
+      my ($delay, $err, $validation) = @_;
+      return $c->render(error => $err) if $err or $validation and $validation->has_error;
+      return $user->save($validation->output) if $validation;
+      return $user->load($delay->begin);
     },
     sub {
       my ($delay, $err) = @_;

@@ -75,7 +75,7 @@ sub _routes {
   $r->get('/')->to('home#landing_page')->name('landing_page');
   $r->get('/connect')->to('user#connect')->name('connect');
   $r->get('/logout')->to('user#logout')->name('logout');
-  $r->authorized->get('/profile')->to('user#profile')->name('profile');
+  $r->authorized->any('/profile')->to('user#profile')->name('profile');
   $r->any('/presentations/:url_name')->to('presentation#')->name('presentation')
     ->tap(get => {action => 'show'})
     ->tap(put => {action => 'save'});

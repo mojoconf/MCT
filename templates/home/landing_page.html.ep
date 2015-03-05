@@ -82,6 +82,12 @@
       <h3><i class="fa fa-phone"></i>Contact</h3>
       %= include 'partial/ask_question'
 
+      <hr />
+
+      <p>
+        Nostalgic for last year's conference? The <a href="//mojoconf.org/mojo2014">Mojoconf 2014 site</a> is still available.
+      </p>
+
     </section>
   </div>
 

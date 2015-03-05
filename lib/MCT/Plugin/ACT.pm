@@ -44,7 +44,8 @@ sub register {
         }
         else {
           $c->res->headers->content_type($ct || 'text/plain');
-          $c->tx->res($tx->res)->rendered;
+          $c->tx->res($tx->res);
+          $c->rendered;
         }
 
         return $ua; # keep the object around so it does not go out of scope

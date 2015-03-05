@@ -5,7 +5,7 @@ use Mojo::Base 'Mojolicious';
 our $VERSION = '0.01';
 
 use Mojo::Pg;
-use Mojo::Eventbrite;
+use Mojo::Github;
 use MCT::Model;
 
 has pg => sub { Mojo::Pg->new(shift->config->{db}) };
@@ -20,7 +20,7 @@ sub startup {
 
   $app->plugin('Config' => file => $ENV{MOJO_CONFIG} || $app->home->rel_file('mct.conf'));
 
-  $app->helper('eventbrite'         => sub { $_[0]->stash->{'mct.eventbrite'} ||= Mojo::Eventbrite->new });
+  $app->helper('github'             => sub { $_[0]->stash->{'mct.github'} ||= Mojo::Github->new });
   $app->helper('model.db'           => sub { $_[0]->stash->{'mct.db'} ||= $_[0]->app->pg->db });
   $app->helper('model.conference'   => sub { MCT::Model->new_object(Conference => db => shift->model->db, @_) });
   $app->helper('model.identity'     => sub { MCT::Model->new_object(Identity => db => shift->model->db, @_) });
@@ -148,11 +148,6 @@ L<atom news feed|XML::Atom::Feed>.
 
 Simple user groups need to be implemented: Admin and regular users.
 
-=item * Eventbrite hooks
-
-Would be nice if L<Eventbrite|http://developer.eventbrite.com/docs/webhooks-summary/>
-could push data back to L<MCT> when changes are made.
-
 =item * Wiki
 
 A very simple L<Text::Markdown> based editor for wiki pages.
@@ -166,11 +161,6 @@ A very simple L<Text::Markdown> based editor for wiki pages.
 =item * A PostgreSQL database.
 
 Conference data, user information and talks are stored in the local database.
-
-=item * An L<http://eventbrite.com/> account.
-
-Eventbrite is used for single sign on, and management for payments and meta
-data.
 
 =back
 

@@ -12,7 +12,8 @@ has pg => sub { Mojo::Pg->new(shift->config->{db}) };
 
 sub migrations {
   my $app = shift;
-  $app->pg->migrations->from_file($app->home->rel_file('mct.sql'));
+  my $migrations = $app->renderer->template_path({template => 'sql/migrations', format => 'sql'});
+  $app->pg->migrations->from_file($migrations);
 }
 
 sub startup {
@@ -74,7 +75,7 @@ sub _routes {
   $r->get('/')->to('home#landing_page')->name('landing_page');
   $r->get('/connect')->to('user#connect')->name('connect');
   $r->get('/logout')->to('user#logout')->name('logout');
-  $r->authorized->get('/profile')->to('user#profile')->name('profile');
+  $r->authorized->any('/profile')->to('user#profile')->name('profile');
   $r->any('/presentations/:url_name')->to('presentation#')->name('presentation')
     ->tap(get => {action => 'show'})
     ->tap(put => {action => 'save'});

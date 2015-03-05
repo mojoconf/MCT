@@ -1,29 +1,32 @@
 package MCT::Plugin::ACT;
 use Mojo::Base 'Mojolicious::Plugin';
-use constant DEBUG => $ENV{ACT_DEBUG} || 0;
+use constant DEBUG => $ENV{ACT_MODEL_DEBUG} || 0;
 
 our $VERSION = '0.01';
 
 sub register {
   my ($self, $app, $config) = @_;
-  my $url = Mojo::URL->new($config->{url});
-  my $path = $url->path->to_string;
-  my $domain = $url->host;
+  my $base = Mojo::URL->new($config->{url});
+  my $path = $base->path->to_string;
+  my $domain = $base->host;
 
   $path =~ s!/+$!!;
-  $url = $url->clone->host('act.yapc.eu');
+  $base = $base->clone->host('act.yapc.eu');
 
   $app->routes->any("$path/*whatever", {whatever => ''})->to(cb => sub {
     my $c = shift;
     my $whatever = $c->stash('whatever');
     my $ua = Mojo::UserAgent->new;
+    my $tx = Mojo::Transaction::HTTP->new;
 
     $c->delay(
       sub {
         my ($delay) = @_;
-        warn "[ACT] GET $url/$whatever (Host: $domain)\n" if DEBUG;
-        $ua->on(start => sub { pop->req->headers->host($domain) });
-        $ua->get("$url/$whatever", $delay->begin);
+        warn "[ACT] GET $base/$whatever (Host: $domain)\n" if DEBUG;
+        $tx->req($c->tx->req->clone);
+        $tx->req->url->scheme('http')->host($base->host)->path("$path/$whatever");
+        $tx->req->headers->host($domain);
+        $ua->start($tx, $delay->begin);
       },
       sub {
         my ($delay, $tx) = @_;
@@ -36,11 +39,12 @@ sub register {
           $_->{href} =~ s!^/!http://$host_port/! for $dom->find('[href]')->each;
           $_->{src} =~ s!^/!http://$host_port/! for $dom->find('[src]')->each;
 
+          $c->tx->res->headers($tx->res->headers);
           $c->render(text => $dom->to_string, status => $tx->res->code);
         }
         else {
           $c->res->headers->content_type($ct || 'text/plain');
-          $c->render(data => $tx->res->body, status => $tx->res->code);
+          $c->tx->res($tx->res)->rendered;
         }
 
         return $ua; # keep the object around so it does not go out of scope

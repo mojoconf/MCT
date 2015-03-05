@@ -67,14 +67,14 @@ sub _ensure_conference {
 
 sub _routes {
   my $app = shift;
-  my $r = $app->routes->get('/');
+  my $r = $app->routes;
 
   $r->get('/')->to(cb => sub { shift->redirect_to('/2015') });
   $r->get('/connect')->to('user#connect')->name('connect');
   $r->get('/logout')->to('user#logout')->name('logout');
   $r->authorized->get('/profile')->to('user#profile')->name('profile');
 
-  $r = $app->routes->get('/2015');
+  $r = $app->routes->any('/2015');
   $r->get('/')->to('home#landing_page')->name('landing_page');
   $r->any('/presentations/:url_name')->to('presentation#')->name('presentation')
     ->tap(get => {action => 'show'})

@@ -20,4 +20,6 @@ $t->get_ok('/mojo2014/schedule?day=2014-05-24')
   ->status_is(200)
   ->element_exists(qq(a[href="http://$host_port/mojo2014/event/1519"]));
 
+$t->get_ok('/mojo2014/css/mojoconf.css')->status_is(200);
+
 done_testing;

@@ -9,80 +9,78 @@
 </div>
 
 <div class="content-wrapper">
-    <div class="content">
-        <div class="mojoconf-content-header">
-          <h2 class="content-head is-center">Travel, Venue, and Accommodations</h2>
-          <h3 class="content-head is-center">June 4 - 6 | New York, New York</h3>
+  <div class="content">
+    <div class="mojoconf-content-header">
+      <h2 class="content-head is-center">Travel, Venue, and Accommodations</h2>
+      <h3 class="content-head is-center">June 4 - 6 | New York, New York</h3>
+    </div>
+
+    <section>
+      <h3><i class="fa fa-map-marker"></i>Venue</h3>
+      <p>
+        Mojoconf 2015 will be held at The Houston Street Center in lower Manhattan.
+      </p>
+
+      <h3><i class="fa fa-rocket"></i>Travel</h3>
+      <p>
+        Public transporation is easily obtained from the 
+        nearby major international airports:
+      </p>
+      <ul>
+        <li>John F. Kennedy International Airport</li>
+        <li>LaGuardia Airport</li>
+        <li>Newark Liberty International Airport</li>
+      </ul>
+
+      <div class="accommodations">
+      <h3><i class="fa fa-hotel"></i>Accommodations</h3>
+      <div class="speakers">
+        <p>
+          You have several options for housing while attending mojoconf.
+          The hotels will have the most amenitites, while the Chelsea
+          International Hostel will be the least expensive.
+        </p>
+        <p>
+          Manhattan is a popular destination spot, so be sure to book soon.
+        </p>
+
+        <div class="hotel">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.2193729234205!2d-73.99299100000005!3d40.71318700000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a28c22bfc31%3A0x7fc574234421b2eb!2sFairfield+Inn+%26+Suites+New+York+Manhattan%2FDowntown+East!5e0!3m2!1sen!2sus!4v1424926883346" width="300" height="150" frameborder="0"></iframe>
+          <b><a href="http://www.marriott.com/hotels/travel/nycfm-fairfield-inn-and-suites-new-york-manhattan-downtown-east">Fairfield Inn & Suites New York Manhattan/Downtown East</a></b><br />
+          95 Henry Street<br />
+          New York, New York 10002<br />
+          (212) 227-0709
         </div>
 
-        <section>
-          <h3><i class="fa fa-map-marker"></i>Venue</h3>
-          <p>
-            Mojoconf 2015 will be held at The Houston Street Center in lower Manhattan.
-          </p>
+        <div class="hotel">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3023.9807619888475!2d-73.99519900000004!3d40.71844!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2598873453c93%3A0xe7bcabf12c51d5a0!2sBest+Western+Bowery+Hanbee+Hotel!5e0!3m2!1sen!2sus!4v1424926827678" width="300" height="150" frameborder="0"></iframe>
+          <b><a href="http://www.bw-boweryhanbeehotel.com/">BEST WESTERN Bowery Hanbee Hotel</a></b><br />
+          231 Grand Street<br />
+          New York, New York 10013<br />
+          (212) 925-1177
+        </div>
 
-          <h3><i class="fa fa-rocket"></i>Travel</h3>
-          <p>
-            Public transporation is easily obtained from the 
-            nearby major international airports:
-            <ul>
-              <li>John F. Kennedy International Airport</li>
-              <li>LaGuardia Airport</li>
-              <li>Newark Liberty International Airport</li>
-            </ul>
-          </p>
+        <div class="hotel">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3024.203975041023!2d-73.993665!3d40.713526!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a2893fb771d%3A0x85473d4685f05ee2!2sHotel+91!5e0!3m2!1sen!2sus!4v1424926794300" width="300" height="150" frameborder="0"></iframe>
+          <b><a href="http://www.hotel91.com">Hotel 91</a></b><br />
+          91 E Broadway<br />
+          New York, NY 10002<br>
+          (212) 266-6800
+        </div>
 
-          <div class="accommodations">
-          <h3><i class="fa fa-hotel"></i>Accommodations</h3>
-            <div class="speakers">
-            <p>
-            You have several options for housing while attending mojoconf.
-            The hotels will have the most amenitites, while the Chelsea International Hostel will be the least expensive.
-            </p>
-            <p>
-            Manhattan is a popular
-            destination spot, so be sure to book soon.
-            </p>
+        <div class="hotel">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3022.8527281862716!2d-73.99911!3d40.743266!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259bb92a18ae9%3A0x986770a99c52c9f3!2sChelsea+International+Hostel!5e0!3m2!1sen!2sus!4v1424926659725" width="300" height="150" frameborder="0"></iframe>
+          <b><a href="http://www.chelseahostel.com/">Chelsea International Hostel</a></b><br />
+          251 W 20TH ST<br />
+          New York, NY 10011<br /> 
+          (212) 647-0010
+        </div>
+      </div>
 
-              <div class="hotel">
-              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.2193729234205!2d-73.99299100000005!3d40.71318700000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a28c22bfc31%3A0x7fc574234421b2eb!2sFairfield+Inn+%26+Suites+New+York+Manhattan%2FDowntown+East!5e0!3m2!1sen!2sus!4v1424926883346" width="300" height="150" frameborder="0"></iframe>
-              <b><a href="http://www.marriott.com/hotels/travel/nycfm-fairfield-inn-and-suites-new-york-manhattan-downtown-east">Fairfield Inn & Suites New York Manhattan/Downtown East</a></b><br />
-            95 Henry Street<br />
-            New York, New York 10002<br />
-              (212) 227-0709
-              </div>
-
-              <div class="hotel">
-              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3023.9807619888475!2d-73.99519900000004!3d40.71844!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2598873453c93%3A0xe7bcabf12c51d5a0!2sBest+Western+Bowery+Hanbee+Hotel!5e0!3m2!1sen!2sus!4v1424926827678" width="300" height="150" frameborder="0"></iframe>
-              <b><a href="http://www.bw-boweryhanbeehotel.com/">BEST WESTERN Bowery Hanbee Hotel</a></b><br />
-              231 Grand Street<br />
-              New York, New York 10013<br />
-              (212) 925-1177
-              </div>
-
-              <div class="hotel">
-              <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3024.203975041023!2d-73.993665!3d40.713526!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a2893fb771d%3A0x85473d4685f05ee2!2sHotel+91!5e0!3m2!1sen!2sus!4v1424926794300" width="300" height="150" frameborder="0"></iframe>
-              <b><a href="http://www.hotel91.com">Hotel 91</a></b><br />
-              91 E Broadway<br />
-              New York, NY 10002<br>
-              (212) 266-6800
-              </div>
-
-              <div class="hotel">
-              <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3022.8527281862716!2d-73.99911!3d40.743266!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259bb92a18ae9%3A0x986770a99c52c9f3!2sChelsea+International+Hostel!5e0!3m2!1sen!2sus!4v1424926659725" width="300" height="150" frameborder="0"></iframe>
-              <b><a href="http://www.chelseahostel.com/">Chelsea International Hostel</a></b><br />
-              251 W 20TH ST<br />
-              New York, NY 10011<br /> 
-              (212) 647-0010
-              </div>
-            </div>
-
-          <h3><i class="fa fa-phone"></i>Contact</h3>
-          <p>
-          Please ask any questions about Mojoconf on the #mojo irc channel in irc.perl.org, or the <a href="https://groups.google.com/forum/#!forum/mojolicious">Mojolicious Mailing List</a>.
-          </p>
-        </section>
-    </div>
+      <h3><i class="fa fa-phone"></i>Contact</h3>
+      %= include 'partial/ask_question'
+    </section>
+  </div>
 
 %= include 'footer';
 

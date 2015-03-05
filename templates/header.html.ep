@@ -1,11 +1,11 @@
 <div class="header">
-    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-      <div class="pure-menu-heading mojoconf-logo"><%= link_to '#mojoconf', 'landing_page' %></a></div>
-        <ul class="pure-menu-list">
-            <li class="pure-menu-item"><%= link_to 'Home', 'landing_page', class => 'pure-menu-link' %></li>
-            <li class="pure-menu-item"><%= link_to 'Travel', 'travel', class => 'pure-menu-link' %></li>
-            <li class="pure-menu-item"><%= link_to 'Register', 'register', class => 'pure-menu-link' %></li>
-            %# <li class="pure-menu-item"><%= link_to 'Login', get_authorize_url('eventbrite'), class => 'pure-menu-link' %></li>
-        </ul>
-    </div>
+  <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+    <div class="pure-menu-heading mojoconf-logo"><%= link_to '#mojoconf', 'landing_page' %></a></div>
+      <ul class="pure-menu-list">
+        <li class="pure-menu-item"><%= link_to 'Home', 'landing_page', class => 'pure-menu-link' %></li>
+        <li class="pure-menu-item"><%= link_to 'Travel', 'travel', class => 'pure-menu-link' %></li>
+        <li class="pure-menu-item"><%= link_to 'Register', 'register', class => 'pure-menu-link' %></li>
+        %# <li class="pure-menu-item"><%= link_to 'Login', get_authorize_url('eventbrite'), class => 'pure-menu-link' %></li>
+      </ul>
+  </div>
 </div>

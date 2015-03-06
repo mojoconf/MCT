@@ -12,6 +12,6 @@ $t->get_ok('/profile')->status_is(302);
 my $url = Mojo::URL->new($t->tx->res->headers->location);
 is $url->query->param('client_id'), 'some-public-key', 'client_id';
 like $url->query->param('redirect_uri'), qr{/connect$}, 'redirect_uri';
-like $url, qr{^https://www\.eventbrite\.com/oauth/authorize}, 'base path';
+like $url, qr{^https://github\.com/login/oauth/authorize}, 'base path';
 
 done_testing;

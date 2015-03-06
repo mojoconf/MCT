@@ -5,6 +5,14 @@ body {
   height: 50px !important;
 }
 
+hr {
+  border: 0;
+  border-bottom: 1px dashed  #ccc;
+  background: #fff;
+  margin: 0;
+  margin-top: 40px;
+}
+
 a {
   color: #6FBEF3 !important;
   text-decoration: none;
@@ -13,6 +21,12 @@ a {
     /*background: black;*/
   height: 60px;
 }
+
+.splash > img {
+  width: 518px;
+  height: auto;
+}
+
 .mojoconf-logo {
   font-family: "myriad-pro",sans-serif;
   font-size: 2em !important;

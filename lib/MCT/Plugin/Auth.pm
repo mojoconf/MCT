@@ -21,18 +21,18 @@ sub register {
     });
   });
 
-  $app->defaults(oauth2_provider => 'eventbrite');
+  $app->defaults(oauth2_provider => 'github');
 
   $app->plugin(
     OAuth2 => {
-      eventbrite => {
-        key => $config->{eventbrite}{key} || 'REQUIRED',
-        secret => $config->{eventbrite}{secret} || 'REQUIRED',
-        scope => $config->{eventbrite}{scope} || '',
+      github => {
+        key => $config->{github}{key} || 'REQUIRED',
+        secret => $config->{github}{secret} || 'REQUIRED',
+        scope => 'user',
       },
       mocked => {
         key => $ENV{MCT_MOCK} ? 'mocked' : '',
-        scope => $config->{eventbrite}{scope} || '',
+        scope => 'user',
       },
     }
   );
@@ -59,12 +59,12 @@ sub _connect {
     sub {
       my ($delay, $err, $token) = @_;
       return $c->render('user/connect_failed', error => $err) unless $token;
-      return $c->eventbrite->token($token)->user($delay->begin);
+      return $c->github->token($token)->user($delay->begin);
     },
     sub {
       my ($delay, $err, $data) = @_;
-      return $c->reply->exception($err || 'Unknown error from eventbrite.com') unless $data;
-      return $identity->token($c->eventbrite->token)->uid($data->{id})->user($data, $delay->begin);
+      return $c->reply->exception($err || 'Unknown error from github.com') unless $data;
+      return $identity->token($c->github->token)->uid($data->{id})->user($data, $delay->begin);
     },
     sub {
       my ($delay, $err, $user) = @_;

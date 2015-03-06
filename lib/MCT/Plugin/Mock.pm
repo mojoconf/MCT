@@ -1,17 +1,15 @@
 package MCT::Plugin::Mock;
 
 use Mojo::Base 'Mojolicious::Plugin';
-use Mojo::Eventbrite;
+use Mojo::Github;
 
 our $user = {
-  emails => [
-    { email => 'whatever@cpan.org', verified => 0, primary => 0 },
-    { email => 'john@example.com', verified => 1, primary => 0 },
-  ],
-  id => 'whatever:123456789',
+  avatar_url => "https://github.com/images/error/octocat_happy.gif",
+  email => 'john@example.com',
+  gravatar_id => '',
+  id => '42',
+  login => 'john_gh',
   name => 'John Doe',
-  first_name => 'John',
-  last_name => 'Doe',
 };
 
 sub register {
@@ -19,11 +17,11 @@ sub register {
 
   $app->log->warn('[MCT_MOCK=1] Mocking interfaces.');
 
-  Mojo::Util::monkey_patch('Mojo::Eventbrite', MOCKED => sub { 1 });
-  Mojo::Util::monkey_patch('Mojo::Eventbrite', ua => sub { $app->ua });
+  Mojo::Util::monkey_patch('Mojo::Github', MOCKED => sub { 1 });
+  Mojo::Util::monkey_patch('Mojo::Github', ua => sub { $app->ua });
 
   $app->defaults(oauth2_provider => 'mocked');
-  $app->routes->get('/mocked/eventbrite/v3/users/me')->to(cb => sub { shift->render(json => $user) });
+  $app->routes->get('/mocked/github/user')->to(cb => sub { shift->render(json => $user) });
 }
 
 1;

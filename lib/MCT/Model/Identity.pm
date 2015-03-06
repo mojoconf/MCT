@@ -81,7 +81,7 @@ sub _provider_data {
   my ($self, $data) = @_;
 
   return {
-    email => (map { $_->{email} } grep { $_->{verified} } @{$data->{emails}})[0],
+    email => $data->{email},
     name => $data->{name},
   };
 }

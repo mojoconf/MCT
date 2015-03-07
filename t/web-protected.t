@@ -8,7 +8,7 @@ plan skip_all => 'set TEST_ONLINE'
 $ENV{MOJO_MODE} = 'test';
 my $t = Test::Mojo->new('MCT');
 
-$t->get_ok('/profile')->status_is(302);
+$t->get_ok('/user/profile')->status_is(302);
 my $url = Mojo::URL->new($t->tx->res->headers->location);
 is $url->query->param('client_id'), 'some-public-key', 'client_id';
 like $url->query->param('redirect_uri'), qr{/connect$}, 'redirect_uri';

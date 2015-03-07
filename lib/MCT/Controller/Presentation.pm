@@ -29,7 +29,7 @@ sub edit {
     sub {
       my ($delay, $err) = @_;
       die $err if $err;
-      $c->render_not_authorized unless $c->can_update($p);
+      $c->render_not_authorized unless $p->user_can_update($c->session('username'));
       $c->render('presentation/edit', p => $p);
     },
   );
@@ -58,7 +58,7 @@ sub store {
     sub {
       my ($delay, $err) = @_;
       die $err if $err;
-      $c->render_not_authorized unless $c->can_update($p);
+      $c->render_not_authorized unless $p->user_can_update($c->session('username'));
       $p->save(\%set, $delay->begin);
     },
     sub {
@@ -67,12 +67,6 @@ sub store {
       $c->redirect_to(presentation => url_name => $p->url_name);
     },
   );
-}
-
-sub can_update {
-  my ($c, $p) = @_;
-  return 1 unless $p->in_storage;
-  return $p->author eq $c->session('username');
 }
 
 sub render_not_authorized { shift->render(text => 'Not authorized', status => 401) }

@@ -4,6 +4,7 @@ use Mojo::Base 'MCT::Model';
 
 has abstract => '';
 has author => '';
+has author_name => '';
 has conference => '';
 has subtitle => '';
 has title => '';
@@ -17,14 +18,15 @@ sub _load_sst {
     SELECT
       p.id,
       c.identifier AS conference,
-      u.name AS author,
+      u.username as author,
+      u.name AS author_name,
       p.url_name,
       p.title,
       p.subtitle,
       p.abstract
     FROM presentations p
-    JOIN conferences c ON c.id=conference
-    JOIN users u ON u.id=author
+    JOIN conferences c ON c.id=p.conference
+    JOIN users u ON u.id=p.author
     WHERE
       c.identifier=?
       AND p.$key=?
@@ -53,6 +55,13 @@ sub _update_sst {
     FROM conferences c
     WHERE c.identifier=? AND p.id=?
   SQL
+}
+
+sub user_can_update {
+  my ($self, $user) = @_;
+  return 1 unless $self->in_storage;
+  $user = $user->username if eval { $user->isa('MCT::Model::User') };
+  return $self->author eq $user;
 }
 
 sub TO_JSON {

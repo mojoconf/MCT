@@ -59,14 +59,15 @@ sub _update_sst {
 
 sub user_can_update {
   my ($self, $user) = @_;
+  return undef unless $user;
   return 1 unless $self->in_storage;
   $user = $user->username if eval { $user->isa('MCT::Model::User') };
-  return $self->author eq $user;
+  return !! $self->author eq $user;
 }
 
 sub TO_JSON {
   my $self = shift;
-  return { map { ($_, $self->$_) } qw( url_name title subtitle abstract author conference id ) };
+  return { map { ($_, $self->$_) } qw( url_name title subtitle abstract author author_name conference id ) };
 }
 
 1;

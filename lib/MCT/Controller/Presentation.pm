@@ -3,7 +3,7 @@ package MCT::Controller::Presentation;
 use Mojo::Base 'Mojolicious::Controller';
 
 sub show {
-  my $c = shift;
+  my $c = shift->render_later;
   my $p = $c->model->presentation(
     conference => $c->stash('conference')->identifier,
     url_name   => $c->stash('url_name'),
@@ -18,8 +18,8 @@ sub show {
   );
 }
 
-sub update {
-  my $c = shift;
+sub edit {
+  my $c = shift->render_later;
   my $p = $c->model->presentation(
     conference => $c->stash('conference')->identifier,
     url_name   => $c->stash('url_name'),
@@ -36,7 +36,7 @@ sub update {
 }
 
 sub store {
-  my $c = shift;
+  my $c = shift->render_later;
 
   my $id = $c->param('id');
   my $p = $c->model->presentation(
@@ -59,8 +59,7 @@ sub store {
       my ($delay, $err) = @_;
       die $err if $err;
       $c->render_not_authorized unless $c->can_update($p);
-      $p->$_($set{$_}) for keys %set;
-      $p->save($delay->begin);
+      $p->save(\%set, $delay->begin);
     },
     sub {
       my ($delay, $err) = @_;

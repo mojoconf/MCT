@@ -52,7 +52,7 @@ sub _routes {
     ->tap(post => {action   => 'store'})
     ->any('/:url_name')->name('presentation')
       ->tap(get => {action => 'show'})
-      ->tap(get => '/edit' => {action => 'update'} => 'update_presentation');
+      ->tap(get => '/edit' => {action => 'edit'} => 'edit_presentation');
   $conf->get('/:page')->to('conference#page')->name('conference.page');
 }
 

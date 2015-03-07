@@ -29,9 +29,7 @@ $url->query->param(code => 42);
 $t->get_ok($url)->status_is(302)->header_is(Location => '/user/profile');
 
 # access profile page
-$t->get_ok('/user/profile')->status_is(200)
-  ->element_exists('input[name="name"][value="John Doe"]')
-  ->element_exists('input[name="email"][value="john@example.com"]');
+$t->get_ok('/user/profile')->status_is(200);
 
 # logged out
 $t->get_ok('/user/logout')->status_is(200)->content_like(qr{Logged out});

@@ -13,7 +13,6 @@ $t->app->migrations->migrate;
 my ($err, $user);
 my $data = {
   login => 'mitch',
-  id => 'whatever:123456789',
   email => 'mitch@eventbrite.com',
   name => 'Mich Doe',
 };
@@ -36,7 +35,7 @@ ok !$identity->in_storage, 'identity.not_in_storage';
 ok !$user, 'no user';
 
 $identity->token('s3cret');
-$identity->uid($data->{id})->user($data, sub { (undef, $err, $user) = @_ });
+$identity->uid('whatever:123456789')->user($data, sub { (undef, $err, $user) = @_ });
 ok !$err, 'no error' or diag $err;
 ok $identity->in_storage, 'identity.in_storage';
 ok $user->in_storage, 'user.in_storage';

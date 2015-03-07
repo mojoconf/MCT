@@ -55,6 +55,10 @@ sub save {
   my $method = $self->id ? '_update_sst' : '_insert_sst';
   my $err;
 
+  if (Scalar::Util::blessed($attrs)) {
+    $attrs = $attrs->TO_JSON;
+  }
+
   $cb ||= sub { $err = $_[1] };
 
   Mojo::IOLoop->delay(

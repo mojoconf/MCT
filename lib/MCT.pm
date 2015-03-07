@@ -5,7 +5,6 @@ use Mojo::Base 'Mojolicious';
 our $VERSION = '0.01';
 
 use Mojo::Pg;
-use Mojo::Github;
 use MCT::Model;
 
 has pg => sub { Mojo::Pg->new(shift->config->{db}) };
@@ -19,8 +18,8 @@ sub startup {
   my $app = shift;
 
   $app->plugin('Config' => file => $ENV{MOJO_CONFIG} || $app->home->rel_file('mct.conf'));
+  $app->plugin('MCT::Plugin::Auth');
 
-  $app->helper('github'             => sub { $_[0]->stash->{'mct.github'} ||= Mojo::Github->new });
   $app->helper('model.db'           => sub { $_[0]->stash->{'mct.db'} ||= $_[0]->app->pg->db });
   $app->helper('model.conference'   => sub { MCT::Model->new_object(Conference => db => shift->model->db, @_) });
   $app->helper('model.identity'     => sub { MCT::Model->new_object(Identity => db => shift->model->db, @_) });
@@ -29,10 +28,8 @@ sub startup {
 
   $app->_setup_database;
   $app->_setup_secrets;
-  $app->plugin('MCT::Plugin::Auth');
   $app->_ensure_conference;
   $app->_routes;
-  $app->plugin('MCT::Plugin::Mock') if $ENV{MCT_MOCK};
 }
 
 sub _auto_routes {
@@ -68,11 +65,11 @@ sub _ensure_conference {
 sub _routes {
   my $app = shift;
   my $r = $app->routes;
+  my $p = $app->connect->authorized_route($r);
+
+  $p->get('/user/profile')->to('user#profile')->name('user.profile');
 
   $r->get('/')->to(cb => sub { shift->redirect_to('/2015') });
-  $r->get('/connect')->to('user#connect')->name('connect');
-  $r->get('/logout')->to('user#logout')->name('logout');
-  $r->authorized->get('/profile')->to('user#profile')->name('profile');
 
   $r = $app->routes->any('/2015');
   $r->get('/')->to('home#landing_page')->name('landing_page');

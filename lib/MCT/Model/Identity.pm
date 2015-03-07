@@ -26,7 +26,7 @@ sub user {
       my ($delay, $err) = @_;
       return $self->$cb($err, $user) if $err;
       return $user->username($self->username)->load($delay->begin) if $self->in_storage; # existing identity = existing user
-      return $user->save($self->_provider_data($data), $delay->begin); # need to save user before identity
+      return $user->save($data, $delay->begin); # need to save user before identity
     },
     sub {
       my ($delay, $err) = @_;
@@ -75,15 +75,6 @@ sub _load_sst {
       $key=?
       AND me.identity_provider=?
   SQL
-}
-
-sub _provider_data {
-  my ($self, $data) = @_;
-
-  return {
-    email => $data->{email},
-    name => $data->{name},
-  };
 }
 
 sub _update_sst {

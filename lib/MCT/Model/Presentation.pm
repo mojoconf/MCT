@@ -11,7 +11,9 @@ has url_name => '';
 
 sub _load_sst {
   my $self = shift;
-  <<'  SQL', map { $self->$_ } qw( conference url_name );
+  my $key  = $self->id ? 'id' : 'url_name';
+
+  <<"  SQL", map { $self->$_ } 'conference', $key;
     SELECT
       p.id,
       c.identifier AS conference,
@@ -25,7 +27,7 @@ sub _load_sst {
     JOIN users u ON u.id=author
     WHERE
       c.identifier=?
-      AND url_name=?
+      AND p.$key=?
   SQL
 }
 

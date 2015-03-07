@@ -29,25 +29,39 @@ sub update {
     sub {
       my ($delay, $err) = @_;
       die $err if $err;
+      $c->render_not_authorized unless $c->can_update($p);
       $c->render('presentation/edit', p => $p);
     },
   );
 }
 
-sub save {
+sub store {
   my $c = shift;
 
-  my $title  = $c->param('title');
+  my $id = $c->param('id');
   my $p = $c->model->presentation(
-    abstract   => $c->param('abstract'),
-    author     => $c->session('username'),
     conference => $c->stash('conference')->identifier,
-    subtitle   => $c->param('subtitle'),
-    title      => $title,
-    url_name   => $c->stash('url_name') || $c->param('url_name') || $c->_url_name($title),
+    $id ? (id => $id) : (),
   );
+
+  my $title  = $c->param('title');
+  my %set = (
+    abstract => $c->param('abstract'),
+    author   => $c->session('username'),
+    subtitle => $c->param('subtitle'),
+    title    => $title,
+    url_name => $c->param('url_name') || $c->_url_name($title),
+  );
+
   $c->delay(
-    sub { $p->save(shift->begin) },
+    sub { $p->load(shift->begin) },
+    sub {
+      my ($delay, $err) = @_;
+      die $err if $err;
+      $c->render_not_authorized unless $c->can_update($p);
+      $p->$_($set{$_}) for keys %set;
+      $p->save($delay->begin);
+    },
     sub {
       my ($delay, $err) = @_;
       die $err if $err;
@@ -55,6 +69,14 @@ sub save {
     },
   );
 }
+
+sub can_update {
+  my ($c, $p) = @_;
+  return 1 unless $p->in_storage;
+  return $p->author == $c->session->{username};
+}
+
+sub render_not_authorized { shift->render(text => 'Not authorized', status => 401) }
 
 sub _url_name {
   my ($c, $title) = @_;

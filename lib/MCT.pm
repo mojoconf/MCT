@@ -49,10 +49,10 @@ sub _routes {
   $norm->post('/')->to('conference#create')->name('conference.create');
   $conf->any('/presentations')->to('presentation#')->name('presentations')
     ->tap(get  => {template => 'presentation/edit'})
-    ->tap(post => {action   => 'save'})
+    ->tap(post => {action   => 'store'})
     ->any('/:url_name')->name('presentation')
       ->tap(get => {action => 'show'})
-      ->tap(put => {action => 'update'});
+      ->tap(get => '/edit' => {action => 'update'} => 'update_presentation');
   $conf->get('/:page')->to('conference#page')->name('conference.page');
 }
 

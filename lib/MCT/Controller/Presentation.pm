@@ -73,7 +73,7 @@ sub store {
 sub can_update {
   my ($c, $p) = @_;
   return 1 unless $p->in_storage;
-  return $p->author == $c->session->{username};
+  return $p->author eq $c->session('username');
 }
 
 sub render_not_authorized { shift->render(text => 'Not authorized', status => 401) }

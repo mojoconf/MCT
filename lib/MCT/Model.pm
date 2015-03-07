@@ -59,7 +59,7 @@ sub save {
 
   Mojo::IOLoop->delay(
     sub {
-      $self->$_($attrs->{$_}) for keys %$attrs;
+      $self->$_($attrs->{$_}) for grep { $self->can($_) } keys %$attrs;
       $self->_query($self->$method, shift->begin);
     },
     sub {

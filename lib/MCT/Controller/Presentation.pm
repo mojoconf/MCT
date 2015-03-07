@@ -60,7 +60,7 @@ sub _url_name {
   my ($c, $title) = @_;
   $title =~ s/\s/_/g;
   $title =~ s/\W//g;
-  return $title;
+  return lc $title;
 }
 
 1;

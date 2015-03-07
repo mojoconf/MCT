@@ -13,7 +13,9 @@
       %= form_for @target => begin
         <p>Title: <input name="title"></p>
         <p>Subtitle: <input name="subtitle"></p>
-        <p>Abstract:</p><textarea name="abstract"></textarea>
+        <p>Abstract:</p>
+        <p><textarea name="abstract"></textarea></p>
+        <p><input type="submit" value="Submit"></p>
       % end
     </section>
   </div>

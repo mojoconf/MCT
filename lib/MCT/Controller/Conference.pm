@@ -1,4 +1,4 @@
-package MCT::Controller::Home;
+package MCT::Controller::Conference;
 
 use Mojo::Base 'Mojolicious::Controller';
 

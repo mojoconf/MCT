@@ -1,0 +1,40 @@
+% layout 'default';
+% title 'Conference not found';
+%= include 'header';
+%= include 'partial/top_image', splash => '/images/mojoconf_logo.png';
+
+% my $row = begin
+  % my ($name, $label, $field) = @_;
+<div class="field-row">
+  <label for="form_<%= $name %>"><%= $label %></label>
+  %= $field || text_field $name, $conference->$name, id => "form_$name"
+</div>
+% end
+
+<div class="content-wrapper">
+  <div class="content">
+    <section>
+    % if (stash 'cid') {
+      <h1>Conference not found</h1>
+      <p>
+        It seems like you tried to visit the conference "<%= $conference->identifier %>",
+        but no such conference exists.
+      </p>
+    % } else {
+      <h1>No conferences in database</h1>
+      <p>
+        Please add a conference.
+      </p>
+      %= form_for 'conference.create', method => 'post', begin
+        %= $row->(name => 'Name');
+        %= $row->(identifier => 'Identifier');
+        %= $row->(tagline => 'Tagline');
+        %= $row->(analytics_code => 'Google analytics code');
+        <div class="submit-row"><button>Create conference</button></div>
+      % end
+    % }
+    </div>
+  </section>
+
+  %= include 'footer';
+</div>

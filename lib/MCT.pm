@@ -29,6 +29,7 @@ sub startup {
   $app->_setup_database;
   $app->_setup_secrets;
   $app->_routes;
+  $app->_will_remove_this_once_prod_is_up_to_date;
 }
 
 sub _routes {
@@ -78,6 +79,23 @@ sub _setup_secrets {
   }
 
   $app->secrets($secrets);
+}
+
+sub _will_remove_this_once_prod_is_up_to_date {
+  my $app = shift;
+
+  if ($0 =~ /\.t$/) {
+    $app->log->debug('batman: will not mess with the database from the app, when running unit tests');
+    return;
+  }
+
+  $app->log->warn('batman: purging the whole conference database to make sure we are up to date in production');
+  $app->model->db->query('DELETE FROM conferences');
+  $app->model->conference(
+    name => 'Mojoconf 2015',
+    identifier => '2015',
+    tagline => 'All the Mojo you can conf.',
+  )->save(sub {});
 }
 
 1;

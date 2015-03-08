@@ -7,6 +7,7 @@
   <div class="content">
     %= include 'partial/mojoconf-content-header', header => 'Register'
 
+  % unless (session 'uid') {
     <section>
       <h3><i class="fa fa-sign-in"></i>Register</h3>
       <p>
@@ -16,6 +17,7 @@
         %= link_to 'Connect with Github', 'user.profile', class => 'pure-button pure-button-connect'
       </p>
     </section>
+  % }
 
     <section>
       <h3><i class="fa fa-shopping-cart"></i>Buy ticket</h3>

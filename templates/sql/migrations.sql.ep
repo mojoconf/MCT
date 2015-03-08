@@ -35,12 +35,6 @@ CREATE TABLE presentations (
   UNIQUE (url_name, conference)
 );
 -- 2 up
-CREATE TABLE countries (
-  id VARCHAR(2) NOT NULL,
-  name VARCHAR(64) NOT NULL,
-  PRIMARY KEY(id)
-);
-%= include 'sql/countries'
 ALTER TABLE conferences ADD COLUMN address TEXT NOT NULL DEFAULT '';
 ALTER TABLE conferences ADD COLUMN city TEXT NOT NULL DEFAULT '';
 ALTER TABLE conferences ADD COLUMN country VARCHAR(2) NOT NULL REFERENCES countries (id) DEFAULT 'US';
@@ -61,4 +55,3 @@ ALTER TABLE conferences DROP COLUMN domain;
 ALTER TABLE conferences DROP COLUMN location;
 ALTER TABLE conferences DROP COLUMN tags;
 ALTER TABLE conferences DROP COLUMN zip;
-DROP TABLE IF EXISTS countries;

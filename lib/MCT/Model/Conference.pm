@@ -1,6 +1,7 @@
 package MCT::Model::Conference;
 
 use MCT::Model -row;
+use MCT::Model::Countries;
 
 col id => undef;
 col address => '';
@@ -20,7 +21,7 @@ col tagline => '';
 col tags => '';
 col zip => '';
 
-sub country_name { $_[0]->{country_name} || $_[0]->country }
+sub country_name { MCT::Model::Countries->name_from_code($_[0]->country) || $_[0]->country }
 
 sub validate {
   my ($self, $validation) = @_;
@@ -28,7 +29,7 @@ sub validate {
   $validation->optional('address');
   $validation->optional('analytics_code')->like(qr{^[A-Z0-9-]+$});
   $validation->optional('city');
-  $validation->optional('country');
+  $validation->optional('country')->country;
   $validation->optional('identifier')->like(qr{^[a-z0-9-]+$});
   $validation->optional('location');
   $validation->optional('tagline')->size(3, 140); # 140 = tweet length
@@ -49,12 +50,7 @@ sub _load_sst {
   my $self = shift;
 
   return(
-    sprintf(<<'    SQL', join(', ', map { "me.$_ as $_" } $self->columns)),
-    SELECT %s, c.name as country_name
-    FROM conferences me
-    JOIN countries c ON ( c.id = me.country )
-    WHERE identifier=?
-    SQL
+    sprintf('SELECT %s FROM conferences WHERE identifier=?', join ', ', $self->columns),
     $self->identifier,
   );
 }

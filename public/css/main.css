@@ -160,3 +160,8 @@ form .field-row .field-with-error {
   background: #fdd;
   border-color: #a55;
 }
+
+.pure-button-connect {
+  background: #8fc800;
+  color: #fff !important;
+}

@@ -33,10 +33,11 @@ sub email {
   return $email || $self->data->{email} || '';
 }
 
+sub address { $_[0]->data->{location} || '' } # github
 sub id { $_[0]->data->{id} || '' } # github
 sub name { $_[0]->data->{name} || '' } # github
-sub url { $_[0]->data->{blog} || '' } # github
 sub username { $_[0]->data->{login} || '' } # github
+sub web_page { $_[0]->data->{blog} || '' } # github
 
 sub new { Mojo::Base::new(@_) }
 
@@ -44,11 +45,12 @@ sub TO_JSON {
   my $self = shift;
 
   return {
+    address => $self->address,
     avatar_url => $self->avatar_url,
     email => $self->email,
     name => $self->name,
-    url => $self->url,
     username => $self->username,
+    web_page => $self->web_page,
   };
 }
 

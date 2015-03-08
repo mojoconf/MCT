@@ -4,7 +4,7 @@ use Mojo::Loader 'data_section';
 
 my %COUNTRIES = map { split /\s/, $_, 2 } split /\n/, data_section(__PACKAGE__, 'countries.txt');
 
-sub for_select { [map { [$COUNTRIES{$_}, $_] } sort keys %COUNTRIES] }
+sub for_select { map { [$COUNTRIES{$_}, $_] } sort { $COUNTRIES{$a} cmp $COUNTRIES{$b} } keys %COUNTRIES }
 sub name_from_code { $COUNTRIES{$_[1]} }
 
 1;
@@ -289,7 +289,7 @@ L<MCT::Model::Countries> is a container for country codes/names.
   use MCT::Model::Countries;
 
   my $str = MCT::Model::Countries->name_from_code("US");
-  my $array_ref = MCT::Model::Countries->for_select;
+  my @list_of_arrays = MCT::Model::Countries->for_select;
 
 =head1 METHODS
 

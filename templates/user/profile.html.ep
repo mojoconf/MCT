@@ -1,26 +1,39 @@
 % layout 'default';
-% title 'Connect with Eventbrite';
+% title 'Profile';
 %= include 'header';
-%= include 'partial/top_image', splash => '/images/mojoconf_logo.png';
+
+<div class="splash-container">
+  <div class="splash for-profile">
+    %# size need to match rule in main.css
+    %= image $user->avatar(size => 340), alt => $user->name
+  </div>
+</div>
+
+% my $row = begin
+  % my ($name, $label, $field) = @_;
+<div class="field-row">
+  <label for="form_<%= $name %>"><%= $label %></label>
+  %= $field || text_field $name, $user->$name, id => "form_$name"
+</div>
+% end
 
 <div class="content-wrapper">
   <div class="content">
     <section>
       <h1>Profile</h1>
-      <div class="row">
-        %= form_for 'profile', method => 'post', begin
-      </div>
-      <div class="row">
-        <label for="form_email">Email</label>
-        %= text_field 'email', $user->email, id => 'form_email'
-      </div>
-      <div class="row">
-        <label for="form_name">Name</label>
-        %= text_field 'name', $user->name, id => 'form_name'
-      </div>
-      <div class="row">
-        <button>Update profile</button>
-      </div>
+      %= form_for 'profile', method => 'post', begin
+        %= hidden_field avatar_url => $user->avatar_url;
+        %= $row->(email => 'Email');
+        %= $row->(name => 'Name');
+        %= $row->(address => 'Address');
+        %= $row->(zip => 'Zip');
+        %= $row->(city => 'City');
+        % param country => $user->country unless param 'country';
+        %= $row->(country => 'Country', select_field(country => [['', ''], MCT::Model::Countries->for_select]));
+        % param t_shirt_size => $user->t_shirt_size unless param 't_shirt_size';
+        %= $row->(t_shirt_size => 'T-Shirt size', select_field(t_shirt_size => ['', $user->valid_t_shirt_sizes]));
+        %= $row->(web_page => 'Home page');
+        <div class="submit-row"><button>Update profile</button></div>
       % end
     </div>
   </section>

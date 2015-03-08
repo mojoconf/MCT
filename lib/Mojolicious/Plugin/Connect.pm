@@ -89,12 +89,14 @@ our $VERSION = '0.01';
 # Note: This might go away without warning.
 our $ERR = '';
 our $USER = {
-  avatar_url => "https://github.com/images/error/octocat_happy.gif",
+  avatar_url => 'https://avatars.githubusercontent.com/u/45729?v=3',
   email => 'john@example.com',
   gravatar_id => '',
   id => '42',
+  location => 'Gotham City',
   login => 'john_gh',
   name => 'John Doe',
+  blog => 'http://mojolicio.us',
 };
 
 =head1 HELPERS

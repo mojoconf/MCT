@@ -6,6 +6,7 @@ sub register {
   my ($self, $app) = @_;
   my $connect;
 
+  $connect->{default_redirect_route} = 'index';
   $connect->{providers} = $app->config('providers') || $app->config('oauth2');
   $connect->{connector} = \&_connect_user;
 

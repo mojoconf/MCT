@@ -9,9 +9,10 @@ $ENV{MCT_MOCK} = 1;
 my $t = Test::Mojo->new('MCT');
 
 $t->app->migrations->migrate(0)->migrate;
+$t->app->model->conference(name => 'Testing Profile Conf', country => 'SE')->save(sub {});
 
 $t->get_ok('/user/connect?code=42')->status_is(302);
-$t->get_ok('/user/profile')->status_is(200)->text_is('title', 'Profile')
+$t->get_ok('/testing-profile-conf/profile')->status_is(200)->text_is('title', 'Testing Profile Conf - Profile')
   ->element_exists('img[src^="https://avatars.githubusercontent.com/u/45729"]')
   ->element_exists('input[name="name"][value="John Doe"]')
   ->element_exists('input[name="email"][value="john@example.com"]')
@@ -35,7 +36,7 @@ my %profile = (
   avatar_url => 'https://gravatar.com/avatar/b850d96978b5b07e2e523b81db30c26b',
 );
 
-$t->post_ok('/user/profile', form => \%profile)->status_is(200)
+$t->post_ok('/testing-profile-conf/profile', form => \%profile)->status_is(200)
   ->element_exists('img[src^="https://gravatar.com/avatar/b850d96978b5b07e2e523b81db30c26b"]')
   ->element_exists('input[name="name"][value="Bruce Wayne"]')
   ->element_exists('input[name="email"][value="bruce@wayneindustries.com"]')

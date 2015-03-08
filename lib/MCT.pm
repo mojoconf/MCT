@@ -96,6 +96,13 @@ sub _will_remove_this_once_prod_is_up_to_date {
   $app->model->conference(
     name => 'Mojoconf 2015',
     identifier => '2015',
+    location => 'University Settlement at the Houston Street Center',
+    address => '273 Bowery',
+    zip => '10002',
+    city => 'New York',
+    country => 'US',
+    domain => 'mojoconf.com',
+    tags => '#mojoconf',
     tagline => 'All the Mojo you can conf.',
   )->save(sub {});
 }

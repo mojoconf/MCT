@@ -10,15 +10,12 @@
 
 <div class="content-wrapper">
   <div class="content">
-    <div class="mojoconf-content-header">
-      <h2 class="content-head is-center">Travel, Venue, and Accommodations</h2>
-      <h3 class="content-head is-center">June 4 - 6 | New York, New York</h3>
-    </div>
+    %= include 'partial/mojoconf-content-header', header => 'Travel, Venue, and Accommodations'
 
     <section>
       <h3><i class="fa fa-map-marker"></i>Venue</h3>
       <p>
-        Mojoconf 2015 will be held at The Houston Street Center in lower Manhattan.
+        Mojoconf 2015 will be held at <%= $conference->location %> in lower Manhattan.
       </p>
 
       <h3><i class="fa fa-rocket"></i>Travel</h3>

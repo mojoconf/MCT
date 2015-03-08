@@ -11,6 +11,7 @@ $t->app->model->conference(
   name => 'Mojoconf 2015',
   identifier => '2015',
   tagline => 'All the Mojo you can conf',
+  country => 'RU',
 )->save(sub {});
 
 $t->get_ok('/')->status_is(302)->header_is(Location => '/2015');

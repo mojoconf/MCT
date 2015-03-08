@@ -13,7 +13,7 @@ my $app = $t->app;
 $app->migrations->migrate(0);
 $app->migrations->migrate;
 
-my $conf = $app->model->conference(name => 'Test For Show Presentation')->save;
+my $conf = $app->model->conference(name => 'Test For Show Presentation', country => 'GB')->save;
 $app->model->user(username => 'jberger', name => 'Joel Berger')->save;
 
 my $presentation = $app->model->presentation(

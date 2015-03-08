@@ -1,6 +1,6 @@
 package MCT::Model::Conference;
 
-use Mojo::Base 'MCT::Model';
+use MCT::Model -row;
 
 has analytics_code => '';
 has identifier => sub {

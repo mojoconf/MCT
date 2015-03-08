@@ -9,12 +9,16 @@ use Mojo::Pg;
 
 use constant DEBUG => $ENV{MCT_MODEL_DEBUG} || 0;
 
+my %COLUMNS;
+
 has id => undef;
 has db => sub { die "Usage: $_[0]->new(db => Mojo::Pg::Database->new)" };
 
 sub begin { MCT::Model::Transaction->new(dbh => shift->db->dbh) }
 
 sub in_storage { defined shift->id ? 1 : 0 }
+
+sub columns { sort keys %{$COLUMNS{ref($_[0])}} }
 
 sub load {
   my ($self, $cb) = @_;
@@ -80,6 +84,14 @@ sub save {
   return $self;
 }
 
+sub _col {
+  my ($self, $col, $builder) = @_;
+  my $class = ref $self || $self;
+  $self->attr($col => $builder);
+  $COLUMNS{$class}{$col} = 1;
+  return $class;
+}
+
 sub _query {
   my ($self, $cb) = (shift, pop);
   my @args = @_;
@@ -100,6 +112,24 @@ sub _query {
     },
   )->catch(sub{ $self->$cb($_[1], undef) })->wait;
   return $self;
+}
+
+sub import {
+  my $class = shift;
+  my $caller = caller;
+  my @args = @_;
+
+  strict->import;
+  warnings->import;
+
+  unless (grep { $_ eq '-row' } @args) {
+    eval "package $caller; use Mojo::Base qw( @args ); 1" or die $@;
+    return;
+  }
+
+  eval "package $caller; use Mojo::Base '$class'; 1" or die $@;
+  no strict 'refs';
+  *{"$caller\::col"} = sub { $caller->_col(@_) };
 }
 
 1;

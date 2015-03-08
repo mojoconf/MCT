@@ -10,6 +10,7 @@ my $t = Test::Mojo->new('MCT');
 $t->app->model->conference(
   name => 'Mojoconf 2015',
   tagline => 'All the Mojo you can conf',
+  country => 'DK',
 )->save(sub {});
 
 $t->get_ok('/mojoconf-2015')->status_is(200)->text_is('title', 'Mojoconf 2015 - Home');

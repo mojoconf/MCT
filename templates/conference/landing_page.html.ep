@@ -5,10 +5,7 @@
 
 <div class="content-wrapper">
   <div class="content">
-    <div class="mojoconf-content-header">
-      <h2 class="content-head is-center"><%= $conference->name %></h2>
-      <h3 class="content-head is-center">June 4 - 6 | New York, New York</h3>
-    </div>
+    %= include 'partial/mojoconf-content-header', header => $conference->name
 
     <section>
       <p>

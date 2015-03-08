@@ -1,0 +1,4 @@
+<div class="mojoconf-content-header">
+  <h2 class="content-head is-center"><%= $header %></h2>
+  <h3 class="content-head is-center">June 4 - 6 | <%= $conference->city %>, <%= $conference->country_name %></h3>
+</div>

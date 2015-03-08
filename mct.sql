@@ -34,8 +34,24 @@ CREATE TABLE presentations (
   abstract TEXT,
   UNIQUE (url_name, conference)
 );
+-- 2 up
+ALTER TABLE conferences ADD COLUMN address TEXT NOT NULL DEFAULT '';
+ALTER TABLE conferences ADD COLUMN city TEXT NOT NULL DEFAULT '';
+ALTER TABLE conferences ADD COLUMN country VARCHAR(2) NOT NULL DEFAULT '';
+ALTER TABLE conferences ADD COLUMN domain TEXT NOT NULL DEFAULT '';
+ALTER TABLE conferences ADD COLUMN location TEXT NOT NULL DEFAULT '';
+ALTER TABLE conferences ADD COLUMN tags TEXT NOT NULL DEFAULT '';
+ALTER TABLE conferences ADD COLUMN zip TEXT NOT NULL DEFAULT '';
 -- 1 down
 DROP TABLE IF EXISTS presentations;
 DROP TABLE IF EXISTS conferences;
 DROP TABLE IF EXISTS user_identities;
 DROP TABLE IF EXISTS users;
+-- 2 down
+ALTER TABLE conferences DROP COLUMN address;
+ALTER TABLE conferences DROP COLUMN city;
+ALTER TABLE conferences DROP COLUMN country;
+ALTER TABLE conferences DROP COLUMN domain;
+ALTER TABLE conferences DROP COLUMN location;
+ALTER TABLE conferences DROP COLUMN tags;
+ALTER TABLE conferences DROP COLUMN zip;

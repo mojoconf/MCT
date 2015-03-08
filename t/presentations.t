@@ -15,6 +15,7 @@ $app->migrations->migrate;
 
 $app->model->conference(
   identifier => 'mojoconf2015',
+  country => 'NO',
   name => 'MojoConf 2015',
 )->save;
 $app->model->user(

@@ -6,6 +6,7 @@ our $VERSION = '0.01';
 
 use Mojo::Pg;
 use MCT::Model;
+use MCT::Model::Countries;
 
 has pg => sub { Mojo::Pg->new(shift->config->{db}) };
 
@@ -28,6 +29,7 @@ sub startup {
 
   $app->_setup_database;
   $app->_setup_secrets;
+  $app->_setup_validation;
   $app->_routes;
   $app->_will_remove_this_once_prod_is_up_to_date;
 }
@@ -86,6 +88,14 @@ sub _setup_secrets {
   $app->secrets($secrets);
 }
 
+sub _setup_validation {
+  my $app = shift;
+  $app->validator->add_check(country => sub {
+    my ($validation, $name, $value) = @_;
+    MCT::Model::Countries->name_from_code($value) ? undef : ['country'];
+  });
+}
+
 sub _will_remove_this_once_prod_is_up_to_date {
   my $app = shift;
 
@@ -99,6 +109,13 @@ sub _will_remove_this_once_prod_is_up_to_date {
   $app->model->conference(
     name => 'Mojoconf 2015',
     identifier => '2015',
+    location => 'University Settlement at the Houston Street Center',
+    address => '273 Bowery',
+    zip => '10002',
+    city => 'New York',
+    country => 'US',
+    domain => 'mojoconf.com',
+    tags => '#mojoconf',
     tagline => 'All the Mojo you can conf.',
   )->save(sub {});
 }

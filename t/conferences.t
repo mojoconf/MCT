@@ -17,6 +17,7 @@ my $ident = '';
 my $err;
 my $conference = $app->model->conference(
   name => 'MojoConf 2015',
+  country => 'US',
   tagline => 'All the Mojo you can Conf',
 )->save(sub { (undef, $err, undef) = @_ });
 ok !$err or diag $err;

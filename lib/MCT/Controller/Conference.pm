@@ -71,6 +71,14 @@ sub latest_conference {
   );
 }
 
+sub page {
+  my $c = shift;
+  my $cid = $c->stash('cid');
+  my $page = $c->stash('page');
+
+  $c->render("$cid/$page");
+}
+
 sub _default_conference {
   shift->model->conference(
     analytics_code => 'UA-60226126-1',

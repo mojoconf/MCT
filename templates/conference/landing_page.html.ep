@@ -76,7 +76,7 @@
         Don’t be a Jerk; Strive to be Excellent.
       </p>
       <p>
-        %= link_to 'Full Code of Conduct', 'conduct'
+        %= link_to 'Full Code of Conduct', 'conference.page', {page => 'conduct'}
       </p>
 
       <h3><i class="fa fa-phone"></i>Contact</h3>

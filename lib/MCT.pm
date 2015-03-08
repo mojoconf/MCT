@@ -49,6 +49,7 @@ sub _routes {
   $conf->any('/presentations/:url_name')->to('presentation#')->name('presentation')
     ->tap(get => {action => 'show'})
     ->tap(put => {action => 'save'});
+  $conf->get('/:page')->to('conference#page')->name('conference.page');
 }
 
 sub _setup_database {

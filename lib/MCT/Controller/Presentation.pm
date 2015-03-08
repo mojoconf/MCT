@@ -3,7 +3,7 @@ package MCT::Controller::Presentation;
 use Mojo::Base 'Mojolicious::Controller';
 
 sub show {
-  my $c = shift->render_later;
+  my $c = shift;
   my $p = $c->model->presentation(
     conference => $c->stash('conference')->identifier,
     url_name   => $c->stash('url_name'),
@@ -23,7 +23,6 @@ sub edit {
   return $c->render('presentation/edit')
     unless my $url_name = $c->stash('url_name');
 
-  $c->render_later;
   my $p = $c->model->presentation(
     conference => $c->stash('conference')->identifier,
     url_name   => $url_name,
@@ -40,7 +39,7 @@ sub edit {
 }
 
 sub store {
-  my $c = shift->render_later;
+  my $c = shift;
 
   my $id = $c->param('id');
   my $p = $c->model->presentation(

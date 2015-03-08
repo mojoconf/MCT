@@ -54,6 +54,7 @@ sub _routes {
   my $presentation = $presentations->any('/:url_name')->name('presentation');
   $presentation->get('/')->to('#show');
   $presentation->get('/edit')->to('#edit')->name('presentation.edit');
+
   $conf->get('/:page')->to('conference#page')->name('conference.page');
 }
 

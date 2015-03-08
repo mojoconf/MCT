@@ -48,13 +48,11 @@ $t->get_ok($location)
 $t->get_ok("$location/edit")
   ->status_is(200)
   ->text_is('title' => 'Mojoconf 2015 - Edit: My Title')
+  ->element_exists('input[name="title"][value="My Title"]')
   ->text_is('textarea[name="abstract"]' => 'My content here');
 
-my $dom = $t->tx->res->dom;
-is $dom->at('input[name="title"]')->{value}, 'My Title';
-
 # add the id and make a change
-$pres->{id} = $dom->at('input[name="id"]')->{value};
+$pres->{id} = $t->tx->res->dom->at('input[name="id"]')->{value};
 $pres->{abstract} = 'New content here';
 
 $t->post_ok('/2015/presentations', form => $pres)

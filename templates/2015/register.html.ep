@@ -11,7 +11,7 @@
     <section>
       <h3><i class="fa fa-sign-in"></i>Register</h3>
       <p>
-        Want to give a talk? Register at <%= $conference->name %> by connecting with Github.
+        Want to give a talk? Sign in to register your proposal.
       </p>
       <p>
         %= link_to 'Connect with Github', 'user.profile', class => 'pure-button pure-button-connect'

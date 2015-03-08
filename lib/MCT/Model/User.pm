@@ -18,6 +18,14 @@ col email => '';
 col name => '';
 col username => sub { shift->email };
 
+sub avatar {
+  my ($self, %args) = @_;
+  my $url = Mojo::URL->new($self->avatar_url);
+
+  $url->query({size => $args{size}}) if $args{size};
+  $url;
+}
+
 sub validate {
   my ($self, $validation) = @_;
 

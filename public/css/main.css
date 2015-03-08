@@ -27,6 +27,10 @@ a {
   height: auto;
 }
 
+.splash.for-profile > img {
+  border-radius: 20px;
+}
+
 .mojoconf-logo {
   font-family: "myriad-pro",sans-serif;
   font-size: 2em !important;

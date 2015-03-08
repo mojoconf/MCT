@@ -1,7 +1,13 @@
 % layout 'default';
 % title 'Profile';
 %= include 'header';
-%= include 'partial/top_image', splash => '/images/mojoconf_logo.png';
+
+<div class="splash-container">
+  <div class="splash for-profile">
+    %# size need to match rule in main.css
+    %= image $user->avatar(size => 340), alt => $user->name
+  </div>
+</div>
 
 % my $row = begin
   % my ($name, $label, $field) = @_;
@@ -16,21 +22,18 @@
     <section>
       <h1>Profile</h1>
       %= form_for 'profile', method => 'post', begin
+        %= hidden_field avatar_url => $user->avatar_url;
         %= $row->(email => 'Email');
         %= $row->(name => 'Name');
-        %= $row->(username => 'Username');
         %= $row->(address => 'Address');
         %= $row->(zip => 'Zip');
         %= $row->(city => 'City');
         % param country => $user->country unless param 'country';
         %= $row->(country => 'Country', select_field(country => [['', ''], MCT::Model::Countries->for_select]));
         % param t_shirt_size => $user->t_shirt_size unless param 't_shirt_size';
-        %= $row->(t_shirt_size => 'T-Shirt', select_field(t_shirt_size => ['', $user->valid_t_shirt_sizes]));
-        %= $row->(web_page => 'Home page / blog URL');
-        %= $row->(avatar_url => 'Avatar');
-        <div class="submit-row">
-          <button>Update profile</button>
-        </div>
+        %= $row->(t_shirt_size => 'T-Shirt size', select_field(t_shirt_size => ['', $user->valid_t_shirt_sizes]));
+        %= $row->(web_page => 'Home page');
+        <div class="submit-row"><button>Update profile</button></div>
       % end
     </div>
   </section>

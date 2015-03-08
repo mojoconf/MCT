@@ -6,15 +6,24 @@
 %= include 'header';
 %= include 'partial/top_image', splash => '/images/mojoconf_logo.png';
 
+% my $row = begin
+  % my ($name, $label, $field) = @_;
+<div class="field-row">
+  <label for="form_<%= $name %>"><%= $label %></label>
+  %= $field || text_field $name, $p->$name, id => "form_$name"
+</div>
+% end
+
 <div class="content-wrapper">
   <div class="content">
     <section>
+      <h3><i class="fa fa-edit"></i><%= $p->in_storage ? 'Edit' : 'Submit' %> presentation</h3>
+      <br>
       %= form_for presentations => method => POST => begin
-        <p>Title: <input name="title" value="<%= $p->title %>"></p>
-        <p>Subtitle: <input name="subtitle" value="<%= $p->subtitle %>"></p>
-        <p>Abstract:</p>
-        <p><textarea name="abstract"><%= $p->abstract %></textarea></p>
-        <p><input type="submit" value="Submit"></p>
+        %= $row->(title => 'Title');
+        %= $row->(subtitle => 'Subtitle');
+        %= $row->(abstract => 'Abstract', text_area(abstract => $p->abstract, style => 'height:200px'));
+        <div class="submit-row"><button><%= $p->in_storage ? 'Update' : 'Submit' %></button></div>
         % if ($p->in_storage) {
           <input type="hidden" name="id" value="<%= $p->id %>">
         % }

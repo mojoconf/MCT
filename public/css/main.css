@@ -131,8 +131,8 @@ form .field-row {
   margin: 3px 0;
 }
 
-form .submit-row { margin-left: 35%; margin-top: 20px; }
-form .field-row label { width: 35%; }
+form .submit-row { margin-left: 30%; margin-top: 20px; }
+form .field-row label { width: 30%; }
 
 form .field-row label {
   line-height: 2em;
@@ -140,6 +140,7 @@ form .field-row label {
 }
 
 form .field-row input,
+form .field-row textarea,
 form .field-row select {
   background: #fbfbfb;
   border: 1px solid #bbb;

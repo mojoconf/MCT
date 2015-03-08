@@ -41,7 +41,7 @@ sub _routes {
   my $conf;
 
   $norm->get('/')->to('conference#latest_conference');
-  $auth->get('/user/profile')->to('user#profile')->name('user.profile');
+  $auth->any('/user/profile')->to('user#profile')->name('user.profile');
 
   # back compat
   $app->plugin('MCT::Plugin::ACT' => { url => 'http://www.mojoconf.org/mojo2014' });

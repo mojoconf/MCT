@@ -8,6 +8,8 @@ plan skip_all => 'set TEST_ONLINE'
 $ENV{MCT_MOCK} = 1;
 my $t = Test::Mojo->new('MCT');
 
+$t->app->migrations->migrate(0)->migrate;
+
 $t->get_ok('/user/logout')->status_is(200);
 
 # redirected to github connect page

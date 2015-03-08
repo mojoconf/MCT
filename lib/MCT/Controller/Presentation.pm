@@ -51,7 +51,6 @@ sub store {
   my %set = (
     abstract => $c->param('abstract'),
     author   => $c->session('username'),
-    subtitle => $c->param('subtitle'),
     title    => $title,
     url_name => $c->param('url_name') || $c->_url_name($title),
   );

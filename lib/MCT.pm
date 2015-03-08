@@ -28,59 +28,26 @@ sub startup {
 
   $app->_setup_database;
   $app->_setup_secrets;
-  $app->_ensure_conference;
   $app->_routes;
-}
-
-sub _auto_routes {
-  my ($app, $r) = @_;
-
-  for my $p (@{$app->renderer->paths}) {
-    File::Find::find(
-      {
-        wanted => sub {
-          my $template = File::Spec->abs2rel($File::Find::name, $p);
-          my $path;
-          $template =~ s!\.html\.ep$!! or return;
-          $path = $template;
-          $path =~ s!.*auto\W+!!;
-          $app->log->debug("Adding auto route /$path for $template");
-          $r->get("/$path")->to(template => $template)->name($path);
-        },
-        no_chdir => 1,
-      },
-      "$p/auto",
-    );
-  }
-}
-
-sub _ensure_conference {
-  my $app = shift;
-  my $conference = $app->config('conference');
-  my $model = $app->model->conference(%$conference);
-
-  $app->defaults(conference => $model->load->save($conference));
 }
 
 sub _routes {
   my $app = shift;
-  my $r = $app->routes;
-  my $p = $app->connect->authorized_route($r);
+  my $norm = $app->routes;
+  my $auth = $app->connect->authorized_route($norm);
+  my $conf;
 
-  $p->get('/user/profile')->to('user#profile')->name('user.profile');
-
-  $r->get('/')->to(cb => sub { shift->redirect_to('/2015') });
-
-  $r = $app->routes->any('/2015');
-  $r->get('/')->to('home#landing_page')->name('landing_page');
-  $r->any('/presentations/:url_name')->to('presentation#')->name('presentation')
-    ->tap(get => {action => 'show'})
-    ->tap(put => {action => 'save'});
-
-  $app->_auto_routes($r);
+  $norm->get('/')->to('conference#latest_conference');
+  $auth->get('/user/profile')->to('user#profile')->name('user.profile');
 
   # back compat
   $app->plugin('MCT::Plugin::ACT' => { url => 'http://www.mojoconf.org/mojo2014' });
+
+  $conf = $app->routes->under('/:cid')->to('conference#load');
+  $conf->get('/')->to('conference#landing_page')->name('landing_page');
+  $conf->any('/presentations/:url_name')->to('presentation#')->name('presentation')
+    ->tap(get => {action => 'show'})
+    ->tap(put => {action => 'save'});
 }
 
 sub _setup_database {

@@ -21,7 +21,7 @@ like $url, qr{^/mocked/oauth/authorize}, 'oauth.base_path';
 $t->get_ok($url)->status_is(200)->element_exists('a');
 
 $url = Mojo::URL->new($t->tx->res->dom->at('a')->{href})->query(error => 'access_denied');
-$t->get_ok($url)->status_is(200)->text_is('title', 'Mojoconf 2015 - Unable to connect with Github');
+$t->get_ok($url)->status_is(200)->text_is('title', 'Unable to connect with Github');
 
 # connect with github
 $url->query->remove('error');

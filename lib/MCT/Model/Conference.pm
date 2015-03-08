@@ -12,6 +12,22 @@ has identifier => sub {
 has name => '';
 has tagline => '';
 
+sub validate {
+  my ($self, $validation) = @_;
+
+  $validation->optional('analytics_code')->like(qr{^[A-Z0-9-]+$});
+  $validation->optional('identifier')->like(qr{^[a-z0-9-]+$});
+  $validation->required('name')->size(4, 20);
+  $validation->optional('tagline')->size(3, 140); # 140 = tweet length
+
+  unless ($validation->output->{identifier}) {
+    $validation->output->{identifier} = substr lc($validation->param('name') || ''), 0, 20;
+    $validation->output->{identifier} =~ s![^a-z0-9-]+!-!;
+  }
+
+  return $validation;
+}
+
 sub _load_sst {
   my $self = shift;
   <<'  SQL', $self->identifier;

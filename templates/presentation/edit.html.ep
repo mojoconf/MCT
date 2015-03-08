@@ -2,7 +2,7 @@
 
 % my $p = stash('p') || $c->model->presentation;
 
-% title $p->in_storage ? 'Edit: ' . $p->title : 'Submit a talk';
+% title $p->in_storage ? 'Edit: ' . $p->title : 'Submit a presentation';
 %= include 'header';
 %= include 'partial/top_image', splash => '/images/mojoconf_logo.png';
 

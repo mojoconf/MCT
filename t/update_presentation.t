@@ -25,7 +25,7 @@ $t->app->model->conference(
 
 $t->get_ok('/2015/presentations')
   ->status_is(200)
-  #->text_is('title' => 'Mojoconf 2015 - Edit: My Title')
+  ->text_is('title' => 'Mojoconf 2015 - Submit a presentation')
   ->element_exists('input[name="title"]')
   ->element_exists('input[name="subtitle"]')
   ->element_exists('textarea[name="abstract"]');
@@ -73,7 +73,24 @@ $t->get_ok($location)
   ->text_is('#author' => 'Presented by: John Doe')
   ->text_is('#abstract' => 'New content here');
 
-#TODO add test for changing title and thus location
+# change the title (and thus url_name)
+$pres->{title} = 'Some New Title';
+my $new_location = '/2015/presentations/some_new_title';
+
+$t->post_ok('/2015/presentations', form => $pres)
+  ->status_is(302)
+  ->header_is('Location' => $new_location);
+
+$t->get_ok($location)
+  ->status_is(404);
+
+$t->get_ok($new_location)
+  ->status_is(200)
+  ->text_is('title' => 'Mojoconf 2015 - Some New Title')
+  ->text_is('#title' => 'Some New Title')
+  ->text_is('#subtitle' => 'My Subtitle')
+  ->text_is('#author' => 'Presented by: John Doe')
+  ->text_is('#abstract' => 'New content here');
 
 done_testing;
 

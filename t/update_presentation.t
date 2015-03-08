@@ -92,5 +92,22 @@ $t->get_ok($new_location)
   ->text_is('#author' => 'Presented by: John Doe')
   ->text_is('#abstract' => 'New content here');
 
+$t->reset_session;
+
+# attempt to view edit page without permission
+$t->get_ok("$new_location/edit")
+  ->status_is(401)
+  ->content_is('Not authorized');
+
+# attempt to update the presentation without permission
+my %bad = (%$pres, abstract => 'This is bad');
+$t->post_ok('/2015/presentations', form => \%bad)
+  ->status_is(401)
+  ->content_is('Not authorized');
+
+$t->get_ok($new_location)
+  ->status_is(200)
+  ->text_is('#abstract' => $pres->{abstract}, 'abstract not changed');
+
 done_testing;
 

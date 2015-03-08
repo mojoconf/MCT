@@ -32,7 +32,7 @@ sub edit {
     sub {
       my ($delay, $err) = @_;
       die $err if $err;
-      $c->render_not_authorized unless $p->user_can_update($c->session('username'));
+      return $c->render_not_authorized unless $p->user_can_update($c->session('username'));
       $c->render('presentation/edit', p => $p);
     },
   );
@@ -61,7 +61,7 @@ sub store {
     sub {
       my ($delay, $err) = @_;
       die $err if $err;
-      $c->render_not_authorized unless $p->user_can_update($c->session('username'));
+      return $c->render_not_authorized unless $p->user_can_update($c->session('username'));
       $p->save(\%set, $delay->begin);
     },
     sub {

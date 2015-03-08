@@ -20,7 +20,13 @@
 <div class="content-wrapper">
   <div class="content">
     <section>
-      <h1>Profile</h1>
+      <h3><i class="fa fa-cog"></i>Actions</h3>
+      <ul>
+        <li><%= link_to 'Submit presentation', 'presentations' %></li>
+        <li><%= link_to 'Logout', 'user.logout' %></li>
+      </ul>
+
+      <h3><i class="fa fa-edit"></i>Profile</h3>
       %= form_for 'profile', method => 'post', begin
         %= hidden_field avatar_url => $user->avatar_url;
         %= $row->(email => 'Email');

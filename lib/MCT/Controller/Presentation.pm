@@ -19,10 +19,14 @@ sub show {
 }
 
 sub edit {
-  my $c = shift->render_later;
+  my $c = shift;
+  return $c->render('presentation/edit')
+    unless my $url_name = $c->stash('url_name');
+
+  $c->render_later;
   my $p = $c->model->presentation(
     conference => $c->stash('conference')->identifier,
-    url_name   => $c->stash('url_name'),
+    url_name   => $url_name,
   );
   $c->delay(
     sub { $p->load(shift->begin) },

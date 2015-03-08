@@ -12,7 +12,7 @@
       <h3>Abstract</h3>
       <p id="abstract"><%= $p->abstract %></p>
       % if ($p->user_can_update(session 'username')) {
-        %= link_to 'Edit', edit_presentation => {url_name => $p->url_name}
+        %= link_to 'Edit', 'presentation.edit' => {url_name => $p->url_name}
       % }
     </section>
   </div>

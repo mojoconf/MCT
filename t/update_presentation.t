@@ -17,9 +17,22 @@ $app->migrations->migrate;
 
 $t->get_ok('/user/connect', form => {code => 42})->status_is(302);
 
+$t->app->model->conference(
+  name => 'Mojoconf 2015',
+  identifier => '2015',
+  tagline => 'All the Mojo you can conf',
+)->save;
+
+$t->get_ok('/2015/presentations')
+  ->status_is(200)
+  #->text_is('title' => 'Mojoconf 2015 - Edit: My Title')
+  ->element_exists('input[name="title"]')
+  ->element_exists('input[name="subtitle"]')
+  ->element_exists('textarea[name="abstract"]');
+
 my $pres = {
   title => 'My Title',
-  subtitle => 'Some Subtitle',
+  subtitle => 'My Subtitle',
   abstract => 'My content here',
 };
 my $location = '/2015/presentations/my_title';
@@ -38,7 +51,7 @@ $t->get_ok($location)
 $t->get_ok("$location/edit")
   ->status_is(200)
   ->text_is('title' => 'Mojoconf 2015 - Edit: My Title')
-  ->text_is('input[name="abstract"]' => 'My content here');
+  ->text_is('textarea[name="abstract"]' => 'My content here');
 
 my $dom = $t->tx->res->dom;
 is $dom->at('input[name="title"]')->{value}, 'My Title';

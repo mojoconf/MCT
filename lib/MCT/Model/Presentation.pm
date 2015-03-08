@@ -59,10 +59,10 @@ sub _update_sst {
 
 sub user_can_update {
   my ($self, $user) = @_;
-  return undef unless $user;
+  return 0 unless $user;
   return 1 unless $self->in_storage;
-  $user = $user->username if eval { $user->isa('MCT::Model::User') };
-  return !! $self->author eq $user;
+  $user = $user->username if UNIVERSAL::isa($user, 'MCT::Model::User');
+  return $self->author eq $user ? 1 : 0;
 }
 
 sub TO_JSON {

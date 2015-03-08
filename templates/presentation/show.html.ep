@@ -1,5 +1,5 @@
 % layout 'default';
-% title $p->title; 
+% title $p->title;
 %= include 'header';
 %= include 'partial/top_image', splash => '/images/mojoconf_logo.png';
 
@@ -7,10 +7,13 @@
   <div class="content">
     <section>
       <h2 id="title"><%= $p->title %></h2>
-      <h4 id="subtitle"><%= $p->subtitle %><h4>
-      <h4 id="author">Presented by: <%= $p->author %></h4>
+      <h4 id="subtitle"><%= $p->subtitle %></h4>
+      <h4 id="author">Presented by: <%= $p->author_name %></h4>
       <h3>Abstract</h3>
       <p id="abstract"><%= $p->abstract %></p>
+      % if ($p->user_can_update(session 'username')) {
+        %= link_to 'Edit', 'presentation.edit' => {url_name => $p->url_name}
+      % }
     </section>
   </div>
 

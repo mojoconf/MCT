@@ -1,0 +1,26 @@
+% layout 'default';
+
+% my $p = stash('p') || $c->model->presentation;
+
+% title $p->in_storage ? 'Edit: ' . $p->title : 'Submit a presentation';
+%= include 'header';
+%= include 'partial/top_image', splash => '/images/mojoconf_logo.png';
+
+<div class="content-wrapper">
+  <div class="content">
+    <section>
+      %= form_for presentations => method => POST => begin
+        <p>Title: <input name="title" value="<%= $p->title %>"></p>
+        <p>Subtitle: <input name="subtitle" value="<%= $p->subtitle %>"></p>
+        <p>Abstract:</p>
+        <p><textarea name="abstract"><%= $p->abstract %></textarea></p>
+        <p><input type="submit" value="Submit"></p>
+        % if ($p->in_storage) {
+          <input type="hidden" name="id" value="<%= $p->id %>">
+        % }
+      % end
+    </section>
+  </div>
+
+  %= include 'footer';
+</div>

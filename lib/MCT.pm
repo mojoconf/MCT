@@ -47,9 +47,14 @@ sub _routes {
   $conf = $app->routes->under('/:cid')->to('conference#load');
   $conf->get('/')->to('conference#landing_page')->name('landing_page');
   $norm->post('/')->to('conference#create')->name('conference.create');
-  $conf->any('/presentations/:url_name')->to('presentation#')->name('presentation')
-    ->tap(get => {action => 'show'})
-    ->tap(put => {action => 'save'});
+
+  my $presentations = $conf->any('/presentations')->to('presentation#')->name('presentations');
+  $presentations->get('/')->to('#edit');
+  $presentations->post('/')->to('#store');
+  my $presentation = $presentations->any('/:url_name')->name('presentation');
+  $presentation->get('/')->to('#show');
+  $presentation->get('/edit')->to('#edit')->name('presentation.edit');
+
   $conf->get('/:page')->to('conference#page')->name('conference.page');
 }
 

@@ -35,7 +35,8 @@ ok !$err or diag $err;
 
 $presentation = $app->model->presentation(conference => 'mojoconf2015', url_name => 'my-talk')->load;
 ok !$err or diag $err;
-is $presentation->author, 'Joel Berger';
+is $presentation->author, 'jberger';
+is $presentation->author_name, 'Joel Berger';
 is $presentation->conference, 'mojoconf2015';
 is $presentation->title, 'My Talk';
 is $presentation->url_name, 'my-talk';
@@ -46,7 +47,8 @@ $presentation = $app->model->presentation(conference => 'mojoconf2015', url_name
 is_deeply $presentation->TO_JSON, {
   id => $presentation->id,
   abstract => '',
-  author => 'Joel Berger',
+  author => 'jberger',
+  author_name => 'Joel Berger',
   conference => 'mojoconf2015',
   subtitle => '',
   title => 'Another Title',

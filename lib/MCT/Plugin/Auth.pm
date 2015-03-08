@@ -39,6 +39,7 @@ sub _connect_user {
     sub {
       my ($delay, $err, $model_user) = @_;
       return $c->reply->exception($err) if $err;
+      $c->session(username => $model_user->username);
       return $c->reply->connected($model_user->id);
     },
   );

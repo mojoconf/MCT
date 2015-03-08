@@ -121,3 +121,38 @@ a {
   height: 400px;
   width: 100%;
 }
+
+form .field-row {
+  clear: left;
+  margin: 3px 0;
+}
+
+form .submit-row { margin-left: 35%; margin-top: 20px; }
+form .field-row label { width: 35%; }
+
+form .field-row label {
+  line-height: 2em;
+  float: left;
+}
+
+form .field-row input,
+form .field-row select {
+  background: #fbfbfb;
+  border: 1px solid #bbb;
+  border-radius: 3px;
+  margin-left: 40%;
+  width: 60%;
+  padding: 6px 8px;
+  margin: 0;
+}
+
+form .field-row input:focus,
+form .field-row select:focus {
+  border-color: #555;
+  outline: 0;
+}
+
+form .field-row .field-with-error {
+  background: #fdd;
+  border-color: #a55;
+}

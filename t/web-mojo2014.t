@@ -16,10 +16,13 @@ $t->get_ok('/mojo2014')
   ->element_exists(qq([href="http://$host_port/mojo2014/css/mojoconf.css"]))
   ->element_exists(qq([src="http://$host_port/mojo2014/js/jquery.js"]));
 
-$t->get_ok('/mojo2014/schedule?day=2014-05-24')
-  ->status_is(200)
-  ->element_exists(qq(a[href="http://$host_port/mojo2014/event/1519"]));
+SKIP: {
+  skip 'Set TEST_ACT=1 for more in depth testing', 4 unless $ENV{TEST_ACT};
+  $t->get_ok('/mojo2014/schedule?day=2014-05-24')
+    ->status_is(200)
+    ->element_exists(qq(a[href="http://$host_port/mojo2014/event/1519"]));
 
-$t->get_ok('/mojo2014/css/mojoconf.css')->status_is(200);
+  $t->get_ok('/mojo2014/css/mojoconf.css')->status_is(200);
+}
 
 done_testing;

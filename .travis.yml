@@ -8,7 +8,7 @@ perl:
 before_script:
   - psql -c 'create database mct_test;' -U postgres
 env:
-  - "TEST_ONLINE=postgresql://postgres@localhost/mct_test"
+  - "TEST_ONLINE=postgresql://postgres@localhost/mct_test TEST_ACT=1"
 install:
   - "cpanm -n Test::Pod"
   - "cpanm -n --installdeps ."

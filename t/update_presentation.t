@@ -27,12 +27,10 @@ $t->get_ok('/2015/presentations')
   ->status_is(200)
   ->text_is('title' => 'Mojoconf 2015 - Submit a presentation')
   ->element_exists('input[name="title"]')
-  ->element_exists('input[name="subtitle"]')
   ->element_exists('textarea[name="abstract"]');
 
 my $pres = {
   title => 'My Title',
-  subtitle => 'My Subtitle',
   abstract => 'My content here',
 };
 my $location = '/2015/presentations/my_title';
@@ -44,7 +42,6 @@ $t->get_ok($location)
   ->status_is(200)
   ->text_is('title' => 'Mojoconf 2015 - My Title')
   ->text_is('#title' => 'My Title')
-  ->text_is('#subtitle' => 'My Subtitle')
   ->text_is('#author' => 'Presented by: John Doe')
   ->text_is('#abstract' => 'My content here');
 
@@ -55,7 +52,6 @@ $t->get_ok("$location/edit")
 
 my $dom = $t->tx->res->dom;
 is $dom->at('input[name="title"]')->{value}, 'My Title';
-is $dom->at('input[name="subtitle"]')->{value}, 'My Subtitle';
 
 # add the id and make a change
 $pres->{id} = $dom->at('input[name="id"]')->{value};
@@ -69,7 +65,6 @@ $t->get_ok($location)
   ->status_is(200)
   ->text_is('title' => 'Mojoconf 2015 - My Title')
   ->text_is('#title' => 'My Title')
-  ->text_is('#subtitle' => 'My Subtitle')
   ->text_is('#author' => 'Presented by: John Doe')
   ->text_is('#abstract' => 'New content here');
 
@@ -88,7 +83,6 @@ $t->get_ok($new_location)
   ->status_is(200)
   ->text_is('title' => 'Mojoconf 2015 - Some New Title')
   ->text_is('#title' => 'Some New Title')
-  ->text_is('#subtitle' => 'My Subtitle')
   ->text_is('#author' => 'Presented by: John Doe')
   ->text_is('#abstract' => 'New content here');
 

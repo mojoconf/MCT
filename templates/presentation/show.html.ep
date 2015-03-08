@@ -7,7 +7,6 @@
   <div class="content">
     <section>
       <h2 id="title"><%= $p->title %></h2>
-      <h4 id="subtitle"><%= $p->subtitle %></h4>
       <h4 id="author">Presented by: <%= $p->author_name %></h4>
       <h3>Abstract</h3>
       <p id="abstract"><%= $p->abstract %></p>

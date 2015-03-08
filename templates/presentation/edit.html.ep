@@ -21,7 +21,6 @@
       <br>
       %= form_for presentations => method => POST => begin
         %= $row->(title => 'Title');
-        %= $row->(subtitle => 'Subtitle');
         %= $row->(abstract => 'Abstract', text_area(abstract => $p->abstract, style => 'height:200px'));
         <div class="submit-row"><button><%= $p->in_storage ? 'Update' : 'Submit' %></button></div>
         % if ($p->in_storage) {

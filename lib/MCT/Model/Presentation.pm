@@ -6,7 +6,6 @@ has abstract => '';
 has author => '';
 has author_name => '';
 has conference => '';
-has subtitle => '';
 has title => '';
 has url_name => '';
 
@@ -22,7 +21,6 @@ sub _load_sst {
       u.name AS author_name,
       p.url_name,
       p.title,
-      p.subtitle,
       p.abstract
     FROM presentations p
     JOIN conferences c ON c.id=p.conference
@@ -36,12 +34,12 @@ sub _load_sst {
 sub _insert_sst {
   my $self = shift;
   # http://sqlfiddle.com/#!15/e1168/1/3
-  <<'  SQL', map { $self->$_ } qw( conference author url_name title subtitle abstract );
-    INSERT INTO presentations (conference, author, url_name, title, subtitle, abstract)
+  <<'  SQL', map { $self->$_ } qw( conference author url_name title abstract );
+    INSERT INTO presentations (conference, author, url_name, title, abstract)
     VALUES(
       (SELECT c.id FROM conferences c WHERE c.identifier=?),
       (SELECT u.id FROM users u WHERE u.username=?),
-      ?, ?, ?, ?
+      ?, ?, ?
     )
     RETURNING id
   SQL
@@ -49,9 +47,9 @@ sub _insert_sst {
 
 sub _update_sst {
   my $self = shift;
-  <<'  SQL', map { $self->$_ } qw( url_name title subtitle abstract conference id );
+  <<'  SQL', map { $self->$_ } qw( url_name title abstract conference id );
     UPDATE presentations p
-    SET url_name=?, title=?, subtitle=?, abstract=?
+    SET url_name=?, title=?, abstract=?
     FROM conferences c
     WHERE c.identifier=? AND p.id=?
   SQL
@@ -67,7 +65,7 @@ sub user_can_update {
 
 sub TO_JSON {
   my $self = shift;
-  return { map { ($_, $self->$_) } qw( url_name title subtitle abstract author author_name conference id ) };
+  return { map { ($_, $self->$_) } qw( url_name title abstract author author_name conference id ) };
 }
 
 1;

@@ -51,7 +51,6 @@ is_deeply $presentation->TO_JSON, {
   author => 'jberger',
   author_name => 'Joel Berger',
   conference => 'mojoconf2015',
-  subtitle => '',
   title => 'Another Title',
   url_name => 'my-talk',
 };

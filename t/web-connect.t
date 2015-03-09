@@ -14,7 +14,7 @@ $t->app->model->conference(name => 'Testing Connect', country => 'GB')->save(sub
 $t->get_ok('/user/logout')->status_is(200);
 
 # redirected to github connect page
-$t->get_ok('/testing-connect/profile')->status_is(302);
+$t->get_ok('/testing-connect/user/profile')->status_is(302);
 my $url = Mojo::URL->new($t->tx->res->headers->location);
 is $url->query->param('client_id'), 'mocked', 'oauth.client_id';
 like $url->query->param('redirect_uri'), qr{/connect$}, 'oauth.redirect_uri';
@@ -33,14 +33,14 @@ $t->get_ok($url)->status_is(302);
 
 {
   local $TODO = 'Need fixin';
-  $t->header_is(Location => '/testing-connect/profile');
+  $t->header_is(Location => '/testing-connect/user/profile');
 }
 
 # access profile page
-$t->get_ok('/testing-connect/profile')->status_is(200);
+$t->get_ok('/testing-connect/user/profile')->status_is(200);
 
 # logged out
 $t->get_ok('/user/logout')->status_is(200)->content_like(qr{Logged out});
-$t->get_ok('/testing-connect/profile')->status_is(302);
+$t->get_ok('/testing-connect/user/profile')->status_is(302);
 
 done_testing;

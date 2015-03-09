@@ -36,30 +36,26 @@ sub startup {
 
 sub _routes {
   my $app = shift;
-  my $norm = $app->routes;
 
-  $norm->get('/')->to('conference#latest_conference')->name('index');
-  $norm->post('/')->to('conference#create')->name('conference.create');
+  $app->routes->get('/')->to('conference#latest_conference')->name('index');
+  $app->routes->post('/')->to('conference#create')->name('conference.create');
 
   # back compat
   $app->plugin('MCT::Plugin::ACT' => { url => 'http://www.mojoconf.org/mojo2014' });
 
-  my $user = $app->routes->any('/user');
-  my $auth = $app->connect->authorized_route($user);
-  $auth->any('/profile')->to('user#profile')->name('user.profile');
-  $auth->any('/presentations')->to('user#presentations')->name('user.presentations');
-
   my $conf = $app->routes->under('/:cid')->to('conference#load');
-  $conf->get('/')->to('conference#landing_page')->name('landing_page');
-
-  my $presentations = $conf->any('/presentations')->to('presentation#')->name('presentations');
-  $presentations->get('/')->to('#edit');
-  $presentations->post('/')->to('#store');
-  my $presentation = $presentations->any('/:url_name')->name('presentation');
-  $presentation->get('/')->to('#show');
-  $presentation->get('/edit')->to('#edit')->name('presentation.edit');
+  my $user = $app->connect->authorized_route($conf->any('/user'));
+  my $presentations = $conf->any('/presentations')->to('presentation#');
+  my $presentation = $presentations->any('/:url_name');
 
   $conf->get('/:page')->to('conference#page')->name('conference.page');
+  $conf->get('/')->to('conference#landing_page')->name('landing_page');
+  $user->any('/profile')->to('user#profile')->name('user.profile');
+  $user->any('/presentations')->to('user#presentations')->name('user.presentations');
+  $presentations->get('/')->to('#edit')->name('presentations');
+  $presentations->post('/')->to('#store');
+  $presentation->get('/')->to('#show')->name('presentation');
+  $presentation->get('/edit')->to('#edit')->name('presentation.edit');
 }
 
 sub _setup_database {

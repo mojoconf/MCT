@@ -43,8 +43,8 @@ sub _load_sst {
       p.title,
       p.abstract
     FROM presentations p
-    JOIN conferences c ON c.id=p.conference
-    JOIN users u ON u.id=p.author
+    JOIN conferences c ON c.id=p.conference_id
+    JOIN users u ON u.id=p.user_id
     WHERE
       c.identifier=?
       AND p.$key=?
@@ -55,7 +55,7 @@ sub _insert_sst {
   my $self = shift;
   # http://sqlfiddle.com/#!15/e1168/1/3
   <<'  SQL', map { $self->$_ } qw( conference author url_name title abstract );
-    INSERT INTO presentations (conference, author, url_name, title, abstract)
+    INSERT INTO presentations (conference_id, user_id, url_name, title, abstract)
     VALUES(
       (SELECT c.id FROM conferences c WHERE c.identifier=?),
       (SELECT u.id FROM users u WHERE u.username=?),

@@ -9,6 +9,23 @@ has conference => '';
 has title => '';
 has url_name => '';
 
+sub validate {
+  my ($self, $validation) = @_;
+
+  $validation->required('title');
+  $validation->required('abstract');
+  $validation->optional('url_name');
+
+  my $output = $validation->output;
+  if (my $title = $output->{title} and not $output->{url_name}) {
+    $title =~ s/\s+/-/g;
+    $title =~ s/(\W)/$1 eq '-' ? '-' : ''/eg;
+    $output->{url_name} = lc $title;
+  }
+
+  return $validation;
+}
+
 sub _load_sst {
   my $self = shift;
   my $key  = $self->id ? 'id' : 'url_name';

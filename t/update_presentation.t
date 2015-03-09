@@ -29,11 +29,18 @@ $t->get_ok('/2015/presentations')
   ->element_exists('input[name="title"]')
   ->element_exists('textarea[name="abstract"]');
 
+# test validation failure
+$t->post_ok('/2015/presentations', form => {})
+  ->status_is(200)
+  ->text_is('title' => 'Mojoconf 2015 - Submit a presentation')
+  ->element_exists('input.field-with-error[name="title"]')
+  ->element_exists('textarea.field-with-error[name="abstract"]');
+
 my $pres = {
   title => 'My Title',
   abstract => 'My content here',
 };
-my $location = '/2015/presentations/my_title';
+my $location = '/2015/presentations/my-title';
 $t->post_ok('/2015/presentations', form => $pres)
   ->status_is(302)
   ->header_is('Location' => $location);
@@ -68,7 +75,7 @@ $t->get_ok($location)
 
 # change the title (and thus url_name)
 $pres->{title} = 'Some New Title';
-my $new_location = '/2015/presentations/some_new_title';
+my $new_location = '/2015/presentations/some-new-title';
 
 $t->post_ok('/2015/presentations', form => $pres)
   ->status_is(302)

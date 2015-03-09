@@ -40,6 +40,7 @@ sub edit {
 
 sub store {
   my $c = shift;
+  my $validation = $c->validation;
 
   my $id = $c->param('id');
   my $p = $c->model->presentation(
@@ -47,13 +48,11 @@ sub store {
     $id ? (id => $id) : (),
   );
 
-  my $title  = $c->param('title');
-  my %set = (
-    abstract => $c->param('abstract'),
-    author   => $c->session('username'),
-    title    => $title,
-    url_name => $c->param('url_name') || $c->_url_name($title),
-  );
+  # if validation fails, render the edit page
+  return $c->edit if $p->validate($validation)->has_error;
+
+  my $set = $validation->output;
+  $set->{author} = $c->session('username');
 
   $c->delay(
     sub { $p->load(shift->begin) },
@@ -61,7 +60,7 @@ sub store {
       my ($delay, $err) = @_;
       die $err if $err;
       return $c->render_not_authorized unless $p->user_can_update($c->session('username'));
-      $p->save(\%set, $delay->begin);
+      $p->save($set, $delay->begin);
     },
     sub {
       my ($delay, $err) = @_;
@@ -72,13 +71,6 @@ sub store {
 }
 
 sub render_not_authorized { shift->render(text => 'Not authorized', status => 401) }
-
-sub _url_name {
-  my ($c, $title) = @_;
-  $title =~ s/\s/_/g;
-  $title =~ s/\W//g;
-  return lc $title;
-}
 
 1;
 

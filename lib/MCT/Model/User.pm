@@ -52,13 +52,19 @@ sub presentations {
 
   my $sql = <<'  SQL';
     SELECT
-      p.title,
-      p.url_name,
-      c.identifier AS conference_identifier,
-      c.name AS conference_name
+      p.id,
+      c.identifier as conference,
+      c.name as conference_name,
+      u.username as author,
+      u.name as author_name,
+      p.url_name as url_name,
+      p.title as title,
+      p.abstract as abstract
     FROM presentations p
-    JOIN conferences c ON p.conference=c.id
+    JOIN conferences c ON c.id=p.conference
+    JOIN users u ON u.id=p.author
     WHERE p.author=?
+    ORDER BY c.created DESC, p.title
   SQL
 
   Mojo::IOLoop->delay(
@@ -66,7 +72,7 @@ sub presentations {
     sub {
       my ($delay, $err, $results) = @_;
       die $err if $err;
-      $self->$cb(undef, $results);
+      $self->$cb(undef, [map { MCT::Model::Presentation->new(%$_, db => $self->db) } $results->hashes->each]);
     },
   )->catch(sub{ $self->$cb($_[1], undef) })->wait;
 

@@ -14,15 +14,9 @@ sub presentations {
       $user->presentations($delay->begin);
     },
     sub {
-      my ($delay, $err, $results) = @_;
+      my ($delay, $err, $presentations) = @_;
       die $err if $err;
-      my %confs;
-      $results->hashes->each(sub{
-        my $conf = $confs{$_->{conference_identifier}} ||= {};
-        $conf->{name} ||= $_->{conference_name};
-        push @{$conf->{presentations}}, $_;
-      });
-      $c->render('user/presentations', conferences => \%confs);
+      $c->render('user/presentations', presentations => $presentations);
     }
   );
 }

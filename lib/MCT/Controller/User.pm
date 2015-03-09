@@ -2,6 +2,31 @@ package MCT::Controller::User;
 
 use Mojo::Base 'Mojolicious::Controller';
 
+sub presentations {
+  my $c = shift;
+  my $user = $c->model->user(id => $c->session('uid'));
+  $c->stash(user => $user);
+  $c->delay(
+    sub { $user->load(shift->begin) },
+    sub {
+      my ($delay, $err) = @_;
+      die $err if $err;
+      $user->presentations($delay->begin);
+    },
+    sub {
+      my ($delay, $err, $results) = @_;
+      die $err if $err;
+      my %confs;
+      $results->hashes->each(sub{
+        my $conf = $confs{$_->{conference_identifier}} ||= {};
+        $conf->{name} ||= $_->{conference_name};
+        push @{$conf->{presentations}}, $_;
+      });
+      $c->render('user/presentations', conferences => \%confs);
+    }
+  );
+}
+
 sub profile {
   my $c = shift;
   my $user = $c->model->user(id => $c->session('uid'));

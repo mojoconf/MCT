@@ -45,6 +45,34 @@ sub validate {
 
 sub valid_t_shirt_sizes { qw( XS S M XL XXL ) }
 
+sub presentations {
+  my ($self, $cb) = @_;
+  #TODO add ability to only select by conference
+  #TODO select status once it exists
+
+  my $sql = <<'  SQL';
+    SELECT
+      p.title,
+      p.url_name,
+      c.identifier AS conference_identifier,
+      c.name AS conference_name
+    FROM presentations p
+    JOIN conferences c ON p.conference=c.id
+    WHERE p.author=?
+  SQL
+
+  Mojo::IOLoop->delay(
+    sub { $self->_query($sql, $self->id, shift->begin) },
+    sub {
+      my ($delay, $err, $results) = @_;
+      die $err if $err;
+      $self->$cb(undef, $results);
+    },
+  )->catch(sub{ $self->$cb($_[1], undef) })->wait;
+
+  return $self;
+}
+
 sub _load_sst {
   my $self = shift;
   my $key = $self->id ? 'id' : 'username';

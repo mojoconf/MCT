@@ -37,7 +37,6 @@ sub startup {
 sub _routes {
   my $app = shift;
   my $norm = $app->routes;
-  my ($auth, $conf);
 
   $norm->get('/')->to('conference#latest_conference')->name('index');
   $norm->post('/')->to('conference#create')->name('conference.create');
@@ -45,10 +44,12 @@ sub _routes {
   # back compat
   $app->plugin('MCT::Plugin::ACT' => { url => 'http://www.mojoconf.org/mojo2014' });
 
-  $conf = $app->routes->under('/:cid')->to('conference#load');
-  $auth = $app->connect->authorized_route($conf);
+  my $user = $app->routes->any('/user');
+  my $auth = $app->connect->authorized_route($user);
   $auth->any('/profile')->to('user#profile')->name('user.profile');
+  $auth->any('/presentations')->to('user#presentations')->name('user.presentations');
 
+  my $conf = $app->routes->under('/:cid')->to('conference#load');
   $conf->get('/')->to('conference#landing_page')->name('landing_page');
 
   my $presentations = $conf->any('/presentations')->to('presentation#')->name('presentations');

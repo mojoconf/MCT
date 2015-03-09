@@ -1,0 +1,28 @@
+% layout 'default';
+% title 'My Presentations';
+%= include 'header';
+
+<div class="splash-container">
+  <div class="splash for-profile">
+    %# size need to match rule in main.css
+    %= image $user->avatar(size => 340), alt => $user->name
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <div class="content">
+    <section>
+    % foreach my $cid (keys %$conferences) {
+      % my $conf = $conferences->{$cid};
+      <h3><%= $conf->{name} %></h3>
+      <ul>
+        % foreach my $p (@{$conf->{presentations}}) {
+          <li><%= link_to $p->{title}, 'presentation' => {cid => $cid, url_name => $p->{url_name}} %></li>
+        % }
+      </ul>
+    % }
+    </section>
+  </div>
+
+  %= include 'footer';
+</div>

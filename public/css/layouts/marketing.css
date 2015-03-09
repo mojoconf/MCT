@@ -149,7 +149,7 @@ a.pure-button-primary {
     /* absolute center .splash within .splash-container */
     width: 80%;
     margin: auto;
-    margin-top: 30px;
+    margin-top: 0px;
     position: absolute;
     top: 0px; left: 0; bottom: 0; right: 0;
     text-align: center;

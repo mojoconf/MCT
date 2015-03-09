@@ -31,7 +31,7 @@ sub startup {
   $app->_setup_secrets;
   $app->_setup_validation;
   $app->_routes;
-  $app->_will_remove_this_once_prod_is_up_to_date;
+  $app->_will_remove_this_once_prod_is_up_to_date unless $ENV{MCT_MOCK};
 }
 
 sub _routes {

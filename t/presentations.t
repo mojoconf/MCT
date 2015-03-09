@@ -45,6 +45,10 @@ is $presentation->url_name, 'my-talk';
 $presentation->title('Another Title')->save;
 $presentation = $app->model->presentation(conference => 'mojoconf2015', url_name => 'my-talk')->load;
 
+is $presentation->status, 'waiting';
+$presentation->change_status('accepted', sub {});
+is $presentation->status, 'accepted';
+
 is_deeply $presentation->TO_JSON, {
   id => $presentation->id,
   abstract => '',

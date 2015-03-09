@@ -57,6 +57,8 @@ sub presentations {
       c.name as conference_name,
       u.username as author,
       u.name as author_name,
+      p.duration,
+      p.status,
       p.url_name as url_name,
       p.title as title,
       p.abstract as abstract

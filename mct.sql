@@ -53,6 +53,8 @@ ALTER TABLE presentations DROP COLUMN subtitle;
 -- 3 up
 ALTER TABLE presentations RENAME COLUMN conference TO conference_id;
 ALTER TABLE presentations RENAME COLUMN author TO user_id;
+ALTER TABLE presentations ADD COLUMN duration INTEGER DEFAULT 20;
+ALTER TABLE presentations ADD COLUMN status VARCHAR(16) DEFAULT 'waiting'; -- waiting,accepted,rejected,confirmed
 -- 1 down
 DROP TABLE IF EXISTS presentations;
 DROP TABLE IF EXISTS conferences;
@@ -75,5 +77,7 @@ ALTER TABLE users DROP COLUMN IF EXISTS avatar_url;
 ALTER TABLE users DROP COLUMN IF EXISTS address;
 ALTER TABLE presentations ADD COLUMN subtitle TEXT;
 -- 3 down
+ALTER TABLE presentations DROP COLUMN status;
+ALTER TABLE presentations DROP COLUMN duration;
 ALTER TABLE presentations RENAME COLUMN conference_id TO conference;
 ALTER TABLE presentations RENAME COLUMN user_id TO author;

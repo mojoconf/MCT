@@ -41,8 +41,8 @@
         %= $row->(web_page => 'Home page');
         <div class="submit-row"><button>Update profile</button></div>
       % end
-    </div>
-  </section>
+    </section>
+  </div>
 
   %= include 'footer';
 </div>

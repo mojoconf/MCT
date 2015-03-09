@@ -50,7 +50,6 @@ sub _routes {
   $auth->any('/profile')->to('user#profile')->name('user.profile');
 
   $conf->get('/')->to('conference#landing_page')->name('landing_page');
-  $norm->post('/')->to('conference#create')->name('conference.create');
 
   my $presentations = $conf->any('/presentations')->to('presentation#')->name('presentations');
   $presentations->get('/')->to('#edit');

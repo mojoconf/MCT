@@ -26,7 +26,6 @@ $t->get_ok('/testing-profile-conf/user/profile')->status_is(200)->text_is('title
 my %profile = (
   name => 'Bruce Wayne',
   email => 'bruce@wayneindustries.com',
-  username => 'bruce',
   address => 'Batcave',
   zip => '123',
   city => 'Gotham City',
@@ -44,7 +43,15 @@ $t->post_ok('/testing-profile-conf/user/profile', form => \%profile)->status_is(
   ->element_exists('input[name="zip"][value="123"]')
   ->element_exists('input[name="city"][value="Gotham City"]')
   ->element_exists('select[name="country"] option[value="US"][selected]')
-  ->element_exists('select[name="t_shirt_size"]')
+  ->element_exists('select[name="t_shirt_size"] option[value="M"][selected]')
   ->element_exists('input[name="web_page"][value="http://en.wikipedia.org/wiki/Wayne_Enterprises"]');
+
+$t->post_ok('/testing-profile-conf/user/profile', form => {})->status_is(200);
+
+# partial update
+$t->post_ok('/testing-profile-conf/user/profile', form => {t_shirt_size => 'S', email => 'partial@update.com', name => 'Mr.X'})->status_is(200)
+  ->element_exists('img[src^="https://gravatar.com/avatar/b850d96978b5b07e2e523b81db30c26b"]')
+  ->element_exists('input[name="city"][value="Gotham City"]')
+  ->element_exists('select[name="t_shirt_size"] option[value="S"][selected]');
 
 done_testing;

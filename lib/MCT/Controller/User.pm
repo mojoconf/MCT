@@ -24,27 +24,31 @@ sub presentations {
 sub profile {
   my $c = shift;
   my $user = $c->model->user(id => $c->session('uid'));
+  my $validation = $c->validation;
   my $update = $c->req->method eq 'POST';
 
   $c->stash(user => $user);
+  $validation->input->{username} = $c->session('username') unless $validation->param('username');
 
-  if ($update and $user->validate($c->validation)->has_error) {
-    return;
+  if ($update and $user->validate($validation)->has_error) {
+    return $c->render('user/profile');
   }
 
   $c->delay(
+    sub { $user->load(shift->begin) },
     sub {
-      my ($delay) = @_;
-      return $user->save($c->validation->output, $delay->begin) if $update;
-      return $user->load($delay->begin);
+      my ($delay, $err) = @_;
+      return $user->save($validation->output, $delay->begin) if $update;
+      return $delay->pass('');
     },
     sub {
       my ($delay, $err) = @_;
       die $err if $err;
+      $c->session(username => $user->username) if $update;
       return $c->reply->exception('No user id? That is weird.') unless $user->id;
       return $c->respond_to(
         json => {json => $user},
-        any => {},
+        any => {template => 'user/profile'},
       );
     },
   );

@@ -1,14 +1,19 @@
 <div class="header">
   <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-    <div class="pure-menu-heading mojoconf-logo"><%= link_to '#mojoconf', 'landing_page' %></a></div>
-      <ul class="pure-menu-list">
-        <li class="pure-menu-item"><%= link_to 'Home', 'landing_page', class => 'pure-menu-link' %></li>
-        <li class="pure-menu-item"><%= link_to 'Travel', 'conference.page', {page => 'travel'}, class => 'pure-menu-link' %></li>
+    %#<div class="pure-menu-heading mojoconf-logo">
+      %# link_to '#mojoconf', 'landing_page'
+    %#</div>
+    <div class="pure-menu-list pull-left">
       % if (session 'uid') {
         <li class="pure-menu-item"><%= link_to 'Profile', 'user.profile', class => 'pure-menu-link' %></li>
       % } else {
         <li class="pure-menu-item"><%= link_to 'Login', 'user.profile', class => 'pure-menu-link' %></li>
       % }
+    </div>
+    <div>
+      <ul class="pure-menu-list">
+        <li class="pure-menu-item"><%= link_to 'Home', 'landing_page', class => 'pure-menu-link' %></li>
+        <li class="pure-menu-item"><%= link_to 'Travel', 'conference.page', {page => 'travel'}, class => 'pure-menu-link' %></li>
         <li class="pure-menu-item"><%= link_to 'Register', 'conference.page', {page => 'register'}, class => 'pure-menu-link' %></li>
       </ul>
   </div>

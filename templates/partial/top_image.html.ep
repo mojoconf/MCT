@@ -1,5 +1,5 @@
 <div class="splash-container">
   <div class="splash">
-    %= image $splash, alt => 'mojoconf logo';
+    %= image stash('splash') // '/images/mojoconf_logo@2x.png', alt => 'mojoconf logo';
   </div>
 </div>

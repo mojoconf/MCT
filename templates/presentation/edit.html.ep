@@ -5,7 +5,7 @@
 
 % title $stored ? 'Edit: ' . $p->title : 'Submit a presentation';
 %= include 'header';
-%= include 'partial/top_image', splash => '/images/mojoconf_logo.png';
+%= include 'partial/top_image';
 
 % my $row = begin
   % my ($name, $label, $field) = @_;

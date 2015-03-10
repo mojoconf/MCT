@@ -166,3 +166,16 @@ form .field-row .field-with-error {
   background: #8fc800;
   color: #fff !important;
 }
+
+table.full-width {
+  width: 100%;
+}
+
+table.full-width th,
+table.full-width td {
+  text-align: left;
+}
+
+table.full-width th {
+  border-bottom: 1px solid #ddd;
+}

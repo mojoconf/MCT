@@ -31,7 +31,6 @@ sub startup {
   $app->_setup_secrets;
   $app->_setup_validation;
   $app->_routes;
-  $app->_will_remove_this_once_prod_is_up_to_date unless $ENV{MCT_MOCK};
 }
 
 sub _routes {
@@ -92,30 +91,6 @@ sub _setup_validation {
     my ($validation, $name, $value) = @_;
     MCT::Model::Countries->name_from_code($value) ? undef : ['country'];
   });
-}
-
-sub _will_remove_this_once_prod_is_up_to_date {
-  my $app = shift;
-
-  if ($0 =~ /\.t$/) {
-    $app->log->debug('batman: will not mess with the database from the app, when running unit tests');
-    return;
-  }
-
-  $app->log->warn('batman: purging the whole conference database to make sure we are up to date in production');
-  $app->model->db->query('DELETE FROM conferences');
-  $app->model->conference(
-    name => 'Mojoconf 2015',
-    identifier => '2015',
-    location => 'University Settlement at the Houston Street Center',
-    address => '273 Bowery',
-    zip => '10002',
-    city => 'New York',
-    country => 'US',
-    domain => 'mojoconf.com',
-    tags => '#mojoconf',
-    tagline => 'All the Mojo you can conf.',
-  )->save(sub {});
 }
 
 1;

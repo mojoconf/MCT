@@ -35,7 +35,7 @@ sub validate {
   $validation->optional('tagline')->size(3, 140); # 140 = tweet length
   $validation->optional('tags');
   $validation->optional('zip');
-  $validation->required('domain');
+  $validation->optional('domain');
   $validation->required('name')->size(4, 20);
 
   unless ($validation->output->{identifier}) {

@@ -23,6 +23,7 @@
       <h3><i class="fa fa-cog"></i>Actions</h3>
       <ul>
         <li><%= link_to 'Submit presentation', 'presentations' %></li>
+        <li><%= link_to 'My presentations', 'user.presentations' %></li>
         <li><%= link_to 'Logout', 'user.logout' %></li>
       </ul>
 

@@ -1,0 +1,45 @@
+% layout 'default';
+% title 'My Presentations';
+%= include 'header';
+
+<div class="splash-container">
+  <div class="splash for-profile">
+    %# size need to match rule in main.css
+    %= image $user->avatar(size => 340), alt => $user->name
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <div class="content">
+    <section>
+    % if (@$presentations) {
+      <h3><i class="fa fa-list"></i>Your presentations</h3>
+      <br>
+      <table class="full-width">
+        <thead>
+          <tr>
+            <th>Conference</th>
+            <th>Title</th>
+          </tr>
+        </thead>
+        <tbody>
+        % for my $p (@$presentations) {
+          <tr>
+            <td><%= $p->conference_name %></td>
+            <td><%= link_to $p->title, 'presentation' => {cid => $p->conference, url_name => $p->url_name} %></td>
+          </tr>
+        % }
+        </tbody>
+      </table>
+    % } else {
+      <h3><i class="fa fa-edit"></i>No presentations</h3>
+      <p>
+        You haven't submitted any presentations. Do you want to give a
+        <%= link_to 'talk', 'presentations' %>?
+      </p>
+    % }
+    </section>
+  </div>
+
+  %= include 'footer';
+</div>

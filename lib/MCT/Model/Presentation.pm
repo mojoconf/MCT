@@ -1,13 +1,15 @@
 package MCT::Model::Presentation;
 
-use Mojo::Base 'MCT::Model';
+use MCT::Model -row;
 
-has abstract => '';
-has author => '';
+col abstract => '';
+col title => '';
+col url_name => '';
+
 has author_name => '';
+has author => '';
 has conference => '';
-has title => '';
-has url_name => '';
+has conference_name => '';
 
 sub validate {
   my ($self, $validation) = @_;
@@ -33,9 +35,10 @@ sub _load_sst {
   <<"  SQL", map { $self->$_ } 'conference', $key;
     SELECT
       p.id,
-      c.identifier AS conference,
+      c.identifier as conference,
+      c.name as conference_name,
       u.username as author,
-      u.name AS author_name,
+      u.name as author_name,
       p.url_name,
       p.title,
       p.abstract

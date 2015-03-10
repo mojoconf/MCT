@@ -1,8 +1,9 @@
 % layout 'default';
 
 % my $p = stash('p') || $c->model->presentation;
+% my $stored = $p->in_storage;
 
-% title $p->in_storage ? 'Edit: ' . $p->title : 'Submit a presentation';
+% title $stored ? 'Edit: ' . $p->title : 'Submit a presentation';
 %= include 'header';
 %= include 'partial/top_image', splash => '/images/mojoconf_logo.png';
 
@@ -17,13 +18,13 @@
 <div class="content-wrapper">
   <div class="content">
     <section>
-      <h3><i class="fa fa-edit"></i><%= $p->in_storage ? 'Edit' : 'Submit' %> presentation</h3>
+      <h3><i class="fa fa-edit"></i><%= $stored ? 'Edit' : 'Submit' %> presentation <%= $stored ? 'for' : 'to' %> <%= $conference->name %></h3>
       <br>
       %= form_for presentations => method => POST => begin
         %= $row->(title => 'Title');
         %= $row->(abstract => 'Abstract', text_area(abstract => $p->abstract, style => 'height:200px'));
-        <div class="submit-row"><button><%= $p->in_storage ? 'Update' : 'Submit' %></button></div>
-        % if ($p->in_storage) {
+        <div class="submit-row"><button><%= $stored ? 'Update' : 'Submit' %></button></div>
+        % if ($stored) {
           <input type="hidden" name="id" value="<%= $p->id %>">
         % }
       % end

@@ -50,6 +50,19 @@ ALTER TABLE users ADD COLUMN t_shirt_size TEXT NOT NULL DEFAULT '';
 ALTER TABLE users ADD COLUMN web_page TEXT NOT NULL DEFAULT '';
 ALTER TABLE users ADD COLUMN zip TEXT NOT NULL DEFAULT '';
 ALTER TABLE presentations DROP COLUMN subtitle;
+-- 3 up
+ALTER TABLE presentations RENAME COLUMN conference TO conference_id;
+ALTER TABLE presentations RENAME COLUMN author TO user_id;
+ALTER TABLE presentations ADD COLUMN duration INTEGER DEFAULT 20;
+ALTER TABLE presentations ADD COLUMN status VARCHAR(16) DEFAULT 'waiting'; -- waiting,accepted,rejected,confirmed
+CREATE TABLE user_conferences (
+  user_id INTEGER REFERENCES users (id) ON UPDATE CASCADE,
+  conference_id INTEGER REFERENCES conferences (id) ON UPDATE CASCADE,
+  admin BOOLEAN DEFAULT FALSE,
+  going BOOLEAN DEFAULT FALSE,
+  payed REAL DEFAULT 0,
+  CONSTRAINT user_conferences_pkey PRIMARY KEY (user_id, conference_id)
+);
 -- 1 down
 DROP TABLE IF EXISTS presentations;
 DROP TABLE IF EXISTS conferences;
@@ -71,3 +84,9 @@ ALTER TABLE users DROP COLUMN IF EXISTS city;
 ALTER TABLE users DROP COLUMN IF EXISTS avatar_url;
 ALTER TABLE users DROP COLUMN IF EXISTS address;
 ALTER TABLE presentations ADD COLUMN subtitle TEXT;
+-- 3 down
+ALTER TABLE presentations DROP COLUMN status;
+ALTER TABLE presentations DROP COLUMN duration;
+ALTER TABLE presentations RENAME COLUMN conference_id TO conference;
+ALTER TABLE presentations RENAME COLUMN user_id TO author;
+DROP TABLE IF EXISTS user_conferences;

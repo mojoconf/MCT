@@ -57,13 +57,15 @@ sub presentations {
       c.name as conference_name,
       u.username as author,
       u.name as author_name,
+      p.duration,
+      p.status,
       p.url_name as url_name,
       p.title as title,
       p.abstract as abstract
     FROM presentations p
-    JOIN conferences c ON c.id=p.conference
-    JOIN users u ON u.id=p.author
-    WHERE p.author=?
+    JOIN conferences c ON c.id=p.conference_id
+    JOIN users u ON u.id=p.user_id
+    WHERE p.user_id=?
     ORDER BY c.created DESC, p.title
   SQL
 

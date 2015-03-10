@@ -2,7 +2,11 @@ package MCT::Model::Presentation;
 
 use MCT::Model -row;
 
+my @VALID_STATUS = qw( waiting accepted rejected confirmed );
+
 col abstract => '';
+col duration => 20;
+col status => 'waiting';
 col title => '';
 col url_name => '';
 
@@ -10,6 +14,33 @@ has author_name => '';
 has author => '';
 has conference => '';
 has conference_name => '';
+
+# used by an admin to change the status of the presentation
+sub change_status {
+  my ($self, $status, $cb) = @_;
+
+  unless (grep { $_ eq $status } @VALID_STATUS) {
+    return $self->tap($cb, 'Invalid state');
+  }
+
+  my $sql = <<'  SQL';
+    UPDATE presentations p
+    SET status=?
+    FROM conferences c
+    WHERE c.identifier=? AND p.url_name=?
+  SQL
+
+  Mojo::IOLoop->delay(
+    sub { $self->_query($sql, $status, $self->conference, $self->url_name, shift->begin) },
+    sub {
+      my ($delay, $err, $res) = @_;
+      $self->status($status) unless $err;
+      $self->$cb($err);
+    },
+  )->catch(sub{ $self->$cb($_[1]) })->wait;
+
+  return $self;
+}
 
 sub validate {
   my ($self, $validation) = @_;
@@ -39,12 +70,14 @@ sub _load_sst {
       c.name as conference_name,
       u.username as author,
       u.name as author_name,
+      p.duration,
+      p.status,
       p.url_name,
       p.title,
       p.abstract
     FROM presentations p
-    JOIN conferences c ON c.id=p.conference
-    JOIN users u ON u.id=p.author
+    JOIN conferences c ON c.id=p.conference_id
+    JOIN users u ON u.id=p.user_id
     WHERE
       c.identifier=?
       AND p.$key=?
@@ -54,12 +87,12 @@ sub _load_sst {
 sub _insert_sst {
   my $self = shift;
   # http://sqlfiddle.com/#!15/e1168/1/3
-  <<'  SQL', map { $self->$_ } qw( conference author url_name title abstract );
-    INSERT INTO presentations (conference, author, url_name, title, abstract)
+  <<'  SQL', map { $self->$_ } qw( conference author duration url_name title abstract );
+    INSERT INTO presentations (conference_id, user_id, duration, url_name, title, abstract)
     VALUES(
       (SELECT c.id FROM conferences c WHERE c.identifier=?),
       (SELECT u.id FROM users u WHERE u.username=?),
-      ?, ?, ?
+      ?, ?, ?, ?
     )
     RETURNING id
   SQL
@@ -67,9 +100,9 @@ sub _insert_sst {
 
 sub _update_sst {
   my $self = shift;
-  <<'  SQL', map { $self->$_ } qw( url_name title abstract conference id );
+  <<'  SQL', map { $self->$_ } qw( url_name title abstract duration conference id );
     UPDATE presentations p
-    SET url_name=?, title=?, abstract=?
+    SET url_name=?, title=?, abstract=?, duration=?
     FROM conferences c
     WHERE c.identifier=? AND p.id=?
   SQL

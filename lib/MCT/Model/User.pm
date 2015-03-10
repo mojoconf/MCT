@@ -1,6 +1,7 @@
 package MCT::Model::User;
 
 use MCT::Model -row;
+use MCT::Model::Presentation;
 
 col id => undef;
 

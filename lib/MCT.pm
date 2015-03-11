@@ -19,6 +19,7 @@ sub startup {
   my $app = shift;
 
   $app->plugin('Config' => file => $ENV{MOJO_CONFIG} || $app->home->rel_file('mct.conf'));
+  $app->plugin('AssetPack');
   $app->plugin('MCT::Plugin::Auth');
 
   $app->helper('model.db'           => sub { $_[0]->stash->{'mct.db'} ||= $_[0]->app->pg->db });
@@ -27,10 +28,22 @@ sub startup {
   $app->helper('model.presentation' => sub { MCT::Model->new_object(Presentation => db => shift->model->db, @_) });
   $app->helper('model.user'         => sub { MCT::Model->new_object(User => db => shift->model->db, @_) });
 
+  $app->_assets;
   $app->_setup_database;
   $app->_setup_secrets;
   $app->_setup_validation;
   $app->_routes;
+}
+
+sub _assets {
+  my $app = shift;
+
+  $app->asset('mojoconf.css' => (
+    'http://fonts.googleapis.com/css?family=Oswald:400,300,700',
+    'http://fonts.googleapis.com/css?family=PT+Sans+Narrow',
+    'http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css',
+    '/css/main.css',
+  ));
 }
 
 sub _routes {

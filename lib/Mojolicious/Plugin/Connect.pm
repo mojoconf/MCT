@@ -249,11 +249,11 @@ sub _add_connect_route {
 }
 
 sub _connect {
-  my ($self, $c, $args) = @_;
+  my ($self, $c) = @_;
   my $connector    = $self->connector;
   my $path         = $c->req->url->path;
   my $connect_path = $c->url_for($self->connect_route)->path;
-  my $provider;
+  my ($args, $provider);
 
   # already connected
   if ($c->session('uid')) {
@@ -274,7 +274,7 @@ sub _connect {
     sub {
       my ($delay) = @_;
       $provider = $c->session('connected_with');
-      $args     = {%{$args||{}}};                # do not modify input
+      $args     = {%{$c->stash('connect_args')||{}}};                # do not modify input
       $args->{redirect_uri} ||= $c->url_for($self->connect_route)->userinfo(undef)->to_abs;
       $c->oauth2->get_token($provider, $args, $delay->begin);
     },

@@ -33,6 +33,9 @@ sub load {
   my $c = shift;
   my $conference = $c->model->conference(identifier => $c->stash('cid'));
 
+  # "state" will be passed back to us from the OAuth2 provider
+  $c->stash->{connect_args}{state} = $c->stash('cid');
+
   $c->stash(conference => $conference);
   $c->delay(
     sub { $conference->load(shift->begin); },

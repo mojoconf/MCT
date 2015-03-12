@@ -1,10 +1,10 @@
 % layout 'default';
 % title 'Unable to connect with Github';
 % my $error = stash('error') || param('error') || '';
-% my $original_path = $c->flash('original_path') || 'profile';
+% my $original_path = $c->stash('cid') ? $c->flash('original_path') || $c->url_for('user.profile') : $c->url_for('index');
 
-%= include 'header';
-%= include 'partial/top_image';
+%= include 'header'
+%= include 'partial/top_image'
 
 <div class="content-wrapper">
   <div class="content">

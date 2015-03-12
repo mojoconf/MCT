@@ -5,7 +5,10 @@
 <div class="splash-container">
   <div class="splash for-profile">
     %# size need to match rule in main.css
-    %= image $user->avatar(size => 250), alt => $user->name, caption => $user->name
+    %= image $user->avatar(size => 250), alt => $user->name
+    <div class="caption">
+      %= $user->name
+    </div>
   </div>
 </div>
 

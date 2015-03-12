@@ -31,6 +31,9 @@ a {
   border-radius: 20px;
 }
 
+.splash.for-profile > .caption {
+}
+
 .mojoconf-logo {
   font-family: "myriad-pro",sans-serif;
   font-size: 2em !important;

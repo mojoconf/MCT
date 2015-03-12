@@ -5,11 +5,11 @@
 
 <div class="content-wrapper">
   <div class="content">
-    %= include 'partial/mojoconf-content-header', header => 'Register'
+    %= include 'partial/mojoconf-content-header', header => 'Buy Tickets'
 
   % unless (session 'uid') {
     <section>
-      <h3><i class="fa fa-sign-in"></i>Register</h3>
+      <h3><i class="fa fa-sign-in"></i>Submit a Talk</h3>
       <p>
         Want to give a talk? Sign in to register your proposal.
       </p>
@@ -20,7 +20,7 @@
   % }
 
     <section>
-      <h3><i class="fa fa-shopping-cart"></i>Buy ticket</h3>
+      <h3><i class="fa fa-shopping-cart"></i>Buy Tickets</h3>
       <p>
         Want to hear the latest and greates and meet the awesome Mojolicious
         community? Join us at the conference!

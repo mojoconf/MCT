@@ -38,6 +38,15 @@ sub startup {
 sub _assets {
   my $app = shift;
 
+  $app->asset->preprocessors->add(
+    css => sub {
+      my ($assetpack, $text, $file) = @_;
+      return unless $file =~ /font.*awesome/;
+      my $font_awesome_base = 'https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0';
+      $$text =~ s!url\('../([^']+)'\)!url($font_awesome_base/$1)!g if $file =~ /awesome/;
+    },
+  );
+
   $app->asset('mojoconf.css' => (
     'http://fonts.googleapis.com/css?family=Oswald:400,300,700',
     'http://fonts.googleapis.com/css?family=PT+Sans+Narrow',

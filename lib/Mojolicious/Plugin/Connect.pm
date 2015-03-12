@@ -187,24 +187,11 @@ with your application.
 
 See L</SYNOPSIS> for example.
 
-=head2 logout_route
-
-  $str = $self->logout_route;
-
-Name of the route that is used to logout a user. This plugin will add a route
-unless a route is already L<defined|Mojolicious::Routes::Route/find>:
-
-  $r->get("/user/logout")->to(sub {
-    delete $_[0]->stash->{$_} for qw( connected_with uid );
-    $_[0]->render;
-  })->name($self->logout_route);
-
 =cut
 
 has connect_route => '';
 has default_redirect_route => '';
 has default_provider => '';
-has logout_route => '';
 has connector => sub { die 'connector is required attribute' };
 has ua => sub { Mojo::UserAgent->new->max_redirects(3); };
 
@@ -245,9 +232,7 @@ sub register {
   $self->default_redirect_route($config->{default_redirect_route} // 'user.profile');
   $self->connector($config->{connector}) if $config->{connector};
   $self->default_provider($config->{default_provider}) if $config->{default_provider};
-  $self->logout_route($config->{logout_route} // 'user.logout');
   $self->_add_connect_route($app) unless $self->connect_route =~ m!/!;
-  $self->_add_logout_route($app)  unless $self->logout_route =~ m!/!;
 
   $app->plugin(OAuth2 => $self->_oauth2_config($config->{providers}));
   $app->helper(connect         => sub {$self});
@@ -263,26 +248,12 @@ sub _add_connect_route {
   }
 }
 
-sub _add_logout_route {
-  my ($self, $app) = @_;
-
-  unless ($app->routes->find($self->logout_route)) {
-    $app->routes->get('/user/logout')->to(
-      cb => sub {
-        my $c = shift;
-        delete $c->session->{$_} for qw( connected_with uid );
-        $c->render('user/logout');
-      }
-    )->name($self->logout_route);
-  }
-}
-
 sub _connect {
-  my ($self, $c, $args) = @_;
+  my ($self, $c) = @_;
   my $connector    = $self->connector;
   my $path         = $c->req->url->path;
   my $connect_path = $c->url_for($self->connect_route)->path;
-  my $provider;
+  my ($args, $provider);
 
   # already connected
   if ($c->session('uid')) {
@@ -303,7 +274,7 @@ sub _connect {
     sub {
       my ($delay) = @_;
       $provider = $c->session('connected_with');
-      $args     = {%{$args||{}}};                # do not modify input
+      $args     = {%{$c->stash('connect_args')||{}}};                # do not modify input
       $args->{redirect_uri} ||= $c->url_for($self->connect_route)->userinfo(undef)->to_abs;
       $c->oauth2->get_token($provider, $args, $delay->begin);
     },

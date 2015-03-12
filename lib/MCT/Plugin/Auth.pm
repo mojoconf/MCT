@@ -27,7 +27,11 @@ sub _connect_user {
   my ($c, $err, $oauth2_user) = @_;
   my $identity;
 
-  return $c->render('user/connect_failed', error => $err) if $err;
+  if ($err) {
+    $c->match->stack->[-1]{cid} = $c->param('state');
+    return $c->render('user/connect_failed', error => $err, cid => $c->param('state'));
+  }
+
   return $c->delay(
     sub {
       my ($delay) = @_;

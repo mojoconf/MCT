@@ -5,6 +5,7 @@
     %#</div>
     <div>
       <ul class="pure-menu-list">
+      % if (stash 'cid') {
         <li class="pure-menu-item"><%= link_to 'Home', 'landing_page', class => 'pure-menu-link' %></li>
         <li class="pure-menu-item"><%= link_to 'Travel', 'conference.page', {page => 'travel'}, class => 'pure-menu-link' %></li>
         <li class="pure-menu-item"><%= link_to 'Buy Tickets', 'conference.page', {page => 'register'}, class => 'pure-menu-link' %></li>
@@ -13,6 +14,9 @@
         % } else {
           <li class="pure-menu-item"><%= link_to 'Log in', 'user.profile', class => 'pure-menu-link' %></li>
         % }
+      % } else {
+        <li class="pure-menu-item"><%= link_to 'Home', 'index', class => 'pure-menu-link' %></li>
+      % }
       </ul>
       %#<ul class="pure-menu-list pull-right">
       %#</ul>

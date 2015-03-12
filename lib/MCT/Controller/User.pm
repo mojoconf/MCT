@@ -2,6 +2,12 @@ package MCT::Controller::User;
 
 use Mojo::Base 'Mojolicious::Controller';
 
+sub logout {
+  my $c = shift;
+  delete $c->session->{$_} for qw( connected_with uid username );
+  $c->render('user/logout');
+}
+
 sub presentations {
   my $c = shift;
   my $user = $c->model->user(id => $c->session('uid'));

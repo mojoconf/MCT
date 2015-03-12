@@ -72,6 +72,7 @@ sub _routes {
 
   $conf->get('/:page')->to('conference#page')->name('conference.page');
   $conf->get('/')->to('conference#landing_page')->name('landing_page');
+  $conf->get('/user/logout')->to('user#logout')->name('user.logout');
   $user->any('/profile')->to('user#profile')->name('user.profile');
   $user->any('/presentations')->to('user#presentations')->name('user.presentations');
   $presentations->get('/')->to('#edit')->name('presentations');

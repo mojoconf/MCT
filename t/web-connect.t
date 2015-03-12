@@ -11,7 +11,7 @@ my $t = Test::Mojo->new('MCT');
 $t->app->migrations->migrate(0)->migrate;
 $t->app->model->conference(name => 'Testing Connect', country => 'GB')->save(sub {});
 
-$t->get_ok('/user/logout')->status_is(200);
+$t->get_ok('/testing-connect/user/logout')->status_is(200);
 
 # redirected to github connect page
 $t->get_ok('/testing-connect/user/profile')->status_is(302);
@@ -40,7 +40,7 @@ $t->get_ok($url)->status_is(302);
 $t->get_ok('/testing-connect/user/profile')->status_is(200);
 
 # logged out
-$t->get_ok('/user/logout')->status_is(200)->content_like(qr{Logged out});
+$t->get_ok('/testing-connect/user/logout')->status_is(200)->content_like(qr{Logged out});
 $t->get_ok('/testing-connect/user/profile')->status_is(302);
 
 done_testing;

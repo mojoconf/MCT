@@ -32,6 +32,11 @@ a {
 }
 
 .splash.for-profile > .caption {
+  text-transform: none;
+  font-size: 2em;
+  color: white;
+  padding: 20px;
+  font-family: "myriad-pro",sans-serif;
 }
 
 .mojoconf-logo {

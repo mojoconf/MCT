@@ -41,9 +41,10 @@ sub _assets {
   $app->asset->preprocessors->add(
     css => sub {
       my ($assetpack, $text, $file) = @_;
-      return unless $file =~ /font.*awesome/;
-      my $font_awesome_base = 'https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0';
-      $$text =~ s!url\('../([^']+)'\)!url($font_awesome_base/$1)!g if $file =~ /awesome/;
+
+      if ($file =~ /font.*awesome/) {
+        $$text =~ s!url\(["']../([^']+)["']\)!url(https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/$1)!g;
+      }
     },
   );
 

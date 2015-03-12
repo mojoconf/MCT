@@ -5,6 +5,14 @@ body {
   height: 50px !important;
 }
 
+.center {
+  margin: auto;
+}
+
+.block {
+  display: block;
+}
+
 hr {
   border: 0;
   border-bottom: 1px dashed  #ccc;
@@ -17,6 +25,13 @@ a {
   color: #6FBEF3 !important;
   text-decoration: none;
 }
+
+a.landing-buy-ticket {
+  margin: auto;
+  display: block;
+  width: 125px;
+}
+
 .home-menu {
     /*background: black;*/
   height: 60px;

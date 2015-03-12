@@ -8,6 +8,8 @@
     %= include 'partial/mojoconf-content-header', header => $conference->name
 
     <section>
+      %= link_to 'Buy Ticket', 'conference.page', {page => 'register'}, class => "landing-buy-ticket pure-button pure-button-primary"
+
       <p>
         Mojoconf 2014 was the most successful Mojolicious conference in the
         history of mankind, and now we're doing it again. Held in New York,

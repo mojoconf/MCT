@@ -26,10 +26,11 @@ a {
   text-decoration: none;
 }
 
-a.landing-buy-ticket {
+a.landing-buy-tickets {
   margin: auto;
   display: block;
-  width: 125px;
+  width: 135px;
+  color: white !important;
 }
 
 .home-menu {

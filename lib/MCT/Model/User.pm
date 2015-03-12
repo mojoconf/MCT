@@ -30,6 +30,8 @@ sub avatar {
 }
 
 sub is_admin { shift->{is_admin} ? 1 : 0 }
+sub is_going { shift->{is_going} ? 1 : 0 }
+sub payed { shift->{payed} || 0 }
 
 sub validate {
   my ($self, $validation) = @_;
@@ -108,16 +110,16 @@ sub _load_sst_with_conference {
     SELECT
       %s,
       uc.admin as is_admin,
-      uc.going as going,
+      uc.going as is_going,
       uc.payed as payed
-    FROM users me
-    JOIN user_conferences uc ON me.id=uc.user_id
+    FROM users u
+    JOIN user_conferences uc ON u.id=uc.user_id
     JOIN conferences c ON c.id=uc.conference_id
-    WHERE c.identifier=? AND me.%s=?
+    WHERE c.identifier=? AND u.%s=?
   SQL
 
   return(
-    sprintf($sql, join(', ', map { "me.$_ as $_" } $self->columns), $key),
+    sprintf($sql, join(', ', map { "u.$_ as $_" } $self->columns), $key),
     $self->conference,
     $self->$key,
   );

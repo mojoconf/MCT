@@ -11,7 +11,13 @@ sub index {
     sub {
       my ($delay, $err, $presentations) = @_;
       die $err if $err;
-      $c->render(presentations => $presentations);
+      $c->stash(presentations => $presentations);
+      $conference->attendees($delay->begin);
+    },
+    sub {
+      my ($delay, $err, $attendees) = @_;
+      die $err if $err;
+      $c->render(attendees => $attendees);
     },
   );
 }

@@ -78,7 +78,6 @@ sub _routes {
   $user->any('/presentations')->to('user#presentations')->name('user.presentations');
 
   $user_conference->get->to('admin#index')->name('admin');
-  $user_conference->get('/presentations')->to('admin#presentations')->name('admin.presentations');
 
   $presentations->get('/')->to('#edit')->name('presentations');
   $presentations->post('/')->to('#store');

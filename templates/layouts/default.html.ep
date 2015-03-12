@@ -25,13 +25,7 @@
     <!--<![endif]-->
 
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
-    %= stylesheet '/css/main.css'
-    <link href='//fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
-    <link href='//fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-
-    <script src="//use.typekit.net/kyp4lea.js"></script>
-    <script>try{Typekit.load();}catch(e){}</script>
+    %= asset 'mojoconf.css'
   </head>
   <body>
     %= content
@@ -45,7 +39,6 @@
 
       ga('create', '<%= $conference->analytics_code %>', 'auto');
       ga('send', 'pageview');
-
     </script>
   % }
   </body>

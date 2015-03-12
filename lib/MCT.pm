@@ -69,12 +69,17 @@ sub _routes {
   my $user = $app->connect->authorized_route($conf->any('/user'));
   my $presentations = $conf->any('/presentations')->to('presentation#');
   my $presentation = $presentations->any('/:url_name');
+  my $user_conference = $user->under('/conference')->to('admin#is_admin');
 
   $conf->get('/:page')->to('conference#page')->name('conference.page');
   $conf->get('/')->to('conference#landing_page')->name('landing_page');
   $conf->get('/user/logout')->to('user#logout')->name('user.logout');
   $user->any('/profile')->to('user#profile')->name('user.profile');
   $user->any('/presentations')->to('user#presentations')->name('user.presentations');
+
+  $user_conference->get->to('admin#index')->name('admin');
+  $user_conference->get('/presentations')->to('admin#presentations')->name('admin.presentations');
+
   $presentations->get('/')->to('#edit')->name('presentations');
   $presentations->post('/')->to('#store');
   $presentation->get('/')->to('#show')->name('presentation');

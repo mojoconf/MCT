@@ -23,6 +23,47 @@ col zip => '';
 
 sub country_name { MCT::Model::Countries->name_from_code($_[0]->country) || $_[0]->country }
 
+sub presentations {
+  my ($self, $cb) = @_;
+  #TODO add ability to only select by conference
+  #TODO select status once it exists
+
+  my $sql = <<'  SQL';
+    SELECT
+      p.id,
+      p.duration,
+      p.status,
+      p.url_name as url_name,
+      p.title as title,
+      p.abstract as abstract,
+      u.username as author,
+      u.name as author_name
+    FROM presentations p
+    JOIN conferences c ON c.id=p.conference_id
+    JOIN users u ON u.id=p.user_id
+    WHERE c.identifier=?
+    ORDER BY c.created DESC, p.title
+  SQL
+
+  Mojo::IOLoop->delay(
+    sub { $self->_query($sql, $self->identifier, shift->begin) },
+    sub {
+      my ($delay, $err, $results) = @_;
+      die $err if $err;
+      $self->$cb(undef, [
+        map {
+          my $data = $_;
+          $data->{conference} = $self->identifier;
+          $data->{conference_name} = $self->name;
+          MCT::Model::Presentation->new(%$_, db => $self->db);
+        } $results->hashes->each
+      ]);
+    },
+  )->catch(sub{ $self->$cb($_[1], undef) })->wait;
+
+  return $self;
+}
+
 sub validate {
   my ($self, $validation) = @_;
 

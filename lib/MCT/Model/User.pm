@@ -19,6 +19,8 @@ col email => '';
 col name => '';
 col username => sub { shift->email };
 
+has conference => '';
+
 sub avatar {
   my ($self, %args) = @_;
   my $url = Mojo::URL->new($self->avatar_url);
@@ -26,6 +28,8 @@ sub avatar {
   $url->query({size => $args{size}}) if $args{size};
   $url;
 }
+
+sub is_admin { shift->{is_admin} ? 1 : 0 }
 
 sub validate {
   my ($self, $validation) = @_;
@@ -54,15 +58,15 @@ sub presentations {
   my $sql = <<'  SQL';
     SELECT
       p.id,
-      c.identifier as conference,
-      c.name as conference_name,
-      u.username as author,
-      u.name as author_name,
       p.duration,
       p.status,
       p.url_name as url_name,
       p.title as title,
-      p.abstract as abstract
+      p.abstract as abstract,
+      c.identifier as conference,
+      c.name as conference_name,
+      u.username as author,
+      u.name as author_name
     FROM presentations p
     JOIN conferences c ON c.id=p.conference_id
     JOIN users u ON u.id=p.user_id
@@ -83,11 +87,38 @@ sub presentations {
 }
 
 sub _load_sst {
+  $_[0]->conference ? $_[0]->_load_sst_with_conference : $_[0]->_load_sst_without_conference;
+}
+
+sub _load_sst_without_conference {
   my $self = shift;
   my $key = $self->id ? 'id' : 'username';
 
   return(
     sprintf('SELECT %s FROM users WHERE %s=?', join(', ', $self->columns), $key),
+    $self->$key,
+  );
+}
+
+sub _load_sst_with_conference {
+  my $self = shift;
+  my $key = $self->id ? 'id' : 'username';
+
+  my $sql = <<'  SQL';
+    SELECT
+      %s,
+      uc.admin as is_admin,
+      uc.going as going,
+      uc.payed as payed
+    FROM users me
+    JOIN user_conferences uc ON me.id=uc.user_id
+    JOIN conferences c ON c.id=uc.conference_id
+    WHERE c.identifier=? AND me.%s=?
+  SQL
+
+  return(
+    sprintf($sql, join(', ', map { "me.$_ as $_" } $self->columns), $key),
+    $self->conference,
     $self->$key,
   );
 }

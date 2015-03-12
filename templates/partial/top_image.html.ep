@@ -1,5 +1,8 @@
 <div class="splash-container">
   <div class="splash">
-    %= image stash('splash') // '/images/mojoconf_logo@2x.png', alt => 'mojoconf logo';
+    %= image stash('splash') // '/images/mojoconf_logo@2x.png', alt => stash('alt')
+    <div class="splash-caption">
+      %= stash('caption') if stash('caption')
+    </div>
   </div>
 </div>

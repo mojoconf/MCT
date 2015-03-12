@@ -29,8 +29,10 @@ a {
 a.landing-buy-tickets {
   margin: auto;
   display: block;
-  width: 135px;
+  width: 160px;
   color: white !important;
+  padding: 20px;
+  font-weight: bold;
 }
 
 .home-menu {

@@ -8,32 +8,38 @@ This year, we are looking for proposals that fit into one of the
 following four categories:
 </p>
 
-<ul>
-  <li>
-  WebDev: How Mojolicious enabled you to develop web applications
-  faster and with more elegance than ever before
-  </li>
-  <li>
-  WebOps: What you do to build, maintain, and continuously deliver
-  Mojolicious Apps
-  </li>
-  <li>
-  WebAPIs: Who you've integrated with and why Mojolicious is the
-  choicest platform for the job
-  </li>
-  <li>
-  Case Study: Tell us how Mojolicious exceeded your mission critical
-  project's expectations
-  </li>
-</ul>
 
-<h3>Paper Submission Deadline</h3>
+<table class="definitions">
+  <tbody>
+    <tr>
+      <td>WebDev</td>
+      <td>How Mojolicious enabled you to develop web applications</td>
+    </tr>
+
+    <tr>
+      <td>WebOps</td>
+      <td>What you do to build, maintain, and continuously deliver Mojolicious Apps</td>
+    </tr>
+
+    <tr>
+      <td>WebAPIs</td>
+      <td>Who you've integrated with and why Mojolicious is the choicest platform for the job</td>
+    </tr>
+
+    <tr>
+      <td>Case Study</td>
+      <td>Tell us how Mojolicious exceeded your mission critical project's expectations</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3><i class="fa fa-file-text-o"></i>Paper Submission Deadline</h3>
 
 <p>
 The call for papers deadline is March 31, 2015.  Papers may be considered after that point on a case-by-case basis.
 </p>
 
-<h3>Speaker Benefits</h3>
+<h3><i class="fa fa-user-plus"></i>Speaker Benefits</h3>
 
 <ul>
   <li>Complimentary Mojoconf 2015 pass</li>

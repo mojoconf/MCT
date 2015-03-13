@@ -58,7 +58,7 @@
         </div>
         <div class="speaker">
           <%= link_to 'conference.page', {page => 'cfp'}, class => 'wrapper', begin %><i class="fa fa-user-plus"></i><% end %>
-          <div class="name"><%= session('username') || 'You' %>?</div>
+          <div class="name"><%= session('username') || 'You' %>!</div>
         </div>
       </div>
 

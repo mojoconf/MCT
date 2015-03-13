@@ -4,9 +4,11 @@
 %= include 'partial/top_image';
 
 <div class="content-wrapper">
+  %= include 'partial/mojoconf-content-header', header => 'Call for Papers'
+
   <div class="content">
     <section>
-      <h3><i class="fa fa-user-plus"></i>Call for papers</h3>
+      %# <h3><i class="fa fa-user-plus"></i>Call for papers</h3>
       %= include '/2015/call'
     </section>
   </div>

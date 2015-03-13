@@ -26,6 +26,22 @@ a {
   text-decoration: none;
 }
 
+table.definitions tr {
+  border-bottom: dashed #c0c0c0 1px;
+}
+
+table.definitions td {
+  padding: 10px 0;
+}
+
+table.definitions td:first-child {
+  color: #34495e;
+  font-weight: bold;
+  white-space: nowrap;
+  vertical-align: top;
+  width: 150px;
+}
+
 a.landing-buy-tickets {
   margin: auto;
   display: block;

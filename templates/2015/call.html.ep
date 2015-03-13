@@ -1,6 +1,6 @@
 <p>
 Want to tell everyone about your success with Mojolicious?  Come to
-Mojoconf 2015 and <%= link_to 'speak about it', 'user.presentations' %>!
+Mojoconf 2015 and <%= link_to 'talk about it', 'user.presentations' %>!
 </p>
 
 <p>
@@ -32,6 +32,10 @@ following four categories:
     </tr>
   </tbody>
 </table>
+
+<br />
+
+%= link_to 'Submit Talk', 'conference.page', {page => 'presentations'}, class => "big-action pure-button pure-button-primary"
 
 <h3><i class="fa fa-file-text-o"></i>Paper Submission Deadline</h3>
 

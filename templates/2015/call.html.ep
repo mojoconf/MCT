@@ -1,6 +1,6 @@
 <p>
 Want to tell everyone about your success with Mojolicious?  Come to
-Mojoconf 2015 and speak about it!
+Mojoconf 2015 and <%= link_to 'speak about it', 'user.presentations' %>!
 </p>
 
 <p>
@@ -40,4 +40,3 @@ The call for papers deadline is March 31, 2015.  Papers may be considered after 
   <li>Free conference T-Shirt</li>
   <li>Street cred :)</li>
 </ul>
-

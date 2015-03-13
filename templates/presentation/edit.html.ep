@@ -19,9 +19,6 @@
   <div class="content">
     <section>
       <h3><i class="fa fa-edit"></i><%= $stored ? 'Edit' : 'Submit' %> presentation <%= $stored ? 'for' : 'to' %> <%= $conference->name %></h3>
-      % unless ($stored) {
-        %= eval { include "@{[stash 'cid']}/call" } || ''
-      % }
       <br>
       %= form_for presentations => method => POST => begin
         %= $row->(title => 'Title');

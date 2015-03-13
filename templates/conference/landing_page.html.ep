@@ -51,8 +51,12 @@
 
         <div class="speaker">
           <img src="https://avatars3.githubusercontent.com/u/45729?v=3&s=100" />
-          <div class="name">Jan Henning Thorson (batman)</div>
+          <div class="name">Jan Henning Thorsen (batman)</div>
           <!--<div class="description">Core Team Member</div>-->
+        </div>
+        <div class="speaker">
+          <%= link_to 'conference.page', {page => 'cfp'}, class => 'wrapper', begin %><i class="fa fa-user-plus"></i><% end %>
+          <div class="name"><%= session('username') || 'You' %>?</div>
         </div>
       </div>
 

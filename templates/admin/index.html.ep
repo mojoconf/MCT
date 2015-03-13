@@ -1,0 +1,28 @@
+% layout 'default';
+% title "Administrate @{[$conference->name]}";
+%= include 'header';
+%= include 'partial/top_image';
+
+<div class="content-wrapper">
+  <div class="content">
+    <section>
+      <h3><i class="fa fa-users"></i>Attendees</h3>
+      <br>
+      %= include 'admin/attendees_table'
+
+    % if (@$presentations) {
+      <h3><i class="fa fa-file-text"></i>Presentations</h3>
+      <br>
+      %= include 'admin/presentations_table'
+    % } else {
+      <h3><i class="fa fa-file-text"></i>No presentations</h3>
+      <p>
+        You haven't submitted any presentations. Do you want to give a
+        <%= link_to 'talk', 'presentations' %>?
+      </p>
+    % }
+    </section>
+  </div>
+
+  %= include 'footer';
+</div>

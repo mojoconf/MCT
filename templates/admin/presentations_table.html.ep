@@ -1,0 +1,18 @@
+<table class="full-width">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Duration</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+  % for my $p (@$presentations) {
+    <tr>
+      <td><%= link_to $p->title, 'presentation' => {cid => $p->conference, url_name => $p->url_name} %></td>
+      <td><%= $p->duration %></td>
+      <td><%= $p->status %></td>
+    </tr>
+  % }
+  </tbody>
+</table>

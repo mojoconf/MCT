@@ -1,0 +1,24 @@
+<table class="full-width">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Admin</th>
+      <th>Going</th>
+      <th>T-shirt</th>
+      <th>Country</th>
+    </tr>
+  </thead>
+  <tbody>
+  % for my $u (@$attendees) {
+    <tr>
+      <td><%= $u->name %></td>
+      <td><a href="mailto:<%= $u->email %>"><%= $u->email %></a></td>
+      <td><%= $u->is_admin ? 'Yes' : 'No'  %></td>
+      <td><%= $u->is_going ? 'Yes' : 'No' %></td>
+      <td><%= $u->t_shirt_size %></td>
+      <td><%= $u->country %></td>
+    </tr>
+  % }
+  </tbody>
+</table>

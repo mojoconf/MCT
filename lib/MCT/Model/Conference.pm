@@ -2,6 +2,8 @@ package MCT::Model::Conference;
 
 use MCT::Model -row;
 use MCT::Model::Countries;
+use MCT::Model::Presentation;
+use MCT::Model::User;
 
 col id => undef;
 col address => '';
@@ -21,7 +23,65 @@ col tagline => '';
 col tags => '';
 col zip => '';
 
+sub attendees {
+  my ($self, $cb) = @_;
+
+  my $sql = sprintf <<'  SQL', join ', ', map { "u.$_ as $_" } MCT::Model::User->columns;
+    SELECT
+      %s,
+      c.identifier as conference,
+      uc.admin as is_admin,
+      uc.going as is_going,
+      uc.payed as payed
+    FROM conferences c
+    LEFT JOIN user_conferences uc ON uc.conference_id=c.id
+    LEFT JOIN users u ON u.id=uc.user_id
+    WHERE c.identifier=?
+    ORDER BY u.name
+  SQL
+
+  Mojo::IOLoop->delay(
+    sub { $self->_query($sql, $self->identifier, shift->begin) },
+    sub {
+      my ($delay, $err, $results) = @_;
+      die $err if $err;
+      $self->$cb(undef, [map { MCT::Model::User->new(%$_, db => $self->db) } $results->hashes->each]);
+    },
+  )->catch(sub{ $self->$cb($_[1], undef) })->wait;
+
+  return $self;
+}
+
 sub country_name { MCT::Model::Countries->name_from_code($_[0]->country) || $_[0]->country }
+
+sub presentations {
+  my ($self, $cb) = @_;
+
+  my $sql = sprintf <<'  SQL', join ', ', map { "p.$_ as $_" } MCT::Model::Presentation->columns;
+    SELECT
+      %s,
+      c.identifier as conference,
+      c.name as conference_name,
+      u.username as author,
+      u.name as author_name
+    FROM conferences c
+    LEFT JOIN presentations p ON p.conference_id=c.id
+    LEFT JOIN users u ON u.id=p.user_id
+    WHERE c.identifier=?
+    ORDER BY c.created DESC, p.title
+  SQL
+
+  Mojo::IOLoop->delay(
+    sub { $self->_query($sql, $self->identifier, shift->begin) },
+    sub {
+      my ($delay, $err, $results) = @_;
+      die $err if $err;
+      $self->$cb(undef, [map { MCT::Model::Presentation->new(%$_, db => $self->db) } $results->hashes->each])
+    },
+  )->catch(sub{ $self->$cb($_[1], undef) })->wait;
+
+  return $self;
+}
 
 sub validate {
   my ($self, $validation) = @_;

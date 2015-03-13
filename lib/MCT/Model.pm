@@ -18,7 +18,10 @@ sub begin { MCT::Model::Transaction->new(dbh => shift->db->dbh) }
 
 sub in_storage { defined shift->id ? 1 : 0 }
 
-sub columns { sort keys %{$COLUMNS{ref($_[0])}} }
+sub columns {
+  my $class = ref($_[0]) || $_[0];
+  sort keys %{$COLUMNS{$class}};
+}
 
 sub load {
   my ($self, $cb) = @_;

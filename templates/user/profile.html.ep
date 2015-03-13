@@ -27,6 +27,9 @@
       <ul>
         <li><%= link_to 'Submit presentation', 'presentations' %></li>
         <li><%= link_to 'My presentations', 'user.presentations' %></li>
+      % if ($user->is_admin) {
+        <li><%= link_to "Administrate @{[$conference->name]}", 'admin' %></li>
+      % }
         <li><%= link_to 'Logout', 'user.logout' %></li>
       </ul>
 

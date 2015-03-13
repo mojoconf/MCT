@@ -29,7 +29,7 @@ sub presentations {
 
 sub profile {
   my $c = shift;
-  my $user = $c->model->user(id => $c->session('uid'));
+  my $user = $c->model->user(id => $c->session('uid'), conference => $c->stash('cid'));
   my $validation = $c->validation;
   my $update = $c->req->method eq 'POST';
 

@@ -53,7 +53,7 @@ sub new_object {
   my $class = "MCT::Model\::$moniker";
   my $e = load_class $class;
   die $e if ref $e;
-  return $class->new(@args);
+  return $class->new(ref $self ? (db => $self->db) : (), @args);
 }
 
 sub save {

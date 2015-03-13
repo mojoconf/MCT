@@ -63,6 +63,33 @@ CREATE TABLE user_conferences (
   payed REAL DEFAULT 0,
   CONSTRAINT user_conferences_pkey PRIMARY KEY (user_id, conference_id)
 );
+-- 4 up
+CREATE TABLE conference_products (
+  id SERIAL PRIMARY KEY,
+  conference_id INTEGER REFERENCES conferences (id) ON UPDATE CASCADE,
+  name TEXT NOT NULL,
+  description TEXT NOT NULL DEFAULT '',
+  price REAL NOT NULL,
+  currency VARCHAR(3) NOT NULL DEFAULT 'USD',
+  n_of INTEGER NOT NULL DEFAULT -1, -- max number, -1 = infinite
+  available_from TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  available_to TIMESTAMP NOT NULL DEFAULT '2099-12-31 23:59:59'
+);
+CREATE TABLE user_products (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users (id),
+  product_id INTEGER REFERENCES conference_products (id),
+  external_link TEXT,
+  price REAL NOT NULL, -- conference_products.price may change
+  currency VARCHAR(3) NOT NULL DEFAULT 'USD',
+  paid TIMESTAMP
+);
+ALTER TABLE users ADD COLUMN bio TEXT NOT NULL DEFAULT '';
+ALTER TABLE users ADD CONSTRAINT users_email_key UNIQUE (email);
+ALTER TABLE user_conferences DROP COLUMN payed;
+-- 5 up
+ALTER TABLE user_products ADD COLUMN status TEXT NOT NULL DEFAULT '';
+ALTER TABLE user_products ALTER COLUMN price TYPE INTEGER;
 -- 1 down
 DROP TABLE IF EXISTS presentations;
 DROP TABLE IF EXISTS conferences;
@@ -90,3 +117,9 @@ ALTER TABLE presentations DROP COLUMN duration;
 ALTER TABLE presentations RENAME COLUMN conference_id TO conference;
 ALTER TABLE presentations RENAME COLUMN user_id TO author;
 DROP TABLE IF EXISTS user_conferences;
+-- 4 down
+ALTER TABLE user_conferences ADD COLUMN payed REAL DEFAULT 0;
+DROP TABLE IF EXISTS user_products;
+DROP TABLE IF EXISTS conference_products;
+-- 5 down
+ALTER TABLE user_products DROP COLUMN status;

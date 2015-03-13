@@ -2,6 +2,7 @@ package MCT::Model::Conference;
 
 use MCT::Model -row;
 use MCT::Model::Countries;
+use MCT::Model::ConferenceProduct;
 
 col id => undef;
 col address => '';
@@ -22,6 +23,35 @@ col tags => '';
 col zip => '';
 
 sub country_name { MCT::Model::Countries->name_from_code($_[0]->country) || $_[0]->country }
+
+sub product {
+  my $self = shift;
+  $self->new_object('ConferenceProduct', conference => $self->identifier, @_);
+}
+
+sub products {
+  my ($self, $cb) = @_;
+
+  my $sql = sprintf <<'  SQL', join ', ', map { "p.$_ AS $_" } MCT::Model::ConferenceProduct->columns;
+  SELECT %s
+  FROM conferences c
+  JOIN conference_products p ON p.conference_id=c.id
+  WHERE c.identifier=?
+  ORDER BY name, price
+  SQL
+
+  Mojo::IOLoop->delay(
+    sub { $self->_query($sql, $self->identifier, shift->begin) },
+    sub {
+      my ($delay, $err, $results) = @_;
+      my %defaults = (conference => $self->identifier, db => $self->db);
+      die $err if $err;
+      $self->$cb('', [map { MCT::Model::ConferenceProduct->new(%$_, %defaults) } $results->hashes->each]);
+    },
+  )->catch(sub{ $self->$cb($_[1], []) })->wait;
+
+  return $self;
+}
 
 sub validate {
   my ($self, $validation) = @_;

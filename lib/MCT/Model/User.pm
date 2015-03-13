@@ -1,7 +1,6 @@
 package MCT::Model::User;
 
 use MCT::Model -row;
-use MCT::Model::Presentation;
 
 col id => undef;
 
@@ -25,6 +24,19 @@ sub avatar {
 
   $url->query({size => $args{size}}) if $args{size};
   $url;
+}
+
+sub purchase {
+  my ($self, $product) = @_;
+
+  $self->new_object('UserProduct' => (
+    currency => $product->currency,
+    description => $product->description,
+    price => $product->price,
+    name => $product->name,
+    product_id => $product->id,
+    username => $self->username,
+  ));
 }
 
 sub validate {
@@ -75,7 +87,7 @@ sub presentations {
     sub {
       my ($delay, $err, $results) = @_;
       die $err if $err;
-      $self->$cb(undef, [map { MCT::Model::Presentation->new(%$_, db => $self->db) } $results->hashes->each]);
+      $self->$cb(undef, [map { $self->new_object(Presentation => %$_) } $results->hashes->each]);
     },
   )->catch(sub{ $self->$cb($_[1], undef) })->wait;
 

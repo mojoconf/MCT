@@ -35,7 +35,7 @@ following four categories:
 
 <br />
 
-%= link_to 'Submit Talk', 'conference.page', {page => 'presentations'}, class => "big-action pure-button pure-button-primary"
+%= link_to 'Submit Talk', 'user.presentations', class => "big-action pure-button pure-button-primary"
 
 <h3><i class="fa fa-file-text-o"></i>Paper Submission Deadline</h3>
 

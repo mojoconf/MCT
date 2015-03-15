@@ -15,6 +15,16 @@
 <div class="content-wrapper">
   <div class="content">
     <section>
+      <h3><i class="fa fa-edit"></i>Submit presentation to <%= $conference->name %></h3>
+      <br>
+      %= form_for 'presentation.save' => method => post => begin
+        %= form_row(title => undef, 'Title');
+        %= form_row(abstract => undef, 'Abstract', text_area('abstract', style => 'height:200px'));
+        <div class="submit-row"><button>Submit</button></div>
+      % end
+    </section>
+
+    <section>
     % if (@$presentations) {
       <h3><i class="fa fa-list"></i>Your presentations</h3>
       <br>
@@ -36,10 +46,6 @@
       </table>
     % } else {
       <h3><i class="fa fa-edit"></i>No presentations</h3>
-      <p>
-        You haven't submitted any presentations. Do you want to give a
-        <%= link_to 'talk', 'presentations' %>?
-      </p>
     % }
     </section>
   </div>

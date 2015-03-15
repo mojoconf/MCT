@@ -20,13 +20,11 @@ sub show {
 
 sub edit {
   my $c = shift;
-  return $c->render('presentation/edit')
-    unless my $url_name = $c->stash('url_name');
-
   my $p = $c->model->presentation(
     conference => $c->stash('conference')->identifier,
-    url_name   => $url_name,
+    url_name   => $c->stash('url_name'),
   );
+
   $c->delay(
     sub { $p->load(shift->begin) },
     sub {
@@ -49,7 +47,9 @@ sub store {
   );
 
   # if validation fails, render the edit page
-  return $c->edit if $p->validate($validation)->has_error;
+  if ($p->validate($validation)->has_error) {
+    return $c->render('presentation/edit', p => $p);
+  }
 
   my $set = $validation->output;
   $set->{author} = $c->session('username');

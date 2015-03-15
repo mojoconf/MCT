@@ -23,14 +23,15 @@ $t->app->model->conference(
   tagline => 'All the Mojo you can conf',
 )->save;
 
-$t->get_ok('/2015/presentations')
+$t->get_ok('/2015/user/presentations')
   ->status_is(200)
-  ->text_is('title' => 'Mojoconf 2015 - Submit a presentation')
-  ->element_exists('input[name="title"]')
-  ->element_exists('textarea[name="abstract"]');
+  ->text_is('title' => 'Mojoconf 2015 - My Presentations')
+  ->element_exists('form[action="/2015/user/presentations"][method="post"]')
+  ->element_exists('form input[name="title"]')
+  ->element_exists('form textarea[name="abstract"]');
 
 # test validation failure
-$t->post_ok('/2015/presentations', form => {})
+$t->post_ok('/2015/user/presentations', form => {})
   ->status_is(200)
   ->text_is('title' => 'Mojoconf 2015 - Submit a presentation')
   ->element_exists('input.field-with-error[name="title"]')
@@ -41,7 +42,7 @@ my $pres = {
   abstract => 'My content here',
 };
 my $location = '/2015/presentations/my-title';
-$t->post_ok('/2015/presentations', form => $pres)
+$t->post_ok('/2015/user/presentations', form => $pres)
   ->status_is(302)
   ->header_is('Location' => $location);
 
@@ -62,7 +63,7 @@ $t->get_ok("$location/edit")
 $pres->{id} = $t->tx->res->dom->at('input[name="id"]')->{value};
 $pres->{abstract} = 'New content here';
 
-$t->post_ok('/2015/presentations', form => $pres)
+$t->post_ok('/2015/user/presentations', form => $pres)
   ->status_is(302)
   ->header_is('Location' => $location);
 
@@ -77,7 +78,7 @@ $t->get_ok($location)
 $pres->{title} = 'Some New Title';
 my $new_location = '/2015/presentations/some-new-title';
 
-$t->post_ok('/2015/presentations', form => $pres)
+$t->post_ok('/2015/user/presentations', form => $pres)
   ->status_is(302)
   ->header_is('Location' => $new_location);
 
@@ -100,9 +101,7 @@ $t->get_ok("$new_location/edit")
 
 # attempt to update the presentation without permission
 my %bad = (%$pres, abstract => 'This is bad');
-$t->post_ok('/2015/presentations', form => \%bad)
-  ->status_is(401)
-  ->content_is('Not authorized');
+$t->post_ok('/2015/user/presentations', form => \%bad)->status_is(302)->header_like(Location => qr{/oauth/});
 
 $t->get_ok($new_location)
   ->status_is(200)

@@ -27,6 +27,7 @@ sub startup {
   $app->helper('model.identity'     => sub { MCT::Model->new_object(Identity => db => shift->model->db, @_) });
   $app->helper('model.presentation' => sub { MCT::Model->new_object(Presentation => db => shift->model->db, @_) });
   $app->helper('model.user'         => sub { MCT::Model->new_object(User => db => shift->model->db, @_) });
+  $app->helper('form_row'           => \&_form_row);
 
   $app->_assets;
   $app->_setup_database;
@@ -56,6 +57,17 @@ sub _assets {
   ));
 }
 
+sub _form_row {
+  my ($c, $name, $model, $label, $field) = @_;
+
+  return $c->tag(div => class => 'field-row', sub {
+    return join('',
+      $c->tag(label => for => "form_$name", sub { $label }),
+      $field || $c->text_field($name, $model ? $model->$name : '', id => "form_$name"),
+    );
+  });
+}
+
 sub _routes {
   my $app = shift;
 
@@ -66,17 +78,19 @@ sub _routes {
   $app->plugin('MCT::Plugin::ACT' => { url => 'http://www.mojoconf.org/mojo2014' });
 
   my $conf = $app->routes->under('/:cid')->to('conference#load');
-  my $user = $app->connect->authorized_route($conf->any('/user'));
-  my $presentations = $conf->any('/presentations')->to('presentation#');
-  my $presentation = $presentations->any('/:url_name');
-
   $conf->get('/:page')->to('conference#page')->name('conference.page');
   $conf->get('/')->to('conference#landing_page')->name('landing_page');
   $conf->get('/user/logout')->to('user#logout')->name('user.logout');
+
+  my $user = $app->connect->authorized_route($conf->any('/user'));
   $user->any('/profile')->to('user#profile')->name('user.profile');
-  $user->any('/presentations')->to('user#presentations')->name('user.presentations');
-  $presentations->get('/')->to('#edit')->name('presentations');
-  $presentations->post('/')->to('#store');
+  $user->get('/presentations')->to('user#presentations')->name('user.presentations');
+  $user->post('/presentations')->to('presentation#store')->name('presentation.save');
+
+  my $presentations = $conf->any('/presentations')->to('presentation#');
+  $presentations->get('/')->to('#list')->name('presentations'); # TODO
+
+  my $presentation = $presentations->any('/:url_name');
   $presentation->get('/')->to('#show')->name('presentation');
   $presentation->get('/edit')->to('#edit')->name('presentation.edit');
 }

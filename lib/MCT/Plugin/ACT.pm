@@ -34,10 +34,12 @@ sub register {
 
         if ($ct =~ /html/) {
           my $dom = $tx->res->dom;
-          my $host_port = $c->tx->req->url->to_abs->host_port;
+          my $url = $c->tx->req->url->to_abs;
+          my $host_port = $url->host_port;
+          my $scheme = $url->scheme;
 
-          $_->{href} =~ s!^/!http://$host_port/! for $dom->find('[href]')->each;
-          $_->{src} =~ s!^/!http://$host_port/! for $dom->find('[src]')->each;
+          $_->{href} =~ s!^/!$scheme://$host_port/! for $dom->find('[href]')->each;
+          $_->{src} =~ s!^/!$scheme://$host_port/! for $dom->find('[src]')->each;
 
           $c->tx->res->headers($tx->res->headers);
           $c->render(text => $dom->to_string, status => $tx->res->code);

@@ -19,8 +19,10 @@ sub startup {
   my $app = shift;
 
   $app->plugin('Config' => file => $ENV{MOJO_CONFIG} || $app->home->rel_file('mct.conf'));
-  $app->plugin('AssetPack');
-  $app->plugin('MCT::Plugin::Auth');
+
+  $app->_setup_database;
+  $app->_setup_secrets;
+  $app->_setup_validation;
 
   $app->helper('model.db'           => sub { $_[0]->stash->{'mct.db'} ||= $_[0]->app->pg->db });
   $app->helper('model.conference'   => sub { MCT::Model->new_object(Conference => db => shift->model->db, @_) });
@@ -29,11 +31,11 @@ sub startup {
   $app->helper('model.user'         => sub { MCT::Model->new_object(User => db => shift->model->db, @_) });
   $app->helper('form_row'           => \&_form_row);
 
+  $app->plugin('MCT::Plugin::Auth');
+  $app->plugin('AssetPack');
   $app->_assets;
-  $app->_setup_database;
-  $app->_setup_secrets;
-  $app->_setup_validation;
   $app->_routes;
+  $app->migrations->migrate;
 }
 
 sub _assets {
@@ -104,9 +106,6 @@ sub _setup_database {
     $app->config->{db} = $db;
     $app->log->warn("Using default database '$db'. (Neither MCT_DATABASE_DSN or config file was set up)");
   }
-
-  $migrations = $app->migrations;
-  $migrations->migrate;
 }
 
 sub _setup_secrets {

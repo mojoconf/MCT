@@ -63,6 +63,14 @@ CREATE TABLE user_conferences (
   payed REAL DEFAULT 0,
   CONSTRAINT user_conferences_pkey PRIMARY KEY (user_id, conference_id)
 );
+-- 4 up
+CREATE TABLE user_roles (
+  user_id INTEGER NOT NULL REFERENCES users (id) ON UPDATE CASCADE,
+  conference_id INTEGER REFERENCES conferences (id) ON UPDATE CASCADE,
+  role TEXT NOT NULL,
+  UNIQUE(user_id, conference_id, role)
+);
+ALTER TABLE user_conferences DROP COLUMN admin;
 -- 1 down
 DROP TABLE IF EXISTS presentations;
 DROP TABLE IF EXISTS conferences;
@@ -90,3 +98,6 @@ ALTER TABLE presentations DROP COLUMN duration;
 ALTER TABLE presentations RENAME COLUMN conference_id TO conference;
 ALTER TABLE presentations RENAME COLUMN user_id TO author;
 DROP TABLE IF EXISTS user_conferences;
+-- 4 down
+ALTER TABLE user_conferences ADD COLUMN admin BOOLEAN DEFAULT FALSE;
+DROP TABLE IF EXISTS user_roles;

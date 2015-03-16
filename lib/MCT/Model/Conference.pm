@@ -23,6 +23,80 @@ col tagline => '';
 col tags => '';
 col zip => '';
 
+sub administrators {
+  my ($self, $cb) = @_;
+
+  my $sql = sprintf <<'  SQL', join ', ', map { "u.$_ as $_" } MCT::Model::User->columns;
+    SELECT
+      %s,
+      c.identifier as conference,
+      TRUE as is_admin,
+      uc.going as is_going,
+      uc.payed as payed
+    FROM user_roles r
+    JOIN conferences c ON c.id=r.conference_id
+    JOIN users u ON u.id=r.user_id
+    LEFT JOIN user_conferences uc ON uc.conference_id=r.conference_id
+    WHERE r.role='conference admin'
+      AND r.conference_id=?
+    ORDER BY u.name
+  SQL
+
+  Mojo::IOLoop->delay(
+    sub { $self->_query($sql, $self->id, shift->begin) },
+    sub {
+      my ($delay, $err, $results) = @_;
+      die $err if $err;
+      $self->$cb(undef, [map { MCT::Model::User->new(%$_, db => $self->db) } $results->hashes->each]);
+    },
+  )->catch(sub{ $self->$cb($_[1], undef) })->wait;
+
+  return $self;
+}
+
+sub grant_admin_role {
+  my ($self, $user, $cb) = @_;
+  $user = $user->username if eval { $user->isa('MCT::Model::User') };
+
+  #TODO fail gracefully on duplicate insert. Catch exception?
+  my $sql = <<'  SQL';
+    INSERT INTO user_roles (user_id, conference_id, role)
+    VALUES((SELECT id FROM users WHERE username=?), ?, 'conference admin');
+  SQL
+
+  Mojo::IOLoop->delay(
+    sub { $self->_query($sql, $user, $self->id, shift->begin) },
+    sub {
+      my ($delay, $err) = @_;
+      die $err if $err;
+      $self->$cb(undef);
+    },
+  )->catch(sub{ $self->$cb($_[1]) })->wait;
+
+  return $self;
+}
+
+sub revoke_admin_role {
+  my ($self, $user, $cb) = @_;
+  $user = $user->username if eval { $user->isa('MCT::Model::User') };
+
+  my $sql = <<'  SQL';
+    DELETE FROM user_roles
+    WHERE user_id=(SELECT id FROM users WHERE username=?) AND conference_id=? AND role='conference admin';
+  SQL
+
+  Mojo::IOLoop->delay(
+    sub { $self->_query($sql, $user, $self->id, shift->begin) },
+    sub {
+      my ($delay, $err) = @_;
+      die $err if $err;
+      $self->$cb(undef);
+    },
+  )->catch(sub{ $self->$cb($_[1]) })->wait;
+
+  return $self;
+}
+
 sub attendees {
   my ($self, $cb) = @_;
 
@@ -30,12 +104,13 @@ sub attendees {
     SELECT
       %s,
       c.identifier as conference,
-      uc.admin as is_admin,
+      (r.role IS NOT NULL) as is_admin,
       uc.going as is_going,
       uc.payed as payed
     FROM conferences c
-    LEFT JOIN user_conferences uc ON uc.conference_id=c.id
-    LEFT JOIN users u ON u.id=uc.user_id
+    JOIN user_conferences uc ON uc.conference_id=c.id
+    JOIN users u ON u.id=uc.user_id
+    LEFT JOIN user_roles r ON r.user_id=u.id AND r.conference_id=c.id AND role='conference admin'
     WHERE c.identifier=?
     ORDER BY u.name
   SQL

@@ -106,7 +106,6 @@ sub _setup_database {
   }
 
   $migrations = $app->migrations;
-  $migrations->migrate(0) if $ENV{MCT_RESET_DATABASE}; # useful while developing
   $migrations->migrate;
 }
 

@@ -77,7 +77,7 @@ sub _routes {
   $app->routes->post('/')->to('conference#create')->name('conference.create');
 
   # back compat
-  $app->plugin('MCT::Plugin::ACT' => { url => 'http://www.mojoconf.org/mojo2014' });
+  $app->plugin('MCT::Plugin::ACT' => { url => 'http://act.yapc.eu/mojo2014/' });
 
   my $conf = $app->routes->under('/:cid')->to('conference#load');
   $conf->get('/:page')->to('conference#page')->name('conference.page');

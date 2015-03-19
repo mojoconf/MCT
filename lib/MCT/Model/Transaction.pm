@@ -4,10 +4,11 @@ use Mojo::Base -base;
 
 use constant DEBUG => $ENV{MCT_MODEL_DEBUG} || 0;
 
+has 'dbh';
+
 sub DESTROY {
   return unless $_[0]->{rollback};
   my $self = shift;
-  my $dbh = $self->{dbh};
 
   warn "[MCT::Model::Transaction] ROLLBACK\n" if DEBUG;
 
@@ -16,15 +17,15 @@ sub DESTROY {
     @$obj{keys %$last} = values %$last;
   }
 
-  $dbh->rollback if $dbh;
+  $self->dbh->rollback if $self->dbh;
 }
 
 sub commit {
   my $self = shift;
 
-  if (delete $self->{rollback}) {
+  if (delete $self->{rollback} and $self->dbh) {
     warn "[MCT::Model::Transaction] COMMIT\n" if DEBUG;
-    $self->{dbh}->commit;
+    $self->dbh->commit;
   }
 
   delete $_->{_last} for @{$self->{track}||[]};
@@ -33,7 +34,8 @@ sub commit {
 
 sub new {
   my $self = shift->SUPER::new(@_, rollback => 1);
-  $self->{dbh}->begin_work;
+  warn "[MCT::Model::Transaction] BEGIN WORK\n" if DEBUG;
+  $self->dbh->begin_work if $self->dbh;
   return $self;
 }
 

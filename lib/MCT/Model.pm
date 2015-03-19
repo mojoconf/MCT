@@ -14,7 +14,13 @@ my %COLUMNS;
 has id => undef;
 has db => sub { die "Usage: $_[0]->new(db => Mojo::Pg::Database->new)" };
 
-sub begin { MCT::Model::Transaction->new(dbh => shift->db->dbh) }
+sub begin {
+  my $self = shift;
+  my $dbh = $self->db->dbh;
+
+  return MCT::Model::Transaction->new unless $dbh->{AutoCommit};
+  return MCT::Model::Transaction->new(dbh => $dbh);
+}
 
 sub in_storage { defined shift->id ? 1 : 0 }
 

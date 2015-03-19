@@ -227,6 +227,7 @@ be used to define the L</ATTRIBUTES>.
 
 sub register {
   my ($self, $app, $config) = @_;
+  my $oauth2_config = $self->_oauth2_config($config->{providers});
 
   $self->connect_route($config->{connect_route}                   // 'user.connect');
   $self->default_redirect_route($config->{default_redirect_route} // 'user.profile');
@@ -234,7 +235,8 @@ sub register {
   $self->default_provider($config->{default_provider}) if $config->{default_provider};
   $self->_add_connect_route($app) unless $self->connect_route =~ m!/!;
 
-  $app->plugin(OAuth2 => $self->_oauth2_config($config->{providers}));
+  $oauth2_config->{fix_get_token} = 1; # Required for OAuth2 1.51
+  $app->plugin(OAuth2 => $oauth2_config);
   $app->helper(connect         => sub {$self});
   $app->helper('reply.connect' => sub { $self->_connect(@_) });
   $app->helper('reply.connected' => sub { $self->_connected(@_) });
@@ -279,9 +281,9 @@ sub _connect {
       $c->oauth2->get_token($provider, $args, $delay->begin);
     },
     sub {
-      my ($delay, $err, $token) = @_;
-      return $c->$connector($err, {}) unless $token;
-      $args->{token} = $token // '';
+      my ($delay, $err, $data) = @_;
+      return $c->$connector($err, {}) unless $data->{access_token};
+      $args->{token} = $data->{access_token} // '';
       $args->{provider} = $provider;
       delete $args->{redirect_uri};
 

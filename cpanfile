@@ -2,6 +2,6 @@
 requires 'DBD::Pg'                     => '3.4.2';
 requires 'Mojolicious'                 => '6.00';
 requires 'Mojo::Pg'                    => '1.10';
-requires 'Mojolicious::Plugin::OAuth2' => '1.50';
+requires 'Mojolicious::Plugin::OAuth2' => '1.51';
 requires 'Mojolicious::Plugin::AssetPack' => '0.39';
 test_requires 'Test::More' => '0.88';

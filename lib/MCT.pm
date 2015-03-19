@@ -35,7 +35,7 @@ sub startup {
   $app->plugin('AssetPack');
   $app->_assets;
   $app->_routes;
-  $app->migrations->migrate;
+  $app->migrations->migrate unless $ENV{MCT_SKIP_MIGRATION};
 }
 
 sub _assets {

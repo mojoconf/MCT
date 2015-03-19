@@ -1,19 +1,6 @@
-use Mojo::Base -strict;
+use t::Helper;
 
-use Test::More;
-use Test::Mojo;
-
-plan skip_all => 'set TEST_ONLINE'
-  unless $ENV{MCT_DATABASE_DSN} = $ENV{TEST_ONLINE};
-
-$ENV{MCT_MOCK} = 1;
-
-my $t = Test::Mojo->new('MCT');
-
-my $app = $t->app;
-
-$app->migrations->migrate(0);
-$app->migrations->migrate;
+my $t = t::Helper->t;
 
 $t->get_ok('/user/connect', form => {code => 42})->status_is(302);
 

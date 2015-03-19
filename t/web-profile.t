@@ -1,14 +1,7 @@
-use Mojo::Base -strict;
-use Test::Mojo;
-use Test::More;
+use t::Helper;
 
-plan skip_all => 'set TEST_ONLINE'
-  unless $ENV{MCT_DATABASE_DSN} = $ENV{TEST_ONLINE};
+my $t = t::Helper->t;
 
-$ENV{MCT_MOCK} = 1;
-my $t = Test::Mojo->new('MCT');
-
-$t->app->migrations->migrate(0)->migrate;
 $t->app->model->conference(name => 'Testing Profile Conf', country => 'SE')->save(sub {});
 
 $t->get_ok('/user/connect?code=42')->status_is(302);

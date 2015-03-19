@@ -1,14 +1,9 @@
-use Mojo::Base -strict;
-use Test::Mojo;
-use Test::More;
-
-plan skip_all => 'set TEST_ONLINE'
-  unless $ENV{MCT_DATABASE_DSN} = $ENV{TEST_ONLINE};
+use t::Helper;
 
 $ENV{MOJO_MODE} = 'test';
-my $t = Test::Mojo->new('MCT');
+$ENV{MCT_MOCK} = 0;
+my $t = t::Helper->t;
 
-$t->app->migrations->migrate(0)->migrate;
 $t->app->model->conference(name => 'Whatever Conf', country => 'NP')->save(sub {});
 
 $t->get_ok('/whatever-conf/user/profile')->status_is(302);

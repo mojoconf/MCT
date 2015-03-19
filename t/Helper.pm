@@ -2,13 +2,15 @@ package t::Helper;
 use Mojo::Base -base;
 
 my $_test_table = sub {
-  my ($t, $rows) = @_;
+  my $rows = pop;
+  my $t = shift;
+  my $selector = shift || 'table tbody';
 
   my $ri = 1;
   for my $r (@$rows) {
     my $ci = 1;
     for my $c (@$r) {
-      my $q = "table tbody tr:nth-of-type($ri) td:nth-of-type($ci)";
+      my $q = "$selector tr:nth-of-type($ri) td:nth-of-type($ci)";
       if (ref $c eq 'ARRAY') {
         $t->text_is("$q $c->[0]", $c->[1]);
       }
@@ -23,9 +25,22 @@ my $_test_table = sub {
   return $t;
 };
 
+sub t {
+  Test::More::plan(skip_all => 'set TEST_ONLINE') unless $ENV{TEST_ONLINE};
+  $ENV{MCT_SKIP_MIGRATION} //= 1;
+  $ENV{MCT_DATABASE_DSN} = $ENV{TEST_ONLINE};
+  $ENV{MCT_MOCK} //= 1;
+  my $t = Test::Mojo->new('MCT');
+  $t->app->migrations->migrate(0)->migrate;
+  $t;
+}
+
 sub import {
   my $class = shift;
   my $caller = caller;
+
+  strict->import;
+  warnings->import;
 
   eval <<"  CODE" or die $@;
   package $caller;

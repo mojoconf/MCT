@@ -81,7 +81,6 @@ use Mojo::Base 'Mojolicious::Plugin';
 use Mojo::Util;
 use Mojo::UserAgent;
 use Mojolicious::Plugin::Connect::User;
-use constant REDIRECT_PATH_KEY => 'connect.rdr';
 
 our $VERSION = '0.01';
 
@@ -259,12 +258,15 @@ sub _connect {
 
   # already connected
   if ($c->session('uid')) {
-    return $c->redirect_to($c->flash(REDIRECT_PATH_KEY) || $self->default_redirect_route);
+    return $c->redirect_to(delete $c->session->{'connect.rdr'} || $self->default_redirect_route);
   }
 
   # save redirect path before being redirected
-  if ($path !~ m!^$connect_path!) {
-    $c->flash(REDIRECT_PATH_KEY, $path);
+  if ($path =~ m!^$connect_path!) {
+    $path = $c->req->headers->referrer;
+  }
+  if ($path and $path !~ m!^$connect_path!) {
+    $c->session('connect.rdr' => $path);
   }
 
   $c->session->{connected_with} ||= do {
@@ -301,7 +303,7 @@ sub _connected {
   my ($self, $c, $uid) = @_;
 
   $c->session(uid => $uid || die 'Usage: $c->reply->connected($uid)');
-  $c->redirect_to($c->flash(REDIRECT_PATH_KEY) || $self->default_redirect_route);
+  $c->redirect_to(delete $c->session->{'connect.rdr'} || $self->default_redirect_route);
 }
 
 sub _get_user_from_eventbrite {

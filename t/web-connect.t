@@ -22,12 +22,7 @@ $t->get_ok($url)->status_is(200)->text_is('title', 'Unable to connect with Githu
 # connect with github
 $url->query->remove('error');
 $url->query->param(code => 42);
-$t->get_ok($url)->status_is(302);
-
-{
-  local $TODO = 'Need fixin';
-  $t->header_is(Location => '/testing-connect/user/profile');
-}
+$t->get_ok($url)->status_is(302)->header_is(Location => '/testing-connect/user/profile');
 
 # access profile page
 $t->get_ok('/testing-connect/user/profile')->status_is(200);

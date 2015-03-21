@@ -35,12 +35,12 @@ sub load {
     },
     sub {
       my ($delay, $err, $results) = @_;
-      warn "[@{[ref $self]}] load: @{[grep { $_ } $err, $results ? 'OK' : '']}\n" if DEBUG;
-      die $err if $err;
+      warn "[@{[ref $self]}] load: @{[$err || $results ? 'OK' : '']}\n" if DEBUG;
+      return $self->$cb($err) if $err;
       my $data = $results->hash;
       map { $self->{_last}{$_} = $self->{$_} } grep { !exists $self->{_last}{$_} } keys %$self if $self->{_last};
       @$self{keys %$data} = values %$data;
-      $self->$cb('') if $cb;
+      $self->$cb('');
     },
   )->catch(sub{ $self->$cb($_[1]) })->wait;
 
@@ -75,11 +75,11 @@ sub save {
     },
     sub {
       my ($delay, $err, $results) = @_;
-      warn "[@{[ref $self]}] save: @{[grep { $_ } $err, $results ? 'OK' : '']}\n" if DEBUG;
-      die $err if $err;
+      warn "[@{[ref $self]}] save: @{[$err || $results ? 'OK' : '']}\n" if DEBUG;
+      return $self->$cb($err) if $err;
       $self->{_last}{id} = $self->{id} if $self->{_last} and !exists $self->{_last}{id};
       $self->id($results->hash->{id}) if $method eq '_insert_sst';
-      $self->$cb('') if $cb;
+      $self->$cb('');
     },
   )->catch(sub{ $self->$cb($_[1]) })->wait;
 
@@ -108,11 +108,7 @@ sub _query {
   return $self->db->query(@args) unless $cb;
   Mojo::IOLoop->delay(
     sub { $self->db->query(@args, shift->begin) },
-    sub {
-      my ($delay, $err, $results) = @_;
-      die $err if $err;
-      $self->$cb(undef, $results);
-    },
+    sub { $self->$cb($_[1], $_[2]); },
   )->catch(sub{ $self->$cb($_[1], undef) })->wait;
   return $self;
 }

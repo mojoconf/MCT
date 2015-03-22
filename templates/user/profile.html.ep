@@ -12,14 +12,6 @@
   </div>
 </div>
 
-% my $row = begin
-  % my ($name, $label, $field) = @_;
-<div class="field-row">
-  <label for="form_<%= $name %>"><%= $label %></label>
-  %= $field || text_field $name, $user->$name, id => "form_$name"
-</div>
-% end
-
 <div class="content-wrapper">
   <div class="content">
     <section>
@@ -33,16 +25,16 @@
       <h3><i class="fa fa-edit"></i>Profile</h3>
       %= form_for 'profile', method => 'post', begin
         %= hidden_field avatar_url => $user->avatar_url;
-        %= $row->(email => 'Email');
-        %= $row->(name => 'Name');
-        %= $row->(address => 'Address');
-        %= $row->(zip => 'Zip');
-        %= $row->(city => 'City');
+        %= form_row(email => $user, 'Email');
+        %= form_row(name => $user, 'Name');
+        %= form_row(address => $user, 'Address');
+        %= form_row(zip => $user, 'Zip');
+        %= form_row(city => $user, 'City');
         % param country => $user->country unless param 'country';
-        %= $row->(country => 'Country', select_field(country => [['', ''], MCT::Model::Countries->for_select]));
+        %= form_row(country => $user, 'Country', select_field(country => [['', ''], MCT::Model::Countries->for_select]));
         % param t_shirt_size => $user->t_shirt_size unless param 't_shirt_size';
-        %= $row->(t_shirt_size => 'T-Shirt size', select_field(t_shirt_size => ['', $user->valid_t_shirt_sizes]));
-        %= $row->(web_page => 'Home page');
+        %= form_row(t_shirt_size => $user, 'T-Shirt size', select_field(t_shirt_size => ['', $user->valid_t_shirt_sizes]));
+        %= form_row(web_page => $user, 'Home page');
         <div class="submit-row"><button>Update profile</button></div>
       % end
     </section>

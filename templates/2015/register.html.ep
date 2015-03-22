@@ -14,7 +14,7 @@
         Want to give a talk? Sign in to register your proposal.
       </p>
       <p>
-        %= link_to 'Connect with Github', 'user.profile', class => 'pure-button pure-button-connect'
+        %= link_to 'Connect with Github', 'user.profile', class => 'pure-button pure-button-green pure-button-connect'
       </p>
     </section>
   % }

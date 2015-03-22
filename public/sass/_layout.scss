@@ -1,0 +1,84 @@
+.header {
+  height: 50px !important;
+}
+
+.center {
+  margin: auto;
+}
+
+.block {
+  display: block;
+}
+
+.home-menu {
+  height: 60px;
+}
+
+.content {
+  section {
+    max-width: 620px;
+    margin: auto;
+    padding: 30px;
+    margin-top: 0;
+    padding-top: 0;
+    overflow: hidden;
+  }
+  h3 {
+    i.fa {
+      margin-left: -30px;
+      color: #6FBEF3;
+      margin-right: 10px;
+    }
+    padding-bottom: 0;
+    margin-bottom: 0;
+    font-family: "myriad-pro",sans-serif;
+    font-size: 1.7em;
+  }
+}
+
+.splash {
+  > img {
+    max-width: 600px;
+    height: auto;
+  }
+  &.for-profile > {
+    img {
+      border-radius: 20px;
+    }
+    .caption {
+      text-transform: none;
+      font-size: 2em;
+      color: white;
+      padding: 20px;
+      font-family: "myriad-pro",sans-serif;
+    }
+  }
+}
+
+.mojoconf-logo {
+  font-family: "myriad-pro",sans-serif;
+  font-size: 2em !important;
+  margin-top: -8px;
+  text-transform: none !important;
+  a {
+    color: #e1e1e1 !important;
+  }
+}
+
+.mojoconf-content-header {
+  font-family: "myriad-pro",sans-serif;
+  text-transform: none;
+  margin-top: -50px;
+  h2 {
+    text-transform: none !important;
+    letter-spacing: 0;
+    font-weight: bold;
+    font-size: 3em;
+  }
+  h3 {
+    padding: 0;
+    margin: 0;
+    position: relative;
+    top: -30px;
+  }
+}

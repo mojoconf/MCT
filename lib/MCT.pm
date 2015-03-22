@@ -55,7 +55,7 @@ sub _assets {
     'http://fonts.googleapis.com/css?family=Oswald:400,300,700',
     'http://fonts.googleapis.com/css?family=PT+Sans+Narrow',
     'http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css',
-    '/css/main.css',
+    '/sass/mct.scss',
   ));
 }
 

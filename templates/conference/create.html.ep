@@ -3,14 +3,6 @@
 %= include 'header';
 %= include 'partial/top_image';
 
-% my $row = begin
-  % my ($name, $label, $field) = @_;
-<div class="field-row">
-  <label for="form_<%= $name %>"><%= $label %></label>
-  %= $field || text_field $name, $conference->$name, id => "form_$name"
-</div>
-% end
-
 <div class="content-wrapper">
   <div class="content">
     <section>
@@ -26,10 +18,10 @@
         Please add a conference.
       </p>
       %= form_for 'conference.create', method => 'post', begin
-        %= $row->(name => 'Name');
-        %= $row->(identifier => 'Identifier');
-        %= $row->(tagline => 'Tagline');
-        %= $row->(analytics_code => 'Google analytics code');
+        %= form_row(name => $conference, 'Name');
+        %= form_row(identifier => $conference, 'Identifier');
+        %= form_row(tagline => $conference, 'Tagline');
+        %= form_row(analytics_code => $conference, 'Google analytics code');
         <div class="submit-row"><button>Create conference</button></div>
       % end
     % }

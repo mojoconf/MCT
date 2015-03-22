@@ -1,0 +1,14 @@
+@mixin form_field() {
+  background: #fbfbfb;
+  border: 1px solid #bbb;
+  border-radius: 3px;
+  margin-left: 40%;
+  width: 60%;
+  padding: 6px 8px;
+  margin: 0;
+
+  &:focus {
+    border-color: #555;
+    outline: 0;
+  }
+}

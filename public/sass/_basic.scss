@@ -1,0 +1,45 @@
+a {
+  color: $link-color !important;
+  text-decoration: none;
+}
+
+a.big-action {
+  margin: auto;
+  display: block;
+  width: 160px;
+  color: white !important;
+  padding: 20px;
+  font-weight: bold;
+}
+
+hr {
+  border: 0;
+  border-bottom: 1px dashed #ccc;
+  background: #fff;
+  margin: 0;
+  margin-top: 40px;
+}
+
+div.error, p.error {
+  background: lighten($error-color, 10%);
+  border-color: $error-color;
+  padding: 1em;
+}
+
+div.info, p.info {
+  background: lighten($info-color, 10%);
+  padding: 1em;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+.hidden {
+  display: none;
+}
+
+.pure-button-green {
+  background: #8fc800;
+  color: #fff !important;
+}

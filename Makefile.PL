@@ -17,7 +17,6 @@ WriteMakefile(
   BUILD_REQUIRES => {'Test::More' => '0.88'},
   PREREQ_PM      => {
     'DBD::Pg'                     => '3.4.2',
-    'CSS::Sass'                   => '3.1.1',
     'Mojolicious'                 => '6.00',
     'Mojo::Pg'                    => '1.10',
     'Mojolicious::Plugin::OAuth2' => '1.51',

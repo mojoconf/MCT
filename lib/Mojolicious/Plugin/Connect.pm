@@ -373,7 +373,7 @@ sub _oauth2_config {
   for my $name (sort keys %$config) {
     $self->{allowed}{$name} = 1;
     $self->{default_provider} ||= $name;
-    $config->{$name}{scope} //= 'user';
+    $config->{$name}{scope} //= '';
   }
 
   return $config;

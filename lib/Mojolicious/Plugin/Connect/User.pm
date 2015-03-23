@@ -24,10 +24,9 @@ sub email {
   my $self = shift;
   my $email;
 
-  if ($self->provider eq 'eventbrite') {
-    if (my $emails = $self->data->{emails}) {
-      ($email) = map { $_->{email} } grep { $_->{verified} } @$emails;
-    }
+  if (my $emails = $self->data->{emails}) {
+    $email = (map { $_->{email} } grep { $_->{verified} } @$emails)[0];
+    $email ||= $emails->[0]{email};
   }
 
   return $email || $self->data->{email} || '';
@@ -49,6 +48,8 @@ sub TO_JSON {
     avatar_url => $self->avatar_url,
     email => $self->email,
     name => $self->name,
+    provider => $self->provider,
+    token => $self->token,
     username => $self->username,
     web_page => $self->web_page,
   };

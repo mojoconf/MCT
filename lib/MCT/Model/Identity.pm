@@ -31,8 +31,7 @@ sub user {
     sub {
       my ($delay, $err) = @_;
       return $self->$cb($err, $user) if $err;
-      return $self->$cb('', $user) if $self->in_storage; # existing user loaded
-      return $self->username($user->username)->save($delay->begin); # user saved: save new identity
+      return $self->username($user->username)->save($data, $delay->begin); # update or insert new identity
     },
     sub {
       my ($delay, $err) = @_;

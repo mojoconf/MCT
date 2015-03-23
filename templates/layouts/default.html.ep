@@ -5,7 +5,7 @@
     <title><%= join ' - ', ($conference ? ($conference->name) : ()), title %></title>
 
     <script src="//use.typekit.net/kyp4lea.js"></script>
-    <script>try{Typekit.load();}catch(e){}</script>
+    <script>try{Typekit.load({protocol: "<%= $c->req->url->to_abs->scheme %>:"});}catch(e){}</script>
 
     <!--[if lte IE 8]>
       <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">

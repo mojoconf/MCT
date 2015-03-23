@@ -95,6 +95,7 @@ sub _routes {
   my $user = $app->connect->authorized_route($conf->any('/user'));
   $user->any('/profile')->to('user#profile')->name('user.profile');
   $user->get('/presentations')->to('user#presentations')->name('user.presentations');
+  $user->get('/tickets')->to('user#purchases')->name('user.purchases');
   $user->post('/presentations')->to('presentation#store')->name('presentation.save');
   $user->post('/purchase')->to('conference#purchase')->name('product.purchase');
 

@@ -39,6 +39,37 @@ sub purchase {
   ));
 }
 
+sub purchases {
+  my ($self, $cb) = @_;
+
+  my $sql = sprintf <<'  SQL';
+  SELECT
+    cp.id as id,
+    cp.name as name,
+    cp.description as description,
+    cp.currency as currency,
+    up.price as price,
+    c.name as conference_name
+  FROM users u
+  JOIN user_products up ON up.user_id=u.id
+  JOIN conference_products cp ON cp.id=up.product_id
+  JOIN conferences c ON c.id=cp.conference_id
+  WHERE u.username=?
+  ORDER BY up.paid DESC, cp.name
+  SQL
+
+  Mojo::IOLoop->delay(
+    sub { $self->_query($sql, $self->username, shift->begin) },
+    sub {
+      my ($delay, $err, $results) = @_;
+      die $err if $err;
+      $self->$cb('', [map { $self->new_object(UserProduct => %$_, username => $self->username) } $results->hashes->each]);
+    },
+  )->catch(sub{ $self->$cb($_[1], []) })->wait;
+
+  return $self;
+}
+
 sub validate {
   my ($self, $validation) = @_;
 

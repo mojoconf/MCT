@@ -13,6 +13,9 @@ col status => '';
 has description => '';
 has name => '';
 has username => '';
+has conference_name => '';
+
+sub human_price { sprintf '%.2f', shift->price / 100 }
 
 sub validate {
   my ($self, $validation) = @_;

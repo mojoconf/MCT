@@ -50,6 +50,8 @@ $t->get_ok('/my-little-pony/register')->status_is(200)
     ],
   ]);
 
+$t->get_ok('/my-little-pony/user/tickets')->status_is(200)->text_is('h3', 'No tickets have been purchased.');
+
 my %form;
 for my $i (
   [],
@@ -74,7 +76,22 @@ $haunted_house->currency('USD')->save(sub {});
 $t->post_ok('/my-little-pony/user/purchase', form => \%form)->status_is(302)->header_is(Location => '/my-little-pony/register');
 
 $t->get_ok($t->tx->res->headers->location)->status_is(200)
-  ->content_like(qr{Thanks for purchasing})
+  ->text_is('a[href="/my-little-pony/user/tickets"]', 'purchasing a ticket')
   ->element_exists('table.products tbody');
+
+$t->get_ok('/my-little-pony/user/tickets')->status_is(200)
+  ->text_is('h3', 'Your tickets')
+  ->$_test_table('table.tickets tbody', [
+    [
+      'My Little Pony',
+      'Horse ride',
+      '43.00 USD',
+    ],
+    [
+      'My Little Pony',
+      'Haunted house',
+      '99.90 USD',
+    ],
+  ]);
 
 done_testing;

@@ -14,7 +14,7 @@
       <p class="error"><%= $error %></p>
     % } elsif (flash 'purchased_product_id') {
       <p class="info">
-        Thanks for purchasing a ticket. See you in <%= $conference->city %>!
+        Thanks for <%= link_to 'purchasing a ticket', 'user.purchases' %>. See you in <%= $conference->city %>!
       </p>
     % } else {
       <p>
@@ -39,7 +39,7 @@
             <td>
               <a href="#get-ticket" class="pure-button custom-stripe-button pure-button-green" data-amount="<%= $p->price %>" data-product-id="<%= $p->id %>">Buy ticket</a>
             </td>
-            <td class="text-align-right"><%= sprintf '%.2f', $p->price / 100 %>&nbsp;<%= $p->currency %></td>
+            <td class="text-align-right"><%= $p->human_price %>&nbsp;<%= $p->currency %></td>
           </tr>
         % }
         </tbody>

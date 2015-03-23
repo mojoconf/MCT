@@ -1,0 +1,46 @@
+% layout 'default';
+% title 'Tickets';
+%= include 'header';
+
+<div class="splash-container">
+  <div class="splash for-profile">
+    %# size need to match rule in main.css
+    %= image $user->avatar(size => 250), alt => $user->name
+    <div class="caption">
+      %= $user->name
+    </div>
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <div class="content">
+    <section>
+    % if (@$purchases) {
+      <h3><i class="fa fa-list"></i>Your tickets</h3>
+      <br>
+      <table class="full-width tickets">
+        <thead>
+          <tr>
+            <th>Conference</th>
+            <th>Ticket</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+        % for my $p (@$purchases) {
+          <tr>
+            <td><%= $p->conference_name %></td>
+            <td><%= $p->name %></td>
+            <td><%= $p->human_price %>&nbsp;<%= $p->currency %></td>
+          </tr>
+        % }
+        </tbody>
+      </table>
+    % } else {
+      <h3><i class="fa fa-edit"></i>No tickets have been purchased.</h3>
+    % }
+    </section>
+  </div>
+
+  %= include 'footer';
+</div>

@@ -2,9 +2,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-
-    <meta name="google-site-verification" content="Hgrq-zDWcbsbzsK0wTd_mCxgh7ovRQXo2dc19gbJRDs" />
-
     <title><%= join ' - ', ($conference ? ($conference->name) : ()), title %></title>
 
     <script src="//use.typekit.net/kyp4lea.js"></script>

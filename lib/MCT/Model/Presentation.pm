@@ -1,6 +1,7 @@
 package MCT::Model::Presentation;
 
 use MCT::Model -row;
+use Text::Markdown ();
 
 my @VALID_STATUS = qw( waiting accepted rejected confirmed );
 
@@ -40,6 +41,22 @@ sub change_status {
   )->catch(sub{ $self->$cb($_[1]) })->wait;
 
   return $self;
+}
+
+sub abstract_to_html {
+  my ($self, $args) = @_;
+  my $dom = Mojo::DOM->new(Text::Markdown::markdown($self->abstract));
+
+  if (my $level = $args->{headings}) {
+    for my $e ($dom->find('h1,h2,h3,h4,h5,h6')->each) {
+      my $n = $e->tag =~ /(\d+)/ ? $1 : 6;
+      $n += $level;
+      $n = 6 if $n > 6;
+      $e->tag("h$n");
+    }
+  }
+
+  return $dom;
 }
 
 sub validate {

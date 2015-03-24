@@ -6,11 +6,13 @@
 <div class="content-wrapper">
   <div class="content">
     <section>
-      <h2 id="title"><%= $p->title %></h2>
-      <h4 id="author">Presented by: <%= $p->author_name %></h4>
+      <h2><%= $p->title %></h2>
+      <p class="author-name">Presented by: <%= $p->author_name %></p>
       <h3>Abstract</h3>
-      <p id="abstract"><%= $p->abstract %></p>
-      % if ($p->user_can_update(session 'username')) {
+      <div class="abstract">
+        %== $p->abstract_to_html({headings => 3})
+      </div>
+      % if ($p->user_can_update(session('username'))) {
         %= link_to 'Edit', 'presentation.edit' => {url_name => $p->url_name}
       % }
     </section>

@@ -11,7 +11,7 @@ $t->get_ok('/all-the-presentations/user/presentations')->status_is(200)
   ->text_is('section:nth-of-child(2) > h3', 'No presentations')
   ->element_exists_not('table');
 
-my $pres = { title => 'Extremely cool talk about users', abstract => 'My content here' };
+my $pres = { title => 'Extremely cool talk about users', abstract => "# Cool talk\nMy content here\nAnother paragraph\n\n" };
 $t->post_ok('/all-the-presentations/user/presentations', form => $pres)->status_is(302);
 
 $pres->{title} = 'Another cool talk';

@@ -2,6 +2,7 @@ package MCT::Model::Presentation;
 
 use MCT::Model -row;
 use Text::Markdown ();
+use Mojo::Util 'xml_escape';
 
 my @VALID_STATUS = qw( waiting accepted rejected confirmed );
 
@@ -45,7 +46,7 @@ sub change_status {
 
 sub abstract_to_html {
   my ($self, $args) = @_;
-  my $dom = Mojo::DOM->new(Text::Markdown::markdown($self->abstract));
+  my $dom = Mojo::DOM->new(Text::Markdown::markdown(xml_escape $self->abstract));
 
   if (my $level = $args->{headings}) {
     for my $e ($dom->find('h1,h2,h3,h4,h5,h6')->each) {

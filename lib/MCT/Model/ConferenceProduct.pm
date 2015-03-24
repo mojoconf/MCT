@@ -2,6 +2,7 @@ package MCT::Model::ConferenceProduct;
 
 use MCT::Model -row;
 use Mojo::DOM;
+use Mojo::Util 'xml_escape';
 use Text::Markdown ();
 
 col id => undef;
@@ -20,7 +21,7 @@ has conference => '';
 
 sub description_to_html {
   my ($self, $args) = @_;
-  my $dom = Mojo::DOM->new(Text::Markdown::markdown($self->description));
+  my $dom = Mojo::DOM->new(Text::Markdown::markdown(xml_escape $self->description));
 
   if ((eval { $dom->children->first->tag } || '') ne 'h1') {
     $dom->prepend(sprintf '<h1>%s</h1>', $self->name);

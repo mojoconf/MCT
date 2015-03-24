@@ -17,7 +17,7 @@
     <section>
       <h3><i class="fa fa-edit"></i>Submit presentation to <%= $conference->name %></h3>
       <br>
-      %= form_for 'presentation.save' => method => post => begin
+      %= form_for 'presentation.create' => method => post => begin
         %= form_row(title => undef, 'Title');
         %= form_row(abstract => undef, 'Abstract', text_area('abstract', style => 'height:200px'));
         <div class="submit-row"><button>Submit</button></div>

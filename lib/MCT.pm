@@ -97,7 +97,7 @@ sub _routes {
   $user->any('/profile')->to('user#profile')->name('user.profile');
   $user->get('/presentations')->to('user#presentations')->name('user.presentations');
   $user->get('/purchases')->to('user#purchases')->name('user.purchases');
-  $user->post('/presentations')->to('presentation#store')->name('presentation.save');
+  $user->post('/presentations')->to('presentation#store')->name('presentation.create');
   $user->post('/purchase')->to('conference#purchase')->name('product.purchase');
 
   my $event = $conf->any('/events/:id');
@@ -109,6 +109,7 @@ sub _routes {
   my $presentation = $presentations->any('/:url_name');
   $presentation->get('/')->to('#show')->name('presentation');
   $presentation->get('/edit')->to('#edit')->name('presentation.edit');
+  $presentation->post('/edit')->to('#store')->name('presentation.update');
 }
 
 sub _setup_database {

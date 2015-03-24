@@ -22,7 +22,7 @@ sub edit {
   my $c = shift;
   my $p = $c->model->presentation(
     conference => $c->stash('conference')->identifier,
-    url_name   => $c->stash('url_name'),
+    id   => $c->stash('url_name'),
   );
 
   $c->delay(
@@ -65,7 +65,8 @@ sub store {
     sub {
       my ($delay, $err) = @_;
       die $err if $err;
-      $c->redirect_to(presentation => url_name => $p->url_name);
+      return $c->render('presentation/edit', p => $p, saved => 1) if $id and !$c->param('view');
+      return $c->redirect_to('presentation', url_name => $p->url_name);
     },
   );
 }

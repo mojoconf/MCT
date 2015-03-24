@@ -36,63 +36,70 @@ $t->post_ok('/2015/user/presentations', form => $pres)
 $t->get_ok($location)
   ->status_is(200)
   ->text_is('title' => 'Mojoconf 2015 - My Title')
-  ->text_is('#title' => 'My Title')
-  ->text_is('#author' => 'Presented by: John Doe')
-  ->text_is('#abstract' => 'My content here');
+  ->text_is('h2' => 'My Title')
+  ->text_is('.author' => 'Presented by: John Doe')
+  ->text_is('a[href="/2015/presentations/1/edit"]', 'Edit')
+  ->text_like('.abstract p' => qr{My content here});
 
-$t->get_ok("$location/edit")
+$t->get_ok("/2015/presentations/1/edit")
   ->status_is(200)
-  ->text_is('title' => 'Mojoconf 2015 - Edit: My Title')
+  ->text_is('title' => 'Mojoconf 2015 - My Title')
+  ->element_exists('form[method="POST"][action="/2015/presentations/1/edit"]')
   ->element_exists('input[name="title"][value="My Title"]')
-  ->text_is('textarea[name="abstract"]' => 'My content here');
+  ->text_is('textarea[name="abstract"]' => 'My content here')
+  ->element_exists('button[name="view"][value="1"]')
+  ->element_exists('button[type="reset"]')
+  ->element_exists_not('.saved')
+  ;
 
 # add the id and make a change
 $pres->{id} = $t->tx->res->dom->at('input[name="id"]')->{value};
 $pres->{abstract} = 'New content here';
 
-$t->post_ok('/2015/user/presentations', form => $pres)
-  ->status_is(302)
-  ->header_is('Location' => $location);
-
-$t->get_ok($location)
+$t->post_ok('/2015/presentations/1/edit', form => $pres)
   ->status_is(200)
   ->text_is('title' => 'Mojoconf 2015 - My Title')
-  ->text_is('#title' => 'My Title')
-  ->text_is('#author' => 'Presented by: John Doe')
-  ->text_is('#abstract' => 'New content here');
+  ->element_exists('input[name="title"][value="My Title"]')
+  ->text_is('textarea[name="abstract"]' => 'New content here')
+  ->element_exists('.saved');
+
+$pres->{abstract} = 'Some evil <script src="/evil/location.js"></script>';
+$t->post_ok('/2015/presentations/1/edit', form => $pres)->status_is(200);
+$t->get_ok("/2015/presentations/my-title")
+  ->status_is(200)
+  ->element_exists_not('script[src="/evil/location.js"]');
 
 # change the title (and thus url_name)
 $pres->{title} = 'Some New Title';
+$pres->{view} = 1;
 my $new_location = '/2015/presentations/some-new-title';
 
-$t->post_ok('/2015/user/presentations', form => $pres)
+$t->post_ok('/2015/presentations/1/edit', form => $pres)
   ->status_is(302)
   ->header_is('Location' => $new_location);
 
-$t->get_ok($location)
-  ->status_is(404);
+$t->get_ok($location)->status_is(404);
 
 $t->get_ok($new_location)
   ->status_is(200)
   ->text_is('title' => 'Mojoconf 2015 - Some New Title')
-  ->text_is('#title' => 'Some New Title')
-  ->text_is('#author' => 'Presented by: John Doe')
-  ->text_is('#abstract' => 'New content here');
+  ->text_is('h2' => 'Some New Title')
+  ->text_is('.author' => 'Presented by: John Doe')
+  ->text_is('.abstract p' => 'Some evil <script src="/evil/location.js"></script>');
 
 $t->reset_session;
 
-# attempt to view edit page without permission
-$t->get_ok("$new_location/edit")
+# attemp to view edit page without permission
+$t->get_ok("/2015/presentations/1/edit")
   ->status_is(401)
   ->content_is('Not authorized');
 
 # attempt to update the presentation without permission
 my %bad = (%$pres, abstract => 'This is bad');
-$t->post_ok('/2015/user/presentations', form => \%bad)->status_is(302)->header_like(Location => qr{/oauth/});
+$t->post_ok('/2015/presentations/1/edit', form => \%bad)->status_is(401);
 
 $t->get_ok($new_location)
   ->status_is(200)
-  ->text_is('#abstract' => $pres->{abstract}, 'abstract not changed');
+  ->text_is('.abstract p' => $pres->{abstract}, 'abstract not changed');
 
 done_testing;
-

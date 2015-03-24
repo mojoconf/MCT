@@ -18,7 +18,7 @@ $t->get_ok("/$conf->{identifier}/presentations/my-talk")
   ->status_is(200)
   ->text_is('title' => 'Test For Show Presentation - My Talk')
   ->text_is('h2' => 'My Talk')
-  ->text_is('.author-name' => 'Presented by: Joel Berger')
+  ->text_is('.author' => 'Presented by: Joel Berger')
   ->text_is('h4' => 'Cool talk')
   ->text_like('.abstract p:nth-of-type(1)', qr{My content here})
   ->text_like('.abstract p:nth-of-type(2)', qr{Another paragraph});

@@ -2,6 +2,9 @@ package MCT::Model::UserProduct;
 
 use MCT::Model -row;
 
+use constant CAPTURED_STATUS => 'captured';
+use constant CREATED_STATUS => 'created';
+
 col id => undef;
 
 col currency => undef;

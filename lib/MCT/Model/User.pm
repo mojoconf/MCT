@@ -1,6 +1,7 @@
 package MCT::Model::User;
 
 use MCT::Model -row;
+use MCT::Model::UserProduct;
 
 col id => undef;
 
@@ -54,12 +55,12 @@ sub purchases {
   JOIN user_products up ON up.user_id=u.id
   JOIN conference_products cp ON cp.id=up.product_id
   JOIN conferences c ON c.id=cp.conference_id
-  WHERE u.username=?
+  WHERE u.username=? AND up.status=?
   ORDER BY up.paid DESC, cp.name
   SQL
 
   Mojo::IOLoop->delay(
-    sub { $self->_query($sql, $self->username, shift->begin) },
+    sub { $self->_query($sql, $self->username, MCT::Model::UserProduct::CAPTURED_STATUS, shift->begin) },
     sub {
       my ($delay, $err, $results) = @_;
       die $err if $err;

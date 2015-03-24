@@ -111,7 +111,7 @@ sub purchase {
     sub { # 3. save items with charge id
       my ($delay, $err, $charge, $items) = @_;
       return $c->register($err) if $err;
-      $_->external_link("stripe://$charge->{id}")->status('created') for @$items;
+      $_->external_link("stripe://$charge->{id}")->status($_->CREATED_STATUS) for @$items;
       $c->_save_items($items, $delay->begin);
       $delay->pass($charge, $items);
     },
@@ -123,7 +123,7 @@ sub purchase {
     },
     sub { # 5. update items
       my ($delay, $err, $charge, $items) = @_;
-      $_->status($err || 'captured') for @$items;
+      $_->status($err || $_->CAPTURED_STATUS) for @$items;
       $c->_save_items($items, $delay->begin);
       $delay->pass($charge, $items);
     },
@@ -146,7 +146,7 @@ sub register {
   }
 
   $c->delay(
-    sub { $c->stash('conference')->products(shift->begin); },
+    sub { $c->stash('conference')->products({ uid => $c->session('uid') }, shift->begin); },
     sub {
       my ($delay, $err, $products) = @_;
       $c->render(products => $products);

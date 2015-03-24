@@ -3,6 +3,7 @@ package MCT::Model::Conference;
 use MCT::Model -row;
 use MCT::Model::Countries;
 use MCT::Model::ConferenceProduct;
+use MCT::Model::UserProduct;
 
 col id => undef;
 col address => '';
@@ -30,18 +31,35 @@ sub product {
 }
 
 sub products {
-  my ($self, $cb) = @_;
+  my ($self, $args, $cb) = @_;
+  my ($sql, @bind);
 
-  my $sql = sprintf <<'  SQL', join ', ', map { "p.$_ AS $_" } MCT::Model::ConferenceProduct->columns;
-  SELECT %s
-  FROM conferences c
-  JOIN conference_products p ON p.conference_id=c.id
-  WHERE c.identifier=?
-  ORDER BY name, price
-  SQL
+  if ($args->{uid}) {
+    @bind = ($args->{uid}, MCT::Model::UserProduct::CAPTURED_STATUS, $self->identifier);
+    $sql = sprintf <<'    SQL', join ', ', map { "p.$_ AS $_" } MCT::Model::ConferenceProduct->columns;
+    SELECT
+      %s,
+      up.price as purchased
+    FROM conferences c
+    JOIN conference_products p ON p.conference_id=c.id
+    LEFT JOIN user_products up ON (up.product_id=p.id AND up.user_id=? AND up.status=?)
+    WHERE c.identifier=?
+    ORDER BY name, price
+    SQL
+  }
+  else {
+    @bind = ($self->identifier);
+    $sql = sprintf <<'    SQL', join ', ', map { "p.$_ AS $_" } MCT::Model::ConferenceProduct->columns;
+    SELECT %s
+    FROM conferences c
+    JOIN conference_products p ON p.conference_id=c.id
+    WHERE c.identifier=?
+    ORDER BY name, price
+    SQL
+  }
 
   Mojo::IOLoop->delay(
-    sub { $self->_query($sql, $self->identifier, shift->begin) },
+    sub { $self->_query($sql, @bind, shift->begin) },
     sub {
       my ($delay, $err, $results) = @_;
       my %defaults = (conference => $self->identifier, db => $self->db);

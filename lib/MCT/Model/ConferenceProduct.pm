@@ -13,6 +13,7 @@ col price => 0;
 col currency => 'USD';
 col description => '';
 
+has purchased => 0;
 has conference => '';
 
 sub human_price { sprintf '%.2f', shift->price / 100 }

@@ -50,7 +50,7 @@ $t->get_ok('/my-little-pony/register')->status_is(200)
     ],
   ]);
 
-$t->get_ok('/my-little-pony/user/tickets')->status_is(200)->text_is('h3', 'No tickets have been purchased.');
+$t->get_ok('/my-little-pony/user/purchases')->status_is(200)->text_is('h3', 'No tickets have been purchased.');
 
 my %form;
 for my $i (
@@ -73,7 +73,7 @@ $form{amount} = $haunted_house->price + $horse_ride->price;
 $t->post_ok('/my-little-pony/user/purchase', form => \%form)->status_is(400)->text_like('p.error', qr{Different currencies});
 
 $haunted_house->currency('USD')->save(sub {});
-$t->post_ok('/my-little-pony/user/purchase', form => \%form)->status_is(302)->header_is(Location => '/my-little-pony/user/tickets');
+$t->post_ok('/my-little-pony/user/purchase', form => \%form)->status_is(302)->header_is(Location => '/my-little-pony/user/purchases');
 
 $t->get_ok($t->tx->res->headers->location)->status_is(200)
   ->element_exists('i.fa-shopping-cart')
@@ -89,6 +89,22 @@ $t->get_ok($t->tx->res->headers->location)->status_is(200)
       'My Little Pony',
       'Haunted house',
       '99.90 USD',
+    ],
+  ]);
+
+$t->get_ok('/my-little-pony/register')->status_is(200)
+  ->element_exists('table.products')
+  ->element_exists_not('p[class="error"]')
+  ->$_test_table('table.products tbody', [
+    [
+      'Haunted house',
+      ['a[href="/my-little-pony/user/purchases"]', 'Purchased'],
+      '99.90 USD',
+    ],
+    [
+      'Horse ride',
+      ['a[href="/my-little-pony/user/purchases"]', 'Purchased'],
+      '43.00 USD',
     ],
   ]);
 

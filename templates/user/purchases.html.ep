@@ -39,7 +39,7 @@
         % for my $p (@$purchases) {
           <tr>
             <td><%= $p->conference_name %></td>
-            <td><%= $p->name %></td>
+            <td><%= link_to $p->name, 'event.show', {id => $p->product_id} %></td>
             <td><%= $p->human_price %>&nbsp;<%= $p->currency %></td>
           </tr>
         % }

@@ -11,15 +11,17 @@ my $presentation = $app->model->presentation(
   conference => $conf->{identifier},
   title => 'My Talk',
   url_name => 'my-talk',
-  abstract => 'What I will be talking about',
+  abstract => "# Cool talk\nMy content here\n\nAnother paragraph\n\n",
 )->save;
 
 $t->get_ok("/$conf->{identifier}/presentations/my-talk")
   ->status_is(200)
   ->text_is('title' => 'Test For Show Presentation - My Talk')
-  ->text_is('#title' => 'My Talk')
-  ->text_is('#author' => 'Presented by: Joel Berger')
-  ->text_is('#abstract' => 'What I will be talking about');
+  ->text_is('h2' => 'My Talk')
+  ->text_is('.author-name' => 'Presented by: Joel Berger')
+  ->text_is('h4' => 'Cool talk')
+  ->text_like('.abstract p:nth-of-type(1)', qr{My content here})
+  ->text_like('.abstract p:nth-of-type(2)', qr{Another paragraph});
 
 done_testing;
 

@@ -20,9 +20,9 @@ has conference => '';
 
 sub description_to_html {
   my ($self, $args) = @_;
-  my $dom = Mojo::DOM->new(Text::Markdown::markdown(shift->description));
+  my $dom = Mojo::DOM->new(Text::Markdown::markdown($self->description));
 
-  if ($dom->children->first->tag ne 'h1') {
+  if ((eval { $dom->children->first->tag } || '') ne 'h1') {
     $dom->prepend(sprintf '<h1>%s</h1>', $self->name);
   }
 

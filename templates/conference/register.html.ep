@@ -31,7 +31,7 @@
         % for my $p (@$products) {
           % $currency = $p->currency;
           <tr>
-            <td><%= $p->name %></td>
+            <td><%= link_to $p->name, 'event.show', {id=> $p->id} %></td>
             <td>
               % if ($p->purchased) {
                 %= link_to 'Purchased', 'user.purchases', class => 'pure-button'

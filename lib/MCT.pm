@@ -99,6 +99,9 @@ sub _routes {
   $user->post('/presentations')->to('presentation#store')->name('presentation.save');
   $user->post('/purchase')->to('conference#purchase')->name('product.purchase');
 
+  my $event = $conf->any('/events/:id');
+  $event->get('/')->to('event#show')->name('event.show');
+
   my $presentations = $conf->any('/presentations')->to('presentation#');
   $presentations->get('/')->to('#list')->name('presentations'); # TODO
 

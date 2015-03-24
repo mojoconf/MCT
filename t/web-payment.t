@@ -20,12 +20,12 @@ $t->get_ok('/my-little-pony/register')->status_is(200)
   ->text_is('a[href="/user/connect"]', 'Register')
   ->$_test_table('table.products tbody', [
     [
-      'Haunted house',
+      ['a[href^="/my-little-pony/events/"]', 'Haunted house'],
       ['a[data-amount="9990"]', 'Buy ticket'],
       '99.90 NOK',
     ],
     [
-      'Horse ride',
+      ['a[href^="/my-little-pony/events/"]', 'Horse ride'],
       ['a[data-amount="4300"]', 'Buy ticket'],
       '43.00 USD',
     ],
@@ -39,12 +39,12 @@ $t->get_ok('/my-little-pony/register')->status_is(200)
   ->element_exists_not('p[class="error"]')
   ->$_test_table('table.products tbody', [
     [
-      'Haunted house',
+      ['a[href^="/my-little-pony/events/"]', 'Haunted house'],
       ['a.custom-stripe-button[data-amount="9990"][data-product-id]', 'Buy ticket'],
       '99.90 NOK',
     ],
     [
-      'Horse ride',
+      ['a[href^="/my-little-pony/events/"]', 'Horse ride'],
       ['a.custom-stripe-button[data-amount="4300"][data-product-id]', 'Buy ticket'],
       '43.00 USD',
     ],
@@ -82,12 +82,12 @@ $t->get_ok($t->tx->res->headers->location)->status_is(200)
   ->$_test_table('table.tickets tbody', [
     [
       'My Little Pony',
-      'Horse ride',
+      ['a[href^="/my-little-pony/events/"]', 'Horse ride'],
       '43.00 USD',
     ],
     [
       'My Little Pony',
-      'Haunted house',
+      ['a[href^="/my-little-pony/events/"]', 'Haunted house'],
       '99.90 USD',
     ],
   ]);
@@ -97,12 +97,12 @@ $t->get_ok('/my-little-pony/register')->status_is(200)
   ->element_exists_not('p[class="error"]')
   ->$_test_table('table.products tbody', [
     [
-      'Haunted house',
+      ['a[href^="/my-little-pony/events/"]', 'Haunted house'],
       ['a[href="/my-little-pony/user/purchases"]', 'Purchased'],
       '99.90 USD',
     ],
     [
-      'Horse ride',
+      ['a[href^="/my-little-pony/events/"]', 'Horse ride'],
       ['a[href="/my-little-pony/user/purchases"]', 'Purchased'],
       '43.00 USD',
     ],

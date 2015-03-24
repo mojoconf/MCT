@@ -24,12 +24,16 @@ div.error, p.error {
   background: lighten($error-color, 40%);
   border-color: $error-color;
   padding: 1em;
+
+  a { color: darken($link-color, 20%); }
 }
 
 div.info, p.info {
   background: lighten($info-color, 44%);
   border-color: $info-color;
   padding: 1em;
+
+  a { color: darken($link-color, 20%); }
 
   &.big {
     padding: 2em;
@@ -47,6 +51,10 @@ div.info, p.info {
 
 .hidden {
   display: none;
+}
+
+.pure-button {
+  i:nth-of-type(1) { vertical-align: sub; }
 }
 
 .pure-button-green {

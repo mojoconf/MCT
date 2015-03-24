@@ -1,6 +1,8 @@
 package MCT::Model::ConferenceProduct;
 
 use MCT::Model -row;
+use Mojo::DOM;
+use Text::Markdown ();
 
 col id => undef;
 
@@ -15,6 +17,26 @@ col description => '';
 
 has purchased => 0;
 has conference => '';
+
+sub description_to_html {
+  my ($self, $args) = @_;
+  my $dom = Mojo::DOM->new(Text::Markdown::markdown(shift->description));
+
+  if ($dom->children->first->tag ne 'h1') {
+    $dom->prepend(sprintf '<h1>%s</h1>', $self->name);
+  }
+
+  if (my $level = $args->{headings}) {
+    for my $e ($dom->find('h1,h2,h3,h4,h5,h6')->each) {
+      my $n = $e->tag =~ /(\d+)/ ? $1 : 6;
+      $n += $level;
+      $n = 6 if $n > 6;
+      $e->tag("h$n");
+    }
+  }
+
+  return $dom;
+}
 
 sub human_price { sprintf '%.2f', shift->price / 100 }
 

@@ -17,7 +17,7 @@ my $haunted_house = $conference->product(name => 'Haunted house', price => 9990,
 $t->get_ok('/my-little-pony/register')->status_is(200)
   ->element_exists('table.products')
   ->element_exists_not('form[method="POST"][action="/my-little-pony/user/purchase"]')
-  ->text_is('a[href="/user/connect"]', 'Register')
+  ->text_is('a[href="/user/connect"]', 'Connect')
   ->$_test_table('table.products tbody', [
     [
       ['a[href^="/my-little-pony/events/"]', 'Haunted house'],

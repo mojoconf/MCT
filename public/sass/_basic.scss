@@ -25,7 +25,7 @@ div.error, p.error {
   border-color: $error-color;
   padding: 1em;
 
-  a { color: darken($link-color, 20%); }
+  a:not(.pure-button) { color: darken($link-color, 20%); }
 }
 
 div.info, p.info {
@@ -33,7 +33,7 @@ div.info, p.info {
   border-color: $info-color;
   padding: 1em;
 
-  a { color: darken($link-color, 20%); }
+  a:not(.pure-button) { color: darken($link-color, 20%); }
 
   &.big {
     padding: 2em;

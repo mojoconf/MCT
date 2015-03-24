@@ -19,6 +19,7 @@ sub startup {
   my $app = shift;
 
   $app->plugin('Config' => file => $ENV{MOJO_CONFIG} || $app->home->rel_file('mct.conf'));
+  $app->sessions->default_expiration(3600 * 24);
 
   $app->_setup_database;
   $app->_setup_secrets;

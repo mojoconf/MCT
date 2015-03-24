@@ -51,8 +51,8 @@
       </div>
     % } else {
       <p class="register-before-checkout info hidden">
-        <%= link_to 'Register', 'user.connect', class => 'pure-button pure-button-primary' %>
-        You need to register with <%= link_to 'Github', 'https://github.com' %> to buy a ticket.
+        <%= link_to 'Connect', 'user.connect', class => 'pure-button pure-button-primary' %>
+        Connect with <%= link_to 'Github', 'https://github.com' %> to buy ticket.
       </p>
     % }
     </section>

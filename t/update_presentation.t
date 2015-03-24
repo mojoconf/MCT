@@ -48,7 +48,6 @@ $t->get_ok("/2015/presentations/1/edit")
   ->element_exists('input[name="title"][value="My Title"]')
   ->text_is('textarea[name="abstract"]' => 'My content here')
   ->element_exists('button[name="view"][value="1"]')
-  ->element_exists('button[type="reset"]')
   ->element_exists_not('.saved')
   ;
 

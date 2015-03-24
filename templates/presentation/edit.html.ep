@@ -16,11 +16,10 @@
         %= form_row(title => $p, 'Title');
         %= form_row(abstract => $p, 'Abstract', text_area(abstract => $p->abstract, style => 'height:200px'));
         <div class="submit-row">
-          <button><%= $stored ? 'Save' : 'Submit' %></button>
+          <button class="pure-button pure-button-primary"><%= $stored ? 'Save' : 'Submit' %></button>
           % if ($stored) {
-          <button name="view" value="1">Save and view</button>
+          <button class="pure-button" name="view" value="1">Save and view</button>
           % }
-          <button type="reset">Reset</button>
           % if (stash 'saved') {
           <span class="saved">Saved</span>
           % }

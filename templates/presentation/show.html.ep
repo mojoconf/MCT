@@ -6,15 +6,15 @@
 <div class="content-wrapper">
   <div class="content">
     <section>
+      % if ($p->user_can_update(session('username'))) {
+        %= link_to 'Edit', 'presentation.edit' => {url_name => $p->id}, class => 'pure-button pure-button-primary'
+      % }
       <h2><%= $p->title %></h2>
       <p class="author">Presented by: <%= $p->author_name %></p>
       <h3>Abstract</h3>
       <div class="abstract">
         %== $p->abstract_to_html({headings => 3})
       </div>
-      % if ($p->user_can_update(session('username'))) {
-        %= link_to 'Edit', 'presentation.edit' => {url_name => $p->id}
-      % }
     </section>
   </div>
 

@@ -22,6 +22,7 @@ sub startup {
 
   $app->_setup_database;
   $app->_setup_secrets;
+  $app->_setup_stripe;
   $app->_setup_validation;
 
   $app->helper('model.db'           => sub { $_[0]->stash->{'mct.db'} ||= $_[0]->app->pg->db });
@@ -51,6 +52,12 @@ sub _assets {
     },
   );
 
+  $app->asset('mojoconf.js' => (
+    'http://code.jquery.com/jquery-1.11.2.min.js',
+    'https://raw.githubusercontent.com/stripe/jquery.payment/master/lib/jquery.payment.js',
+    '/js/mct-stripe.js',
+  ));
+
   $app->asset('mojoconf.css' => (
     'https://fonts.googleapis.com/css?family=Oswald:400,300,700',
     'https://fonts.googleapis.com/css?family=PT+Sans+Narrow',
@@ -62,7 +69,7 @@ sub _assets {
 sub _form_row {
   my ($c, $name, $model, $label, $field) = @_;
 
-  return $c->tag(div => class => 'field-row', sub {
+  return $c->tag(div => class => 'form-row', sub {
     return join('',
       $c->tag(label => for => "form_$name", sub { $label }),
       $field || $c->text_field($name, $model ? $model->$name : '', id => "form_$name"),
@@ -80,14 +87,17 @@ sub _routes {
   $app->plugin('MCT::Plugin::ACT' => { url => 'http://act.yapc.eu/mojo2014/' });
 
   my $conf = $app->routes->under('/:cid')->to('conference#load');
-  $conf->get('/:page')->to('conference#page')->name('conference.page');
   $conf->get('/')->to('conference#landing_page')->name('landing_page');
+  $conf->get('/register')->to('conference#register')->name('user.register');
   $conf->get('/user/logout')->to('user#logout')->name('user.logout');
+  $conf->get('/:page')->to('conference#page')->name('conference.page');
 
   my $user = $app->connect->authorized_route($conf->any('/user'));
   $user->any('/profile')->to('user#profile')->name('user.profile');
   $user->get('/presentations')->to('user#presentations')->name('user.presentations');
+  $user->get('/purchases')->to('user#purchases')->name('user.purchases');
   $user->post('/presentations')->to('presentation#store')->name('presentation.save');
+  $user->post('/purchase')->to('conference#purchase')->name('product.purchase');
 
   my $presentations = $conf->any('/presentations')->to('presentation#');
   $presentations->get('/')->to('#list')->name('presentations'); # TODO
@@ -119,6 +129,15 @@ sub _setup_secrets {
   }
 
   $app->secrets($secrets);
+}
+
+sub _setup_stripe {
+  my $app = shift;
+  my $stripe = $app->config('stripe');
+
+  $stripe->{auto_capture} = 0;
+  $stripe->{mocked} //= $ENV{MCT_MOCK};
+  $app->plugin('StripePayment' => $stripe);
 }
 
 sub _setup_validation {

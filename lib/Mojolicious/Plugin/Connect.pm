@@ -337,7 +337,14 @@ sub _get_user_from_github {
       my ($delay, $tx) = @_;
       my $err = $tx->res->error;
       return $self->$cb($err->{message}, {}) if $err;
-      return $self->$cb('', $user->data($tx->res->json));
+      $user->data($tx->res->json);
+      return $self->$cb('', $user) if $user->email;
+      $self->ua->get('https://api.github.com/user/emails', \%headers, $delay->begin);
+    },
+    sub {
+      my ($delay, $tx) = @_;
+      $user->data->{emails} = $tx->res->json;
+      return $self->$cb('', $user);
     },
   );
 }
@@ -373,7 +380,7 @@ sub _oauth2_config {
   for my $name (sort keys %$config) {
     $self->{allowed}{$name} = 1;
     $self->{default_provider} ||= $name;
-    $config->{$name}{scope} //= '';
+    $config->{$name}{scope} //= 'user:email';
   }
 
   return $config;

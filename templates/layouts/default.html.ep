@@ -22,10 +22,13 @@
     <!--<![endif]-->
 
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <link rel="stripe-icon" href="<%= url_for '/images/2015/stripe-icon.png' %>">
     %= asset 'mojoconf.css'
   </head>
   <body>
     %= content
+
+    %= asset 'mojoconf.js'
 
   % if ($conference and app->mode eq 'production' and $conference->analytics_code) {
     <script>

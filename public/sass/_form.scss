@@ -1,5 +1,6 @@
 .form-row {
   clear: left;
+  overflow: hidden;
   margin: 3px 0;
 
   label {
@@ -15,10 +16,10 @@
 
 .submit-row {
   margin-left: 30%;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .form-row .field-with-error {
-  background: lighten($error-color, 10%);
+  background: lighten($error-color, 40%);
   border-color: $error-color;
 }

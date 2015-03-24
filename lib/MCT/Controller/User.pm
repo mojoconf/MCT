@@ -60,4 +60,24 @@ sub profile {
   );
 }
 
+sub purchases {
+  my $c = shift;
+  my $user = $c->model->user(id => $c->session('uid'));
+
+  $c->stash(user => $user);
+  $c->delay(
+    sub { $user->load(shift->begin) },
+    sub {
+      my ($delay, $err) = @_;
+      die $err if $err;
+      $user->purchases($delay->begin);
+    },
+    sub {
+      my ($delay, $err, $purchases) = @_;
+      die $err if $err;
+      $c->render('user/purchases', purchases => $purchases);
+    }
+  );
+}
+
 1;

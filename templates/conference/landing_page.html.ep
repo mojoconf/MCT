@@ -8,7 +8,7 @@
     %= include 'partial/mojoconf-content-header', header => $conference->name
 
     <section>
-      %= link_to 'Buy Tickets', 'conference.page', {page => 'register'}, class => "pure-button pure-button-primary big-action"
+      %= link_to 'Buy Tickets', 'user.register', class => "pure-button pure-button-primary big-action"
 
       <p>
         Mojoconf 2014 was the most successful Mojolicious conference in the

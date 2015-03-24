@@ -1,7 +1,30 @@
-.eventbrite-tickets {
-  border: 0;
-  margin: 0;
-  padding: 0;
-  height: 400px;
-  width: 100%;
+.stripe-payment-form {
+  .fa {
+    float: left;
+    width: 30px;
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .fa-lock {
+    margin-left: 16px;
+    width: 22px;
+  }
+
+  .cc-amount { width: 230px; }
+  .cc-card { width: 230px; }
+  .cc-exp-month { float: left; width: 50px; }
+  .cc-exp-year { float: left; width: 70px; }
+  .cc-cvc { float: left; width: 72px; }
+
+  .cc-submit {
+    margin-top: 10px;
+    margin-left: 30px;
+    clear: left;
+  }
+}
+
+.register-before-checkout .pure-button-primary {
+  margin-top: -4px;
+  float: right;
 }

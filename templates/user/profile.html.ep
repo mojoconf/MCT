@@ -19,6 +19,7 @@
       <ul>
         <li><%= link_to 'Submit presentation', 'presentations' %></li>
         <li><%= link_to 'My presentations', 'user.presentations' %></li>
+        <li><%= link_to 'Purchased tickets', 'user.purchases' %></li>
         <li><%= link_to 'Logout', 'user.logout' %></li>
       </ul>
 

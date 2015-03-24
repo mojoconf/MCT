@@ -31,4 +31,8 @@ $t->get_ok('/testing-connect/user/profile')->status_is(200);
 $t->get_ok('/testing-connect/user/logout')->status_is(200)->content_like(qr{Logged out});
 $t->get_ok('/testing-connect/user/profile')->status_is(302);
 
+$t->app->oauth2->providers->{mocked}{return_token} = 123;
+$t->get_ok('/user/connect?code=42')->status_is(302);
+is($t->app->model->identity(username => 'john_gh', provider => 'mocked')->load(sub {})->token, 123, 'token updated');
+
 done_testing;

@@ -1,0 +1,81 @@
+% layout 'default';
+% title 'Register';
+%= include 'header';
+%= include 'partial/top_image';
+% my $currency;
+
+<div class="content-wrapper">
+  <div class="content">
+    %= include 'partial/mojoconf-content-header', header => 'Buy Tickets'
+    <section>
+      <h3><i class="fa fa-shopping-cart"></i>Buy Tickets</h3>
+
+    % if (my $error = stash 'error') {
+      <p class="error"><%= $error %></p>
+    % } else {
+      <p>
+        Want to hear the latest and greates and meet the awesome Mojolicious
+        community? Join us at the conference!
+      </p>
+    % }
+
+      <table class="full-width products">
+        <thead>
+          <tr>
+            <th>Ticket type</th>
+            <th>&nbsp;</th>
+            <th class="text-align-right">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+        % for my $p (@$products) {
+          % $currency = $p->currency;
+          <tr>
+            <td><%= $p->name %></td>
+            <td>
+              % if ($p->purchased) {
+                %= link_to 'Purchased', 'user.purchases', class => 'pure-button'
+              % } else {
+                <a href="#get-ticket" class="pure-button custom-stripe-button pure-button-green" data-amount="<%= $p->price %>" data-product-id="<%= $p->id %>">Buy ticket</a>
+              % }
+            </td>
+            <td class="text-align-right"><%= $p->human_price %>&nbsp;<%= $p->currency %></td>
+          </tr>
+        % }
+        </tbody>
+      </table>
+
+    % if (session 'uid') {
+      <div class="stripe-payment-form info hidden">
+        %= include 'partial/stripe_payment_form', currency => $currency;
+      </div>
+    % } else {
+      <p class="register-before-checkout info hidden">
+        <%= link_to 'Register', 'user.connect', class => 'pure-button pure-button-primary' %>
+        You need to register with <%= link_to 'Github', 'https://github.com' %> to buy a ticket.
+      </p>
+    % }
+    </section>
+
+    <section>
+      <h3><i class="fa fa-sign-in"></i>Submit a Talk</h3>
+    % if (session 'uid') {
+      <p>
+        Want to give a talk?
+      </p>
+      <p>
+        %= link_to 'Yes!', 'user.presentations', class => 'pure-button pure-button-primary'
+      </p>
+    % } else {
+      <p>
+        Want to give a talk? Connect with <%= link_to 'Github', 'https://github.com' %> to register your proposal.
+      </p>
+      <p>
+        %= link_to 'Register', 'user.profile', class => 'pure-button pure-button-primary'
+      </p>
+    % }
+    </section>
+  </div>
+
+  %= include 'footer';
+</div>

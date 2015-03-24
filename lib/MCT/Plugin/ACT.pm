@@ -7,13 +7,24 @@ our $VERSION = '0.01';
 sub register {
   my ($self, $app, $config) = @_;
   my $base = Mojo::URL->new($config->{url});
-  my $path = $base->path->to_string;
+  my $remote_path = $base->path->to_string;
+  my $local_path = $config->{path} || $remote_path;
   my $domain = $base->host;
 
-  $path =~ s!/+$!!;
+  $remote_path =~ s!/+$!!;
+  $local_path =~ s!/+$!/!;
   $base = $base->clone->host('act.yapc.eu');
 
-  $app->routes->any("$path/*whatever", {whatever => ''})->to(cb => sub {
+  for my $alias (@{$config->{alias}||[]}) {
+    $alias =~ s!/+$!/!;
+    $app->routes->any("$alias/*whatever", {whatever => ''})->to(cb => sub {
+      my $c = shift;
+      my $query = $c->req->url->query->to_string;
+      $c->redirect_to(sprintf '%s/%s%s', $local_path, $c->param('whatever'), $query ? "?$query" : "");
+    });
+  }
+
+  $app->routes->any("$local_path/*whatever", {whatever => ''})->to(cb => sub {
     my $c = shift;
     my $whatever = $c->stash('whatever');
     my $ua = Mojo::UserAgent->new;
@@ -24,7 +35,7 @@ sub register {
         my ($delay) = @_;
         warn "[ACT] GET $base/$whatever (Host: $domain)\n" if DEBUG;
         $tx->req($c->tx->req->clone);
-        $tx->req->url->scheme('http')->host($base->host)->path("$path/$whatever");
+        $tx->req->url->scheme('http')->host($base->host)->path("$remote_path/$whatever");
         $tx->req->headers->host($domain);
         $ua->start($tx, $delay->begin);
       },
@@ -38,8 +49,8 @@ sub register {
           my $host_port = $url->host_port;
           my $scheme = $url->scheme;
 
-          $_->{href} =~ s!^/!$scheme://$host_port/! for $dom->find('[href]')->each;
-          $_->{src} =~ s!^/!$scheme://$host_port/! for $dom->find('[src]')->each;
+          $_->{href} =~ s!^$remote_path!$scheme://$host_port$local_path! for $dom->find('[href]')->each;
+          $_->{src} =~ s!^$remote_path!$scheme://$host_port$local_path! for $dom->find('[src]')->each;
 
           $c->tx->res->headers($tx->res->headers);
           $c->render(text => $dom->to_string, status => $tx->res->code);

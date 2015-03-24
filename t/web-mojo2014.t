@@ -11,15 +11,17 @@ my $host_port;
 $t->get_ok('/');
 $host_port = $t->tx->req->url->host_port;
 
-$t->get_ok('/mojo2014')
-  ->status_is(200)
-  ->element_exists(qq([href="http://$host_port/mojo2014/css/mojoconf.css"]))
-  ->element_exists(qq([src="http://$host_port/mojo2014/js/jquery.js"]));
+$t->get_ok('/mojo2014/schedule?day=2014-05-24')->status_is(302)->header_is(Location => '/2014/schedule?day=2014-05-24');
 
-$t->get_ok('/mojo2014/schedule?day=2014-05-24')
+$t->get_ok('/2014')
   ->status_is(200)
-  ->element_exists(qq(a[href="http://$host_port/mojo2014/event/1519"]));
+  ->element_exists(qq([href="http://$host_port/2014/css/mojoconf.css"]))
+  ->element_exists(qq([src="http://$host_port/2014/js/jquery.js"]));
 
-$t->get_ok('/mojo2014/css/mojoconf.css')->status_is(200);
+$t->get_ok('/2014/schedule?day=2014-05-24')
+  ->status_is(200)
+  ->element_exists(qq(a[href="http://$host_port/2014/event/1519"]));
+
+$t->get_ok('/2014/css/mojoconf.css')->status_is(200);
 
 done_testing;

@@ -22,6 +22,7 @@ WriteMakefile(
     'Mojo::Pg'                    => '1.10',
     'Mojolicious::Plugin::OAuth2' => '1.51',
     'Mojolicious::Plugin::AssetPack' => '0.39',
+    'Mojolicious::Plugin::StripePayment' => '0.02',
   },
   test => {TESTS        => 't/*.t'},
 );

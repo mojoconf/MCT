@@ -1,0 +1,32 @@
+%= javascript 'https://js.stripe.com/v2/'
+%= form_for 'product.purchase', id => 'stripe_payment_form', class => 'hidden', 'data-stripe-key' => app->stripe->pub_key, begin
+  <h4>Checkout</h4>
+
+  <div class="form-row">
+    <i class="fa fa-money"></i>
+    <input type="text" class="cc-amount" value="0.00" readonly="readonly">
+    %= hidden_field 'amount'
+    %= hidden_field 'currency', $currency
+    %= hidden_field 'product_id'
+  </div>
+
+  <div class="form-row">
+    <i class="fa fa-credit-card"></i>
+    <input type="text" class="cc-card" data-stripe="number" placeholder="Card number">
+    %= hidden_field 'stripeToken'
+  </div>
+
+  <div class="form-row">
+    <i class="fa fa-calendar"></i>
+    <input type="text" class="cc-exp-month" data-stripe="exp-month" placeholder="MM" size="2">
+    <input type="text" class="cc-exp-year" data-stripe="exp-year" placeholder="YY" size="4">
+    <i class="fa fa-lock"></i>
+    <input type="text" class="cc-cvc" data-stripe="cvc" placeholder="CVC" size="4">
+  </div>
+
+  <div class="cc-submit">
+    <button class="pure-button pure-button-primary">Pay</button>
+  </div>
+
+  <p class="hidden error"></p>
+% end

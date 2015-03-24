@@ -8,7 +8,7 @@
       % if (stash 'cid') {
         <li class="pure-menu-item"><%= link_to 'Home', 'landing_page', class => 'pure-menu-link' %></li>
         <li class="pure-menu-item"><%= link_to 'Travel', 'conference.page', {page => 'travel'}, class => 'pure-menu-link' %></li>
-        <li class="pure-menu-item"><%= link_to 'Buy Tickets', 'conference.page', {page => 'register'}, class => 'pure-menu-link' %></li>
+        <li class="pure-menu-item"><%= link_to 'Buy Tickets', 'user.register', class => 'pure-menu-link' %></li>
         <li class="pure-menu-item"><%= link_to 'Submit Talk', 'conference.page', {page => 'cfp'}, class => 'pure-menu-link' %></li>
         % if (session 'uid') {
           <li class="pure-menu-item"><%= link_to 'Profile', 'user.profile', class => 'pure-menu-link' %></li>

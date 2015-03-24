@@ -4,4 +4,5 @@ requires 'Mojolicious'                 => '6.00';
 requires 'Mojo::Pg'                    => '1.10';
 requires 'Mojolicious::Plugin::OAuth2' => '1.51';
 requires 'Mojolicious::Plugin::AssetPack' => '0.39';
+requires 'Mojolicious::Plugin::StripePayment' => '0.02';
 test_requires 'Test::More' => '0.88';

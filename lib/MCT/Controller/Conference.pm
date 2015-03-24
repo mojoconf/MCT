@@ -131,7 +131,7 @@ sub purchase {
       my ($delay, $err, $charge, $items) = @_;
       $c->app->log->error("Failed to save items @{[join ',', map {$_->id} @$items]}: $err") if $err;
       $c->flash(purchased_product_id => $c->param('product_id'));
-      $c->redirect_to('user.register');
+      $c->redirect_to('user.purchases');
     },
   );
 }

@@ -12,10 +12,6 @@
 
     % if (my $error = stash 'error') {
       <p class="error"><%= $error %></p>
-    % } elsif (flash 'purchased_product_id') {
-      <p class="info">
-        Thanks for <%= link_to 'purchasing a ticket', 'user.purchases' %>. See you in <%= $conference->city %>!
-      </p>
     % } else {
       <p>
         Want to hear the latest and greates and meet the awesome Mojolicious
@@ -46,9 +42,11 @@
       </table>
 
     % if (session 'uid') {
-      %= include 'partial/stripe_payment_form', currency => $currency;
+      <div class="stripe-payment-form info hidden">
+        %= include 'partial/stripe_payment_form', currency => $currency;
+      </div>
     % } else {
-      <p class="register-before-checkout hidden info">
+      <p class="register-before-checkout info hidden">
         <%= link_to 'Register', 'user.connect', class => 'pure-button pure-button-primary' %>
         You need to register with <%= link_to 'Github', 'https://github.com' %> to buy a ticket.
       </p>

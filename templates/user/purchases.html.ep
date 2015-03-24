@@ -1,6 +1,7 @@
 % layout 'default';
 % title 'Tickets';
 %= include 'header';
+% my @pid = split /,/, (flash('purchased_product_id') || '');
 
 <div class="splash-container">
   <div class="splash for-profile">
@@ -15,8 +16,16 @@
 <div class="content-wrapper">
   <div class="content">
     <section>
+    % if (@pid) {
+      <h3><i class="fa fa-shopping-cart"></i>Ticket<%= @pid > 1 ? 's' : '' %> was purchased!</h3>
+      <p class="info big">
+        How awesome that you <%= @pid > 1 ? 'purchased tickets' : 'purchased a ticket' %>.
+        Looking forward to seeing you in <%= $conference->city %>!
+      </p>
+    % }
+
     % if (@$purchases) {
-      <h3><i class="fa fa-list"></i>Your tickets</h3>
+      <h3><i class="fa fa-list"></i>Purchased tickets</h3>
       <br>
       <table class="full-width tickets">
         <thead>

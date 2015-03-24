@@ -14,7 +14,7 @@
 
   var stripeButtonClicked = function(e) {
     var $target = $(e.target);
-    var $stripeForm = $('#stripe_payment_form');
+    var $stripeForm = $('.stripe-payment-form');
     var $registerBeforeCheckout = $('.register-before-checkout');
     var totalAmount = 0;
     var productId = [];
@@ -54,7 +54,7 @@
       if ($stripeForm.find('.field-with-error').length) return;
       $stripeForm.find('.error').addClass('hidden');
       $stripeForm.find('button').prop('disabled', true).text('Processing...');
-      Stripe.setPublishableKey($stripeForm.attr('data-stripe-key'));
+      Stripe.setPublishableKey($stripeForm.find('.cc-key').val());
       Stripe.card.createToken($stripeForm, function(status, response) {
         if (response.error) {
           $stripeForm.find('.error').text(response.error.message).removeClass('hidden');
@@ -62,7 +62,7 @@
         }
         else {
           $stripeForm.find('[name="stripeToken"]').attr('value', response.id);
-          $stripeForm.get(0).submit();
+          $stripeForm.find('form').get(0).submit();
         }
       });
     });

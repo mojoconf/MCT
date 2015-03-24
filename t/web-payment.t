@@ -73,14 +73,12 @@ $form{amount} = $haunted_house->price + $horse_ride->price;
 $t->post_ok('/my-little-pony/user/purchase', form => \%form)->status_is(400)->text_like('p.error', qr{Different currencies});
 
 $haunted_house->currency('USD')->save(sub {});
-$t->post_ok('/my-little-pony/user/purchase', form => \%form)->status_is(302)->header_is(Location => '/my-little-pony/register');
+$t->post_ok('/my-little-pony/user/purchase', form => \%form)->status_is(302)->header_is(Location => '/my-little-pony/user/tickets');
 
 $t->get_ok($t->tx->res->headers->location)->status_is(200)
-  ->text_is('a[href="/my-little-pony/user/tickets"]', 'purchasing a ticket')
-  ->element_exists('table.products tbody');
-
-$t->get_ok('/my-little-pony/user/tickets')->status_is(200)
-  ->text_is('h3', 'Your tickets')
+  ->element_exists('i.fa-shopping-cart')
+  ->element_exists('p.info.big')
+  ->element_exists('i.fa-list')
   ->$_test_table('table.tickets tbody', [
     [
       'My Little Pony',

@@ -1,0 +1,37 @@
+% layout 'default';
+% title 'My Presentations';
+%= include 'header';
+%= include 'partial/top_image';
+
+<div class="content-wrapper">
+  <div class="content">
+    <section>
+      <p>
+        %= link_to 'Presentations', 'admin.presentations', class => 'pure-button pure-button-primary'
+        %= link_to 'Purchases', 'admin.purchases', class => 'pure-button pure-button-primary'
+        %= link_to 'Users', 'admin.users', class => 'pure-button'
+      </p>
+
+      <h3><i class="fa fa-list"></i>Users</h3>
+      <br>
+      <table class="full-width">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+        % for my $u (@$users) {
+          <tr>
+            <td><%= $u->name || $u->username %></td>
+            <td><a href="mailto:<%= $u->email %>"><%= $u->email || '-' %></a></td>
+          </tr>
+        % }
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  %= include 'footer';
+</div>

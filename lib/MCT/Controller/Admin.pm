@@ -30,4 +30,17 @@ sub presentations {
   );
 }
 
+sub users {
+  my $c = shift;
+
+  $c->delay(
+    sub { $c->stash('conference')->users(shift->begin); },
+    sub {
+      my ($delay, $err, $users) = @_;
+      die $err if $err;
+      $c->render(users => $users);
+    },
+  );
+}
+
 1;

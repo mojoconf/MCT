@@ -4,6 +4,7 @@ use MCT::Model -row;
 use MCT::Model::Countries;
 use MCT::Model::ConferenceProduct;
 use MCT::Model::UserProduct;
+use MCT::Model::User;
 use Mojo::JSON 'decode_json';
 
 my %ROLES = (
@@ -211,6 +212,31 @@ sub revoke_role {
 
   die $res[1] if $res[1];
   return $res[2] if @res;
+  return $self;
+}
+
+sub users {
+  my ($self, $cb) = @_;
+
+  my $sql = sprintf <<'  SQL', join ', ', map { "u.$_ as $_" } MCT::Model::User->columns;
+    SELECT %s
+    FROM user_roles ur
+    JOIN users u ON u.id=ur.user_id
+    WHERE ur.conference_id=?
+    ORDER BY u.name
+  SQL
+
+  Mojo::IOLoop->delay(
+    sub {
+      $self->_query($sql, $self->id, shift->begin);
+    },
+    sub {
+      my ($delay, $err, $results) = @_;
+      die $err if $err;
+      $self->$cb('', [map { $self->new_object(User => %$_) } $results->hashes->each]);
+    },
+  )->catch(sub{ $self->$cb($_[1]) })->wait;
+
   return $self;
 }
 

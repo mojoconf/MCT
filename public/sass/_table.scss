@@ -33,3 +33,10 @@ table.full-width {
     text-align: right;
   }
 }
+
+tr.total {
+  td {
+    border-top: 1px solid #ddd;
+    border-bottom: 3px double #ddd;
+  }
+}

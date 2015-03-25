@@ -2,6 +2,7 @@
 % title 'My Presentations';
 %= include 'header';
 %= include 'partial/top_image';
+% my $total = MCT::Model::UserProduct->new;
 
 <div class="content-wrapper">
   <div class="content">
@@ -25,6 +26,8 @@
         </thead>
         <tbody>
         % for my $p (@$purchases) {
+          % $total->currency($p->currency);
+          % $total->price($total->price + $p->price);
           <tr>
             <td><%= $p->username %></td>
             <td><%= link_to $p->name, 'event.show', {id=> $p->product_id} %></td>
@@ -32,6 +35,11 @@
             <td><%= link_to ucfirst($p->status), $p->external_url %></td>
           </tr>
         % }
+          <tr class="total">
+            <td colspan="2">Total</td>
+            <td><%= $total->human_price %>&nbsp;<%= $total->currency %></td>
+            <td></td>
+          </tr>
         </tbody>
       </table>
     </section>

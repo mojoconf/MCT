@@ -87,7 +87,6 @@ CREATE TABLE user_roles (
   user_id INTEGER NOT NULL REFERENCES users (id) ON UPDATE CASCADE,
   conference_id INTEGER REFERENCES conferences (id) ON UPDATE CASCADE,
   role TEXT NOT NULL,
-  meta JSONB NOT NULL DEFAULT '{}',
   created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   UNIQUE(user_id, conference_id, role)
 );

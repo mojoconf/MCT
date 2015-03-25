@@ -74,17 +74,17 @@ sub has_role {
   $cb ||= sub { @res = @_[1,2] };
 
   if ($args->{id}) {
-    $sql = 'SELECT meta FROM user_roles WHERE user_id=? AND conference_id=? AND role=?';
+    $sql = 'SELECT role FROM user_roles WHERE user_id=? AND conference_id=? AND role=?';
     @bind = ($args->{id}, $self->id, $role);
   }
   else {
-    $sql = 'SELECT meta FROM user_roles WHERE user_id=(SELECT id FROM users WHERE username=?) AND conference_id=? AND role=?';
+    $sql = 'SELECT role FROM user_roles WHERE user_id=(SELECT id FROM users WHERE username=?) AND conference_id=? AND role=?';
     @bind = ($args->{username}, $self->id, $role);
   }
 
   Mojo::IOLoop->delay(
     sub { $self->_query($sql, @bind, shift->begin) },
-    sub { $self->$cb($_[1], eval { decode_json($_[2]->array->[0]) }); },
+    sub { $self->$cb($_[1], eval { $_[2]->array->[0] && {} }); },
   )->catch(sub{ $self->$cb($_[1], undef) })->wait;
 
   die $res[0] if $res[0];

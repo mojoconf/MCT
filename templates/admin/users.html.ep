@@ -6,6 +6,12 @@
 <div class="content-wrapper">
   <div class="content">
     <section>
+      <p>
+        %= link_to 'Presentations', 'admin.presentations', class => 'pure-button pure-button-primary'
+        %= link_to 'Purchases', 'admin.purchases', class => 'pure-button pure-button-primary'
+        %= link_to 'Users', 'admin.users', class => 'pure-button'
+      </p>
+
       <h3><i class="fa fa-list"></i>Users</h3>
       <br>
       <table class="full-width">

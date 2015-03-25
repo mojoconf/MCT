@@ -1,0 +1,30 @@
+% layout 'default';
+% title $event->name;
+%= include 'header';
+%= include 'partial/top_image';
+
+<div class="content-wrapper">
+  <div class="content">
+    <section>
+      <h3><i class="fa fa-edit"></i>Edit event</h3>
+      <br>
+      %= form_for 'event.update', begin
+        %= form_row(name => $event, 'Name');
+        %= form_row(price => $event, 'Price');
+        %= form_row(currency => $event, 'Currency');
+        %= form_row(n_of => $event, 'Number of seats');
+        %= form_row(description => $event, 'Description', text_area(description => $event->description, style => 'height:200px'));
+        <div class="submit-row">
+          <button class="pure-button pure-button-primary">Save</button>
+          <button class="pure-button" name="view" value="1">Save and view</button>
+          % if (stash 'saved') {
+          <span class="saved">Saved</span>
+          % }
+          %= hidden_field id => $event->id
+        </div>
+      % end
+    </section>
+  </div>
+
+  %= include 'footer';
+</div>

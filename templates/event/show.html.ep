@@ -6,13 +6,18 @@
 <div class="content-wrapper">
   <div class="content">
     <section>
+      <p>
       % if ($event->can('price')) {
-        <p>
-          %= link_to 'user.register', class => 'pure-button pure-button-primary', begin
-            <i class="fa fa-sign-in fa-2x"></i> Join this event
-          % end
-        </p>
+        %= link_to 'user.register', class => 'pure-button pure-button-primary', begin
+          <i class="fa fa-sign-in fa-2x"></i> Join this event
+        % end
       % }
+      % if (stash 'is_admin') {
+        %= link_to 'event.edit', class => 'pure-button', begin
+          <i class="fa fa-edit fa-2x"></i> Edit event
+        % end
+      % }
+      </p>
       %== $event->description_to_html({headings => 1})
     </section>
   </div>

@@ -107,6 +107,8 @@ sub _routes {
 
   my $event = $conf->any('/events/:id');
   $event->get('/')->to('event#show')->name('event.show');
+  $event->get('/edit')->to('event#edit')->name('event.edit');
+  $event->post('/edit')->to('event#store')->name('event.update');
 
   my $presentations = $conf->any('/presentations')->to('presentation#');
   $presentations->get('/')->to('#list')->name('presentations'); # TODO

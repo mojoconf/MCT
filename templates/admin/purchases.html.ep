@@ -1,0 +1,35 @@
+% layout 'default';
+% title 'My Presentations';
+%= include 'header';
+%= include 'partial/top_image';
+
+<div class="content-wrapper">
+  <div class="content">
+    <section>
+      <h3><i class="fa fa-list"></i>Purchases</h3>
+      <br>
+      <table class="full-width">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+        % for my $p (@$purchases) {
+          <tr>
+            <td><%= $p->username %></td>
+            <td><%= link_to $p->name, 'event.show', {id=> $p->product_id} %></td>
+            <td><%= $p->human_price %>&nbsp;<%= $p->currency %></td>
+            <td><%= link_to ucfirst($p->status), $p->external_url %></td>
+          </tr>
+        % }
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  %= include 'footer';
+</div>

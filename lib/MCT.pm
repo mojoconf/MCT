@@ -102,6 +102,7 @@ sub _routes {
 
   my $user_admin = $user->under('/admin')->to('admin#authorize');
   $user_admin->get('/presentations')->to('admin#presentations');
+  $user_admin->get('/purchases')->to('admin#purchases');
   $user_admin->get('/users')->to('admin#users');
 
   my $event = $conf->any('/events/:id');

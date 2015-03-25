@@ -30,6 +30,19 @@ sub presentations {
   );
 }
 
+sub purchases {
+  my $c = shift;
+
+  $c->delay(
+    sub { $c->stash('conference')->purchases(shift->begin); },
+    sub {
+      my ($delay, $err, $purchases) = @_;
+      die $err if $err;
+      $c->render(purchases => $purchases);
+    },
+  );
+}
+
 sub users {
   my $c = shift;
 

@@ -20,6 +20,14 @@ has conference_name => '';
 
 sub human_price { sprintf '%.2f', shift->price / 100 }
 
+sub external_url {
+  my $self = shift;
+
+  return "" unless $self->external_link;
+  return "https://dashboard.stripe.com/test/payments/$1" if $self->external_link =~ m!^stripe://(.*)!;
+  return "";
+}
+
 sub validate {
   my ($self, $validation) = @_;
 

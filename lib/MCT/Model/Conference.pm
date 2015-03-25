@@ -177,6 +177,40 @@ sub products {
   return $self;
 }
 
+sub purchases {
+  my ($self, $cb) = @_;
+
+  my $sql = sprintf <<'  SQL';
+  SELECT
+    cp.id as product_id,
+    cp.name as name,
+    cp.description as description,
+    up.currency as currency,
+    up.external_link as external_link,
+    up.price as price,
+    up.status as status,
+    u.username as username,
+    c.name as conference_name
+  FROM users u
+  JOIN user_products up ON up.user_id=u.id
+  JOIN conference_products cp ON cp.id=up.product_id
+  JOIN conferences c ON c.id=cp.conference_id
+  WHERE c.id=?
+  ORDER BY up.paid DESC, cp.name
+  SQL
+
+  Mojo::IOLoop->delay(
+    sub { $self->_query($sql, $self->id, shift->begin) },
+    sub {
+      my ($delay, $err, $results) = @_;
+      die $err if $err;
+      $self->$cb('', [map { $self->new_object(UserProduct => %$_) } $results->hashes->each]);
+    },
+  )->catch(sub{ $self->$cb($_[1], []) })->wait;
+
+  return $self;
+}
+
 # $self->revoke_role($username, "admin");
 # $self->revoke_role({username => $username}, "admin");
 # $self->revoke_role({id => $uid}, "admin");

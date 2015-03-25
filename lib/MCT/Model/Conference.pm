@@ -91,6 +91,45 @@ sub has_role {
   return $self;
 }
 
+sub presentations {
+  my ($self, $cb) = @_;
+
+  my $sql = <<'  SQL';
+    SELECT
+      p.id,
+      p.duration,
+      p.status,
+      p.url_name as url_name,
+      p.title as title,
+      p.abstract as abstract,
+      u.username as author,
+      u.name as author_name
+    FROM presentations p
+    JOIN conferences c ON c.id=p.conference_id
+    JOIN users u ON u.id=p.user_id
+    WHERE c.identifier=?
+    ORDER BY p.title
+  SQL
+
+  Mojo::IOLoop->delay(
+    sub { $self->_query($sql, $self->identifier, shift->begin) },
+    sub {
+      my ($delay, $err, $results) = @_;
+      die $err if $err;
+      $self->$cb(undef, [
+        map {
+          my $data = $_;
+          $data->{conference} = $self->identifier;
+          $data->{conference_name} = $self->name;
+          $self->new_object(Presentation => %$data);
+        } $results->hashes->each
+      ]);
+    },
+  )->catch(sub{ $self->$cb($_[1], undef) })->wait;
+
+  return $self;
+}
+
 sub product {
   my $self = shift;
   $self->new_object('ConferenceProduct', conference => $self->identifier, @_);

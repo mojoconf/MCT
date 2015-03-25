@@ -100,6 +100,9 @@ sub _routes {
   $user->post('/presentations')->to('presentation#store')->name('presentation.create');
   $user->post('/purchase')->to('conference#purchase')->name('product.purchase');
 
+  my $user_admin = $user->under('/admin')->to('admin#authorize');
+  $user_admin->get('/presentations')->to('admin#presentations');
+
   my $event = $conf->any('/events/:id');
   $event->get('/')->to('event#show')->name('event.show');
 

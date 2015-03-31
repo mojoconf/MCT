@@ -46,6 +46,7 @@
       <h3><i class="fa fa-rocket"></i>Courses</h3>
       <div class="courses">
 
+        <a name="2"></a>
         <div class="course">
           <h4><i class="fa fa-star"></i>Non-blocking services with Mojolicious</h4>
           <div class="instructor">
@@ -71,6 +72,7 @@
           </p>
         </div>
 
+        <a name="3"></a>
         <div class="course">
           <h4><i class="fa fa-star"></i>Modernizing CGI.pm Apps with Mojolicious</h4>
           <div class="instructor">

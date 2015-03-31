@@ -4,7 +4,7 @@
 %= include 'partial/top_image';
 
 <div class="content-wrapper">
-  <div class="content">
+  <div class="content landing-page">
     %= include 'partial/mojoconf-content-header', header => $conference->name
 
     <section>
@@ -76,14 +76,13 @@
         we have you covered.
       </p>
 
-      <ol>
-        <li>
-          %= link_to 'Non-Blocking Apps with Mojolicious', 'event.show', {id => 2}
-        </li>
-        <li>
-          %= link_to 'Modernizing CGI.pm Apps with Mojolicious', 'event.show', {id => 3}
-        </li>
-      </ol>
+      <p class="course_links">
+        <i class="fa fa-star"></i>
+        <a href="/2015/training#2">Non-Blocking Apps with Mojolicious</a>
+        <br />
+        <i class="fa fa-star"></i>
+        <a href="/2015/training#3">Modernizing CGI.pm Apps with Mojolicious</a>
+      </p>
 
       <h3><i class="fa fa-thumbs-up"></i>Code of Conduct</h3>
       <p>

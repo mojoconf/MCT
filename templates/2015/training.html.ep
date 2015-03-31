@@ -1,0 +1,109 @@
+% layout 'default';
+% title 'Mojolicious Training';
+
+%= include 'header';
+%= include 'partial/top_image';
+
+<div class="content-wrapper">
+  %= include 'partial/mojoconf-content-header', header => 'Mojolicious Training'
+
+  <div class="content training">
+    <section>
+      <p>
+        Mojoconf is offering two great courses for you this year.
+        Whether you need to modernize those pesky legacy apps,
+        or take your existing Mojolicious apps to the next level,
+        we have you covered.
+      </p>
+
+      <h3><i class="fa fa-rocket"></i>Instructors</h3>
+      <div class="instructors">
+
+        <div class="instructor">
+          <img src="https://avatars1.githubusercontent.com/u/63439?v=3&s=100" />
+          <div class="name">Glen Hinkle (tempire)</div>
+          <p>
+            Glen has been on the Mojolicious core team since 2009.
+            He is known for creating the popular <a href="http://mojocasts.com">Mojocasts</a>,
+            and uses Mojolicious as his primary consulting tool, specializing in API development.
+            At Mojoconf 2014, he taught the first Mojolicious training course to 
+            a sold out crowd, and continues to spread the gospel of non-blocking
+            design.
+          </p>
+        </div>
+
+        <div class="instructor">
+          %= image '/images/2015/dfoy-avatar.jpg'
+          <div class="name">Brian D Foy</div>
+          <p>
+            Brian D Foy is a prolific Perl trainer and writer, and runs The Perl Review to help people use and understand Perl through educational, consulting, code review, and more. He's a frequent speaker at Perl conferences, and is the co-author of Programming Perl, Learning Perl, Intermediate Perl, and Effective Perl Programming, and the author of Mastering Perl.
+          </p>
+        </div>
+
+      </div>
+
+
+      <h3><i class="fa fa-rocket"></i>Courses</h3>
+      <div class="courses">
+
+        <div class="course">
+          <h4><i class="fa fa-star"></i>Non-blocking services with Mojolicious</h4>
+          <div class="instructor">
+            <img src="https://avatars1.githubusercontent.com/u/63439?v=3&s=100" />
+            <div class="name">Glen Hinkle (tempire)</div>
+          </div>
+
+          <p>
+          The course will introduce and prepare the student to implement, troubleshoot, and debug non-blocking clients and web-services quickly and succinctly, giving apps unprecedented scalability, handling 100s and even 1000s of effectively simultaneous actions per process.
+          </p>
+
+          <p>
+          You'll learn why non-blocking apps are important, how to implement them, and learn the potential pitfalls you'll run into and how to avoid them.
+          </p>
+
+          <p>
+          As a bonus, you will also learn how to use the latest Mojolicious sister project, Mojo::Pg! Understand usage and some common pitfalls that you would otherwise run into.
+          </p>
+
+          <p>
+            %= link_to 'Register for Course' => 'user.register' => class => 'pure-button pure-button-primary'
+            %= link_to 'Full Course Description' => 'event.show' => {id => 2} => class => 'pull-right'
+          </p>
+        </div>
+
+        <div class="course">
+          <h4><i class="fa fa-star"></i>Modernizing CGI.pm Apps with Mojolicious</h4>
+          <div class="instructor">
+            %= image '/images/2015/dfoy-avatar.jpg'
+            <div class="name">Brian D Foy</div>
+          </div>
+
+          <p>
+          Whether you've already decided on Mojolicious as your next generation web framework, or you're still considering your options, this course is for you. In this course, we will take you through all of the Mojolicious basics, give you the tools and techniques for making sure you don't miss anything when you modernize, and completely spell out your deployment options.
+          </p>
+
+          <p>
+          The morning session is dedicated to getting you aware of the Mojolicious web framework environment and what it takes to be successful in modernizing your web app. The early afternoon session takes you into having that fast and responsive web application experience, and how Mojolicious accelerates you on that path. Finally, in the last session, we will talk about deployment options and how to be successful in each of those.
+          </p>
+
+          <p>
+          This course is packed with hands-on labs and takeaways that will catapult your
+          modernization efforts to the next level!
+          </p>
+
+          <p>
+            %= link_to 'Register for Course' => 'user.register' => class => 'pure-button pure-button-primary'
+            %= link_to 'Full Course Description' => 'event.show' => {id => 3} => class => 'pull-right'
+          </p>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="courses">
+  </div>
+
+  %= include 'footer'
+</div>

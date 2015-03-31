@@ -1,0 +1,98 @@
+.content.training {
+  .instructors {
+    margin-top: 10px;
+    width: 100%;
+
+    .instructor {
+      float: left;
+      padding: 10px;
+      width: 50%;
+
+      p {
+        margin-top: 10px;
+        font-size: 0.8em;
+      }
+
+      ul li {
+        font-size: 0.8em;
+      }
+
+      .name {
+        text-align: center;
+        color: #34495e;
+      }
+
+      img {
+        border-radius: 50px;
+        width: 100px;
+        border: solid black 1px;
+        vertical-align: bottom;
+        margin: 0 auto 15px auto;
+        display: block;
+      }
+    }
+  }
+
+  .courses {
+    margin-top: 20px;
+
+    h4 {
+      margin: 5px 0 0 0;
+      padding: 0;
+      font-size: 1.3em;
+      position: relative;
+      left: -30px;
+
+      i {
+        padding-right: 8px;
+        font-size: 1.2em;
+        opacity: 0.20;
+      }
+    }
+
+    .course {
+      margin-top: 40px;
+
+      .name {
+        text-align: center;
+        color: #34495e;
+      }
+
+      .instructor {
+        float: right;
+        padding: 0 0 10px 10px;
+        width: 125px;
+
+        img {
+          border-radius: 50px;
+          width: 100px;
+          border: solid black 1px;
+          display: block;
+        }
+
+        .name {
+          width: 100px;
+          color: #34495e;
+        }
+      }
+
+      p {
+        font-size: 0.9em;
+      }
+    }
+
+  }
+}
+
+  /*width: 100%*/
+  /*iframe {*/
+    /*float: right;*/
+    /*border: solid #c0c0c0 1px;*/
+  /*}*/
+
+  /*.hotel {*/
+    /*width: 100%;*/
+    /*overflow: hidden;*/
+    /*padding-bottom: 10px;*/
+  /*}*/
+/*}*/

@@ -34,9 +34,9 @@
 
         <div class="instructor">
           %= image '/images/2015/dfoy-avatar.jpg'
-          <div class="name">Brian D Foy</div>
+          <div class="name">briand  Foy</div>
           <p>
-            Brian D Foy is a prolific Perl trainer and writer, and runs The Perl Review to help people use and understand Perl through educational, consulting, code review, and more. He's a frequent speaker at Perl conferences, and is the co-author of Programming Perl, Learning Perl, Intermediate Perl, and Effective Perl Programming, and the author of Mastering Perl.
+            brian d foy is a prolific Perl trainer and writer, and runs The Perl Review to help people use and understand Perl through educational, consulting, code review, and more. He's a frequent speaker at Perl conferences, and is the co-author of Programming Perl, Learning Perl, Intermediate Perl, and Effective Perl Programming, and the author of Mastering Perl.
           </p>
         </div>
 
@@ -77,7 +77,7 @@
           <h4><i class="fa fa-star"></i>Modernizing CGI.pm Apps with Mojolicious</h4>
           <div class="instructor">
             %= image '/images/2015/dfoy-avatar.jpg'
-            <div class="name">Brian D Foy</div>
+            <div class="name">brian d foy</div>
           </div>
 
           <p>

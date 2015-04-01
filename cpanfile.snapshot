@@ -1,5 +1,57 @@
 # carton snapshot format: version 1.0
 DISTRIBUTIONS
+  Algorithm-Diff-1.1903
+    pathname: T/TY/TYEMQ/Algorithm-Diff-1.1903.tar.gz
+    provides:
+      Algorithm::Diff 1.1903
+      Algorithm::Diff::_impl 1.1903
+    requirements:
+      ExtUtils::MakeMaker 0
+  CPAN-Meta-2.150001
+    pathname: D/DA/DAGOLDEN/CPAN-Meta-2.150001.tar.gz
+    provides:
+      CPAN::Meta 2.150001
+      CPAN::Meta::Converter 2.150001
+      CPAN::Meta::Feature 2.150001
+      CPAN::Meta::History 2.150001
+      CPAN::Meta::Merge 2.150001
+      CPAN::Meta::Prereqs 2.150001
+      CPAN::Meta::Spec 2.150001
+      CPAN::Meta::Validator 2.150001
+    requirements:
+      CPAN::Meta::Requirements 2.121
+      CPAN::Meta::YAML 0.008
+      Carp 0
+      ExtUtils::MakeMaker 6.17
+      JSON::PP 2.27200
+      Parse::CPAN::Meta 1.4414
+      Scalar::Util 0
+      perl 5.008
+      strict 0
+      version 0.88
+      warnings 0
+  CSS-Minifier-XS-0.09
+    pathname: G/GT/GTERMARS/CSS-Minifier-XS-0.09.tar.gz
+    provides:
+      CSS::Minifier::XS 0.09
+    requirements:
+      ExtUtils::CBuilder 0
+      Test::More 0
+  Capture-Tiny-0.28
+    pathname: D/DA/DAGOLDEN/Capture-Tiny-0.28.tar.gz
+    provides:
+      Capture::Tiny 0.28
+    requirements:
+      Carp 0
+      Exporter 0
+      ExtUtils::MakeMaker 6.17
+      File::Spec 0
+      File::Temp 0
+      IO::Handle 0
+      Scalar::Util 0
+      perl 5.006
+      strict 0
+      warnings 0
   DBD-Pg-3.5.1
     pathname: T/TU/TURNSTEP/DBD-Pg-3.5.1.tar.gz
     provides:
@@ -111,6 +163,25 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 6.48
       Test::Simple 0.90
       perl 5.008
+  Exporter-Tiny-0.042
+    pathname: T/TO/TOBYINK/Exporter-Tiny-0.042.tar.gz
+    provides:
+      Exporter::Shiny 0.042
+      Exporter::Tiny 0.042
+    requirements:
+      ExtUtils::MakeMaker 6.17
+      perl 5.006001
+  File-Which-1.12
+    pathname: P/PL/PLICEASE/File-Which-1.12.tar.gz
+    provides:
+      App::pwhich 1.12
+      File::Which 1.12
+    requirements:
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      File::Spec 0.60
+      Getopt::Std 0
+      perl 5.005003
   IO-Socket-SSL-2.012
     pathname: S/SU/SULLR/IO-Socket-SSL-2.012.tar.gz
     provides:
@@ -128,6 +199,89 @@ DISTRIBUTIONS
       Mozilla::CA 0
       Net::SSLeay 1.46
       Scalar::Util 0
+  IPC-Run3-0.048
+    pathname: R/RJ/RJBS/IPC-Run3-0.048.tar.gz
+    provides:
+      IPC::Run3 0.048
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test::More 0.31
+      Time::HiRes 0
+  JavaScript-Minifier-XS-0.11
+    pathname: G/GT/GTERMARS/JavaScript-Minifier-XS-0.11.tar.gz
+    provides:
+      JavaScript::Minifier::XS 0.11
+    requirements:
+      ExtUtils::CBuilder 0
+      Test::More 0
+      perl v5.6.0
+  List-MoreUtils-0.408
+    pathname: R/RE/REHSACK/List-MoreUtils-0.408.tar.gz
+    provides:
+      List::MoreUtils 0.408
+      List::MoreUtils::PP 0.408
+      List::MoreUtils::XS 0.408
+    requirements:
+      Carp 0
+      Exporter::Tiny 0.038
+      ExtUtils::MakeMaker 0
+      File::Basename 0
+      File::Copy 0
+      File::Path 0
+      File::Spec 0
+      IPC::Cmd 0
+      XSLoader 0
+      base 0
+  Module-Build-0.4211
+    pathname: L/LE/LEONT/Module-Build-0.4211.tar.gz
+    provides:
+      Module::Build 0.4211
+      Module::Build::Base 0.4211
+      Module::Build::Compat 0.4211
+      Module::Build::Config 0.4211
+      Module::Build::Cookbook 0.4211
+      Module::Build::Dumper 0.4211
+      Module::Build::Notes 0.4211
+      Module::Build::PPMMaker 0.4211
+      Module::Build::Platform::Default 0.4211
+      Module::Build::Platform::MacOS 0.4211
+      Module::Build::Platform::Unix 0.4211
+      Module::Build::Platform::VMS 0.4211
+      Module::Build::Platform::VOS 0.4211
+      Module::Build::Platform::Windows 0.4211
+      Module::Build::Platform::aix 0.4211
+      Module::Build::Platform::cygwin 0.4211
+      Module::Build::Platform::darwin 0.4211
+      Module::Build::Platform::os2 0.4211
+      Module::Build::PodParser 0.4211
+    requirements:
+      CPAN::Meta 2.142060
+      CPAN::Meta::YAML 0.003
+      Cwd 0
+      Data::Dumper 0
+      ExtUtils::CBuilder 0.27
+      ExtUtils::Install 0
+      ExtUtils::Manifest 0
+      ExtUtils::Mkbootstrap 0
+      ExtUtils::ParseXS 2.21
+      File::Basename 0
+      File::Compare 0
+      File::Copy 0
+      File::Find 0
+      File::Path 0
+      File::Spec 0.82
+      File::Temp 0.15
+      Getopt::Long 0
+      Module::Metadata 1.000002
+      Parse::CPAN::Meta 1.4401
+      Perl::OSType 1
+      Pod::Man 2.17
+      Test::Harness 3.16
+      Test::More 0.49
+      Text::Abbrev 0
+      Text::ParseWords 0
+      perl 5.008000
+      version 0.87
   Mojo-Pg-1.10
     pathname: S/SR/SRI/Mojo-Pg-1.10.tar.gz
     provides:
@@ -256,14 +410,47 @@ DISTRIBUTIONS
       IO::Socket::IP 0.26
       Pod::Simple 3.09
       Time::Local 1.2
-  Mojolicious-Plugin-OAuth2-1.3
-    pathname: M/MR/MRAMBERG/Mojolicious-Plugin-OAuth2-1.3.tar.gz
+  Mojolicious-Plugin-AssetPack-0.44
+    pathname: J/JH/JHTHORSEN/Mojolicious-Plugin-AssetPack-0.44.tar.gz
     provides:
-      Mojolicious::Plugin::OAuth2 1.3
+      Mojolicious::Plugin::AssetPack 0.44
+      Mojolicious::Plugin::AssetPack::Preprocessor undef
+      Mojolicious::Plugin::AssetPack::Preprocessor::CoffeeScript undef
+      Mojolicious::Plugin::AssetPack::Preprocessor::Css undef
+      Mojolicious::Plugin::AssetPack::Preprocessor::Fallback undef
+      Mojolicious::Plugin::AssetPack::Preprocessor::JavaScript undef
+      Mojolicious::Plugin::AssetPack::Preprocessor::Jsx undef
+      Mojolicious::Plugin::AssetPack::Preprocessor::Less undef
+      Mojolicious::Plugin::AssetPack::Preprocessor::Sass undef
+      Mojolicious::Plugin::AssetPack::Preprocessor::Scss undef
+      Mojolicious::Plugin::AssetPack::Preprocessors 0.01
+      Mojolicious::Plugin::AssetPack::Preprocessors::CWD 0.01
+    requirements:
+      CSS::Minifier::XS 0.01
+      ExtUtils::MakeMaker 0
+      File::Which 1.00
+      IPC::Run3 0.04
+      JavaScript::Minifier::XS 0.11
+      Mojolicious 5.00
+      Test::More 0.88
+  Mojolicious-Plugin-OAuth2-1.51
+    pathname: J/JH/JHTHORSEN/Mojolicious-Plugin-OAuth2-1.51.tar.gz
+    provides:
+      Mojolicious::Plugin::OAuth2 1.51
     requirements:
       ExtUtils::MakeMaker 0
-      IO::Socket::SSL 0
-      Mojolicious 1.64
+      IO::Socket::SSL 1.94
+      Mojolicious 6.0
+      Test::More 0.88
+  Mojolicious-Plugin-StripePayment-0.03
+    pathname: J/JH/JHTHORSEN/Mojolicious-Plugin-StripePayment-0.03.tar.gz
+    provides:
+      Mojolicious::Plugin::StripePayment 0.03
+    requirements:
+      ExtUtils::MakeMaker 0
+      IO::Socket::SSL 1.94
+      Mojolicious 6.0
+      Test::More 0.88
   Mozilla-CA-20141217
     pathname: A/AB/ABH/Mozilla-CA-20141217.tar.gz
     provides:
@@ -282,3 +469,64 @@ DISTRIBUTIONS
       MIME::Base64 0
       Test::More 0.60_01
       perl 5.005
+  Sub-Uplevel-0.25
+    pathname: D/DA/DAGOLDEN/Sub-Uplevel-0.25.tar.gz
+    provides:
+      Sub::Uplevel 0.25
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 6.17
+      constant 0
+      perl 5.006
+      strict 0
+      warnings 0
+  Test-Differences-0.63
+    pathname: D/DC/DCANTRELL/Test-Differences-0.63.tar.gz
+    provides:
+      Test::Differences 0.63
+    requirements:
+      Capture::Tiny 0.24
+      Data::Dumper 2.126
+      Test::More 0
+      Text::Diff 0.35
+  Test-Exception-0.38
+    pathname: E/ET/ETHER/Test-Exception-0.38.tar.gz
+    provides:
+      Test::Exception 0.38
+    requirements:
+      Carp 0
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      Sub::Uplevel 0.18
+      Test::Builder 0.7
+      Test::Builder::Tester 1.07
+      Test::Harness 2.03
+      base 0
+      perl 5.006001
+      strict 0
+      warnings 0
+  Text-Diff-1.41
+    pathname: O/OV/OVID/Text-Diff-1.41.tar.gz
+    provides:
+      Text::Diff 1.41
+      Text::Diff::Base 1.41
+      Text::Diff::Config 1.41
+      Text::Diff::Table 1.41
+    requirements:
+      Algorithm::Diff 1.19
+      Exporter 0
+      ExtUtils::MakeMaker 0
+  Text-Markdown-1.000031
+    pathname: B/BO/BOBTFISH/Text-Markdown-1.000031.tar.gz
+    provides:
+      Text::Markdown 1.000031
+    requirements:
+      Digest::MD5 0
+      Encode 0
+      ExtUtils::MakeMaker 6.42
+      FindBin 0
+      List::MoreUtils 0
+      Test::Differences 0
+      Test::Exception 0
+      Test::More 0.42
+      Text::Balanced 0

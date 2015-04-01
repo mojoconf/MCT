@@ -4,7 +4,7 @@
 %= include 'partial/top_image';
 
 <div class="content-wrapper">
-  <div class="content">
+  <div class="content landing-page">
     %= include 'partial/mojoconf-content-header', header => $conference->name
 
     <section>
@@ -68,11 +68,21 @@
         training course. Class size is limited, so that each attendee has access to
         personalized instruction. 
       </p>
-      <ul>
-        <li>Short Lectures, followed by hands on lab</li>
-        <li>Intense focus on non-blocking design</li>
-        <li>Exclusive written material of course content, available only to attendees</li>
-      </ul>
+
+      <p>
+        Mojoconf is offering <%= link_to 'two great courses' => 'conference.page', {page => 'training'} %> for you this year.
+        Whether you need to modernize those pesky legacy apps,
+        or take your existing Mojolicious apps to the next level,
+        we have you covered.
+      </p>
+
+      <p class="course_links">
+        <i class="fa fa-star"></i>
+        <a href="/2015/training#2">Non-Blocking Apps with Mojolicious</a>
+        <br />
+        <i class="fa fa-star"></i>
+        <a href="/2015/training#3">Modernizing CGI.pm Apps with Mojolicious</a>
+      </p>
 
       <h3><i class="fa fa-thumbs-up"></i>Code of Conduct</h3>
       <p>

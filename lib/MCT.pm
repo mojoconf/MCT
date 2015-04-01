@@ -60,6 +60,7 @@ sub _assets {
   ));
 
   $app->asset('mojoconf.css' => (
+    'http://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css',
     'https://fonts.googleapis.com/css?family=Oswald:400,300,700',
     'https://fonts.googleapis.com/css?family=PT+Sans+Narrow',
     'https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css',

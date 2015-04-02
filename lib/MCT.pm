@@ -94,6 +94,8 @@ sub _routes {
   $conf->get('/user/logout')->to('user#logout')->name('user.logout');
   $conf->get('/:page')->to('conference#page')->name('conference.page');
 
+  $conf->get('/user/:username/profile')->to('user#public_profile')->name('user.public_profile');
+
   my $user = $app->connect->authorized_route($conf->any('/user'));
   $user->any('/profile')->to('user#profile')->name('user.profile');
   $user->get('/presentations')->to('user#presentations')->name('user.presentations');

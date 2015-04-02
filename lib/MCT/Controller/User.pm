@@ -60,6 +60,36 @@ sub profile {
   );
 }
 
+sub public_profile {
+  my $c = shift;
+  my $user = $c->model->user(username => $c->stash('username'));
+  my @is_admin;
+
+  $c->stash(user => $user);
+
+  if (my $uid = $c->session('uid')) {
+    push @is_admin, sub { $c->stash('conference')->has_role({id => $uid}, 'admin', shift->begin); };
+  }
+
+  $c->delay(
+    @is_admin,
+    sub {
+      my ($delay, $err, $is_admin) = @_;
+      $c->stash(is_admin => $is_admin);
+      $user->load($delay->begin);
+    },
+    sub {
+      my ($delay, $err) = @_;
+      die $err if $err;
+      return $c->reply->not_found unless $user->id;
+      return $c->respond_to(
+        json => {json => {TODO => 1}},
+        any => {}
+      );
+    },
+  );
+}
+
 sub purchases {
   my $c = shift;
   my $user = $c->model->user(id => $c->session('uid'));

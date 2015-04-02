@@ -26,7 +26,7 @@ my $_test_table = sub {
 };
 
 sub t {
-  Test::More::plan(skip_all => 'set TEST_ONLINE') unless $ENV{TEST_ONLINE};
+  Test::More::plan(skip_all => "TEST_ONLINE=postgresql://@{[scalar getpwuid $<]}\@/mct_test") unless $ENV{TEST_ONLINE};
   $ENV{MCT_SKIP_MIGRATION} //= 1;
   $ENV{MCT_DATABASE_DSN} = $ENV{TEST_ONLINE};
   $ENV{MCT_MOCK} //= 1;

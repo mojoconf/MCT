@@ -265,14 +265,16 @@ sub _connect {
   if ($path =~ m!^$connect_path!) {
     $path = $c->req->headers->referrer;
   }
-  if ($path and $path !~ m!^$connect_path!) {
+  if ($path and $path !~ m!^$connect_path! and $path !~ m!^/mocked/!) {
     $c->session('connect.rdr' => $path);
   }
 
-  $c->session->{connected_with} ||= do {
-    my $name = $c->param('connect_with');
-    ($name and $self->{allowed}{$name}) ? $name : $self->default_provider;
-  };
+  if ((!$c->param('code') and !$c->param('error')) or !$c->session('connected_with')) {
+    $c->session->{connected_with} = do {
+      my $name = $c->param('connect_with');
+      ($name and $self->{allowed}{$name}) ? $name : $self->default_provider;
+    };
+  }
 
   $c->delay(
     sub {

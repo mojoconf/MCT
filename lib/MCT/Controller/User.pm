@@ -37,11 +37,16 @@ sub profile {
   $validation->input->{username} = $c->session('username') unless $validation->param('username');
 
   if ($update and $user->validate($validation)->has_error) {
-    return $c->render('user/profile');
+    return $c->stash(is_admin => 0)->render('user/profile');
   }
 
   $c->delay(
-    sub { $user->load(shift->begin) },
+    sub { $c->stash('conference')->has_role({id => $user->id}, 'admin', shift->begin); },
+    sub {
+      my ($delay, $err, $is_admin) = @_;
+      $c->stash(is_admin => $is_admin);
+      $user->load($delay->begin);
+    },
     sub {
       my ($delay, $err) = @_;
       return $user->save($validation->output, $delay->begin) if $update;

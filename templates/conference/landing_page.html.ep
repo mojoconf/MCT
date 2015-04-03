@@ -38,9 +38,9 @@
               Day 2
               <div class="topic">Talks</div>
             </td>
-            <td>The core team, contributors, and dedicated Mojolicious people you share their knowledge. We look forward to 
-              %= link_to 'hearing your expertise' => 'conference.page', {page => 'cfp'}
-              as well.
+            <td>The core team, contributors, and dedicated Mojolicious users share their knowledge.
+              Do you have something to share?
+              %= link_to 'Submit a Talk!' => 'conference.page', {page => 'cfp'}
             </td>
           </tr>
 

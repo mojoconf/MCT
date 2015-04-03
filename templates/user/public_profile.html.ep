@@ -30,6 +30,10 @@
         <dt>T-Shirt size</dt><dd><%= $user->t_shirt_size || '-' %></dd>
       % }
       </dl>
+      <h4>Bio</h4>
+      <div class="bio">
+        %== $user->bio_to_html({headings => 4})
+      </div>
     </section>
   </div>
 

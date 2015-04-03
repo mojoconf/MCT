@@ -2,11 +2,14 @@ package MCT::Model::User;
 
 use MCT::Model -row;
 use MCT::Model::UserProduct;
+use Mojo::Util 'xml_escape';
+use Text::Markdown ();
 
 col id => undef;
 
 # optional
 col address => '';
+col bio => '';
 col avatar_url => '';
 col city => '';
 col country => '';
@@ -25,6 +28,22 @@ sub avatar {
 
   $url->query({size => $args{size}}) if $args{size};
   $url;
+}
+
+sub bio_to_html {
+  my ($self, $args) = @_;
+  my $dom = Mojo::DOM->new(Text::Markdown::markdown(xml_escape $self->bio));
+
+  if (my $level = $args->{headings}) {
+    for my $e ($dom->find('h1,h2,h3,h4,h5,h6')->each) {
+      my $n = $e->tag =~ /(\d+)/ ? $1 : 6;
+      $n += $level;
+      $n = 6 if $n > 6;
+      $e->tag("h$n");
+    }
+  }
+
+  return $dom;
 }
 
 sub purchase {
@@ -77,6 +96,7 @@ sub validate {
   $validation->optional('address');
   $validation->optional('avatar_url');
   $validation->optional('city');
+  $validation->optional('bio');
   $validation->optional('country')->country;
   $validation->optional('t_shirt_size')->in($self->valid_t_shirt_sizes);
   $validation->optional('web_page')->like(qr!^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?!); # from Mojo::URL

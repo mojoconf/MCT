@@ -38,6 +38,7 @@
         % param t_shirt_size => $user->t_shirt_size unless param 't_shirt_size';
         %= form_row(t_shirt_size => $user, 'T-Shirt size', select_field(t_shirt_size => ['', $user->valid_t_shirt_sizes]));
         %= form_row(web_page => $user, 'Home page');
+        %= form_row(bio => $user, 'Bio', text_area(bio => $user->bio, style => 'height:200px'));
         <div class="submit-row"><button>Update profile</button></div>
       % end
     </section>

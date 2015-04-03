@@ -23,7 +23,7 @@
         <tbody>
           <tr>
             <td>
-              Day 1
+              June 4th
               <div class="topic">Training</div>
             </td>
             <td>
@@ -35,8 +35,9 @@
 
           <tr>
             <td>
-              Day 2
-              <div class="topic">Talks</div>
+              June 5th
+              <div class="topic">Talks
+            </div>
             </td>
             <td>The core team, contributors, and dedicated Mojolicious users share their knowledge.
               Do you have something to share?
@@ -46,7 +47,7 @@
 
           <tr>
             <td>
-              Day 3
+              June 6th
               <div class="topic">Hackathon</div>
             </td>
             <td>Working together to create great products with Mojolicious is what this conference is all about. 

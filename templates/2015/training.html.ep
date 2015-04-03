@@ -46,6 +46,10 @@
       <h3><i class="fa fa-rocket"></i>Courses</h3>
       <div class="courses">
 
+        <p>
+          Courses are taught on the first day of the conference, June 4th, 2015.
+        </p>
+
         <a name="2"></a>
         <div class="course">
           <h4><i class="fa fa-star"></i>Non-blocking services with Mojolicious</h4>

@@ -18,6 +18,45 @@
         to attend <a href="http://www.yapcna.org/yn2015/">YAPC::NA</a>.
       </p>
 
+      <h3><i class="fa fa-map-marker"></i>Schedule</h3>
+      <table class="schedule">
+        <tbody>
+          <tr>
+            <td>
+              Day 1
+              <div class="topic">Training</div>
+            </td>
+            <td>
+              Mojoconf is offering 
+              %= link_to '2 great Mojolicious courses' => 'conference.page', {page => 'training'}
+              for you this year.
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              Day 2
+              <div class="topic">Talks</div>
+            </td>
+            <td>The core team, contributors, and dedicated Mojolicious people you share their knowledge. We look forward to 
+              %= link_to 'hearing your expertise' => 'conference.page', {page => 'cfp'}
+              as well.
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              Day 3
+              <div class="topic">Hackathon</div>
+            </td>
+            <td>Working together to create great products with Mojolicious is what this conference is all about. 
+              %= link_to 'Join us!', 'user.register'
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+
       <h3><i class="fa fa-map-marker"></i>Location</h3>
       <p>
         Mojoconf 2015 will be held at The Houston Street Center in lower Manhattan.
@@ -66,7 +105,7 @@
       <p>
         Mojoconf offers exclusive training for Mojolicious with an intensive full-day
         training course. Class size is limited, so that each attendee has access to
-        personalized instruction. 
+        personalized instruction.
       </p>
 
       <p>

@@ -28,7 +28,7 @@
             </td>
             <td>
               Mojoconf is offering 
-              %= link_to '2 great Mojolicious courses' => 'conference.page', {page => 'training'}
+              %= link_to 'two great Mojolicious courses' => 'conference.page', {page => 'training'}
               for you this year.
             </td>
           </tr>

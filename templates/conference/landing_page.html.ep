@@ -29,7 +29,7 @@
             <td>
               Mojoconf is offering 
               %= link_to 'two great Mojolicious courses' => 'conference.page', {page => 'training'}
-              for you this year.
+              for you this year. These courses are a great shortcut to getting the edge you need to create great apps.
             </td>
           </tr>
 

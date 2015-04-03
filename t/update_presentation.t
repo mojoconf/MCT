@@ -37,7 +37,7 @@ $t->get_ok($location)
   ->status_is(200)
   ->text_is('title' => 'Mojoconf 2015 - My Title')
   ->text_is('h2' => 'My Title')
-  ->text_is('.author' => 'Presented by: John Doe')
+  ->text_is('.author a' => 'John Doe')
   ->text_is('a[href="/2015/presentations/1/edit"]', 'Edit')
   ->text_like('.abstract p' => qr{My content here});
 
@@ -83,7 +83,7 @@ $t->get_ok($new_location)
   ->status_is(200)
   ->text_is('title' => 'Mojoconf 2015 - Some New Title')
   ->text_is('h2' => 'Some New Title')
-  ->text_is('.author' => 'Presented by: John Doe')
+  ->text_is('.author a' => 'John Doe')
   ->text_is('.abstract p' => 'Some evil <script src="/evil/location.js"></script>');
 
 $t->reset_session;

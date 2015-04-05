@@ -1,0 +1,22 @@
+% layout 'default';
+% title 'Schedule';
+%= include 'partial/header';
+%= include 'partial/top_image';
+
+<div class="content-wrapper">
+  <div class="mojoconf-content-header">
+    <h2 class="content-head is-center">Conference schedule</h2>
+  </div>
+  <div class="content">
+    <section>
+      <div id="schedule"></div>
+      <p>
+        %= link_to 'conference.schedule', {format => 'ical'}, class => 'pure-button pure-button-primary', begin
+          <i class="fa fa-download"></i> iCal
+        % end
+      </p>
+    </section>
+  </div>
+
+  %= include 'partial/footer';
+</div>

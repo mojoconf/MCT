@@ -23,11 +23,14 @@
 
     <link rel="stripe-icon" href="<%= url_for '/images/2015/stripe-icon.png' %>">
     %= asset 'mojoconf.css'
+    %= asset 'schedule.css' if stash 'show_schedule';
+    %= asset 'schedule-print.css', {}, media => 'print' if stash 'show_schedule';
   </head>
   <body data-referrer="<%= Mojo::URL->new($c->req->headers->referrer || '')->host %>">
     %= content
 
     %= asset 'mojoconf.js'
+    %= asset 'schedule.js' if stash 'show_schedule';
 
   % if ($conference and app->mode eq 'production' and $conference->analytics_code) {
     <script>

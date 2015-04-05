@@ -63,6 +63,8 @@
         </tbody>
       </table>
       <p>
+        %= link_to 'Complete schedule', 'conference.schedule'
+      </p>
 
       <h3><i class="fa fa-map-marker"></i>Sponsoring</h3>
       <p>

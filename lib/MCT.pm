@@ -68,6 +68,15 @@ sub _assets {
     'https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css',
     '/sass/mct.scss',
   ));
+
+  $app->asset('schedule.js' => (
+    'http://momentjs.com/downloads/moment.min.js',
+    'http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.3.1/fullcalendar.min.js',
+    '/js/schedule.js',
+  ));
+
+  $app->asset('schedule.css' => 'http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.3.1/fullcalendar.min.css');
+  $app->asset('schedule-print.css' => 'http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.3.1/fullcalendar.print.css');
 }
 
 sub _form_row {

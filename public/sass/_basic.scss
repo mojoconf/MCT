@@ -10,6 +10,8 @@ a.big-action {
   color: white;
   padding: 20px;
   font-weight: bold;
+
+  i:nth-of-type(1) { vertical-align: sub; }
 }
 
 hr {
@@ -51,10 +53,6 @@ div.info, p.info {
 
 .hidden {
   display: none;
-}
-
-.pure-button {
-  i:nth-of-type(1) { vertical-align: sub; }
 }
 
 .pure-button-green {

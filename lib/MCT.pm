@@ -56,6 +56,7 @@ sub _assets {
   $app->asset('mojoconf.js' => (
     'http://code.jquery.com/jquery-1.11.2.min.js',
     'https://raw.githubusercontent.com/stripe/jquery.payment/master/lib/jquery.payment.js',
+    '/js/main.js',
     '/js/stripe.js',
   ));
 

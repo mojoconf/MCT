@@ -24,7 +24,7 @@
     <link rel="stripe-icon" href="<%= url_for '/images/2015/stripe-icon.png' %>">
     %= asset 'mojoconf.css'
   </head>
-  <body>
+  <body data-referrer="<%= Mojo::URL->new($c->req->headers->referrer || '')->host %>">
     %= content
 
     %= asset 'mojoconf.js'

@@ -163,6 +163,17 @@ sub _default_conference {
   );
 }
 
+sub schedule {
+  my $c = shift;
+
+  $c->stash(show_schedule => 1);
+  $c->respond_to(
+    ical => \&_schedule_as_ical,
+    json => \&_schedule_as_json,
+    any => sub {shift->render},
+  );
+}
+
 sub _find_latest_identifier {
   my ($c, $cb) = @_;
   $c->model->db->query('SELECT identifier FROM conferences ORDER BY created DESC LIMIT 1', $cb);
@@ -200,6 +211,46 @@ sub _save_items {
   }
 
   $c->delay(@steps, sub { $c->$cb($_[1]) });
+}
+
+sub _schedule_as_ical {
+  my $c = shift;
+
+  $c->reply->ical({
+    events => [
+      { summary => 'Non-blocking services with Mojolicious', dtstart => '20150604T090000', dtend => '20150604T160000', description => 'https://www.mojoconf.com/2015/events/1' },
+      { summary => 'Modernizing CGI.pm Apps with Mojolicious', dtstart => '20150604T090000', dtend => '20150604T160000', description => 'https://www.mojoconf.com/2015/events/2' },
+      { summary => 'Hackathon', dtstart => '20150606T090000', dtend => '20150606T160000', description => 'https://www.mojoconf.com/2015' }
+    ],
+    properties => $c->_schedule_properties,
+  });
+}
+
+sub _schedule_as_json {
+  my $c = shift;
+
+  $c->render(json => {
+    events => [
+      { id => 1, title => 'Non-blocking services with Mojolicious', start => '2015-06-04T09:00:00', end => '2015-06-04T16:00:00', className => 'training', url => 'https://www.mojoconf.com/2015/events/1' },
+      { id => 2, title => 'Modernizing CGI.pm Apps with Mojolicious', start => '2015-06-04T09:00:00', end => '2015-06-04T16:00:00', className => 'training', url => 'https://www.mojoconf.com/2015/events/2' },
+      { title => 'Talks', start => '2015-06-05', className => 'talks', rendering => 'background', url => 'https://www.mojoconf.com/2015' },
+      { title => 'Hackathon', start => '2015-06-06', className => 'hackathon', rendering => 'background', url => 'https://www.mojoconf.com/2015' },
+      { title => 'Hackathon', start => '2015-06-06T09:00:00', end => '2015-06-06T16:00:00', className => 'hackathon', url => 'https://www.mojoconf.com/2015' }
+    ],
+    defaults => {},
+    properties => $c->_schedule_properties,
+  });
+}
+
+sub _schedule_properties {
+  my $c = shift;
+  my $conference = $c->stash('conference');
+
+  return {
+    prodid => sprintf('-//%s//NONSGML %s//EN', $conference->domain || 'MCT', $conference->identifier),
+    x_wr_caldesc => $conference->tagline,
+    x_wr_calname => $conference->name,
+  };
 }
 
 1;

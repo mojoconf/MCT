@@ -19,6 +19,7 @@ sub startup {
   my $app = shift;
 
   $app->plugin('Config' => file => $ENV{MOJO_CONFIG} || $app->home->rel_file('mct.conf'));
+  $app->plugin('Ical');
   $app->sessions->default_expiration(3600 * 24);
 
   $app->_setup_database;
@@ -92,6 +93,7 @@ sub _routes {
   my $conf = $app->routes->under('/:cid')->to('conference#load');
   $conf->get('/')->to('conference#landing_page')->name('landing_page');
   $conf->get('/register')->to('conference#register')->name('user.register');
+  $conf->get('/schedule')->to('conference#schedule')->name('conference.schedule');
   $conf->get('/user/logout')->to('user#logout')->name('user.logout');
   $conf->get('/:page')->to('conference#page')->name('conference.page');
 

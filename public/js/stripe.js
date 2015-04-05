@@ -1,4 +1,4 @@
-;(function() {
+;(function($) {
   var stripeHandler;
 
   var cardIcon = function(e) {
@@ -91,4 +91,4 @@
     $('input.cc-exp-year').payment('restrictNumeric').focus(resetValidation);
     $('input.cc-cvc').payment('formatCardCVC').focus(resetValidation);
   });
-})();
+})(jQuery);

@@ -3,7 +3,7 @@
 % my $error = stash('error') || param('error') || '';
 % my $original_path = $c->stash('cid') ? $c->flash('original_path') || $c->url_for('user.profile') : $c->url_for('index');
 
-%= include 'header'
+%= include 'partial/header'
 %= include 'partial/top_image'
 
 <div class="content-wrapper">
@@ -29,5 +29,5 @@
     </section>
   </div>
 
-  %= include 'footer';
+  %= include 'partial/footer';
 </div>

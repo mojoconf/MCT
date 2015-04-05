@@ -1,6 +1,6 @@
 % title 'Travel, Venue, Accommodations';
 % layout 'default';
-%= include 'header';
+%= include 'partial/header';
 
 <div class="splash-container">
   <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3023.7409898604774!2d-73.992419!3d40.723718!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25985a53495db%3A0x8a92620b00f12c5e!2sUniversity+Settlement+at+the+Houston+Street+Center!5e0!3m2!1sen!2sus!4v1424926053419" width="100%" height="400" frameborder="0" style="border:0"></iframe>
@@ -79,6 +79,5 @@
     </section>
   </div>
 
-%= include 'footer';
-
+  %= include 'partial/footer';
 </div>

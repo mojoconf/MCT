@@ -1,6 +1,6 @@
 % layout 'default';
 % title 'Code of Conduct';
-%= include 'header';
+%= include 'partial/header';
 %= include 'partial/top_image';
 
 <div class="content-wrapper">
@@ -81,5 +81,5 @@
     </section>
   </div>
 
-  %= include 'footer';
+  %= include 'partial/footer';
 </div>

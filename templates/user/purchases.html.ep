@@ -1,6 +1,6 @@
 % layout 'default';
 % title 'Tickets';
-%= include 'header';
+%= include 'partial/header';
 % my @pid = split /,/, (flash('purchased_product_id') || '');
 
 <div class="splash-container">
@@ -51,5 +51,5 @@
     </section>
   </div>
 
-  %= include 'footer';
+  %= include 'partial/footer';
 </div>

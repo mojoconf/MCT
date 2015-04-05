@@ -4,7 +4,7 @@
 % my $stored = $p->in_storage;
 
 % title $stored ? $p->title : 'Submit a presentation';
-%= include 'header';
+%= include 'partial/header';
 %= include 'partial/top_image';
 
 <div class="content-wrapper">
@@ -31,5 +31,5 @@
     </section>
   </div>
 
-  %= include 'footer';
+  %= include 'partial/footer';
 </div>

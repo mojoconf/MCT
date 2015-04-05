@@ -1,6 +1,6 @@
 % layout 'default';
 % title 'Profile';
-%= include 'header';
+%= include 'partial/header';
 
 <div class="splash-container">
   <div class="splash for-profile">
@@ -44,5 +44,5 @@
     </section>
   </div>
 
-  %= include 'footer';
+  %= include 'partial/footer';
 </div>

@@ -97,19 +97,19 @@ sub presentations {
 
   my $sql = <<'  SQL';
     SELECT
-      p.id,
-      p.duration,
-      p.status,
-      p.url_name as url_name,
-      p.title as title,
-      p.abstract as abstract,
+      e.id,
+      e.duration,
+      e.status,
+      e.identifier as identifier,
+      e.title as title,
+      e.description as description,
       u.username as author,
       u.name as author_name
-    FROM presentations p
-    JOIN conferences c ON c.id=p.conference_id
-    JOIN users u ON u.id=p.user_id
+    FROM events e
+    JOIN conferences c ON c.id=e.conference_id
+    JOIN users u ON u.id=e.user_id
     WHERE c.identifier=?
-    ORDER BY p.title
+    ORDER BY e.title
   SQL
 
   Mojo::IOLoop->delay(

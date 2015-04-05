@@ -26,7 +26,7 @@
         <tbody>
         % for my $p (@$presentations) {
           <tr>
-            <td><%= link_to $p->title, 'presentation' => {cid => $p->conference, url_name => $p->url_name} %></td>
+            <td><%= link_to $p->title, 'presentation' => {cid => $p->conference, pid => $p->identifier} %></td>
             <td><%= $p->duration %></td>
             <td><%= $p->status %></td>
           </tr>

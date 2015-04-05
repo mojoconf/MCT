@@ -4,13 +4,17 @@ use MCT::Model -row;
 use Text::Markdown ();
 use Mojo::Util 'xml_escape';
 
-my @VALID_STATUS = qw( waiting accepted rejected confirmed );
+my @VALID_STATUS = qw( TENTATIVE CONFIRMED CANCELLED NEEDS-ACTION COMPLETED IN-PROCESS );
 
-col abstract => '';
+col description => '';
 col duration => 20;
-col status => 'waiting';
+col external_url => '';
+col identifier => '';
+col sequence => 0;
+col start_time => undef,
+col status => 'TENTATIVE';
 col title => '';
-col url_name => '';
+col type => 'talk';
 
 has author_name => '';
 has author => '';
@@ -26,14 +30,14 @@ sub change_status {
   }
 
   my $sql = <<'  SQL';
-    UPDATE presentations p
+    UPDATE events e
     SET status=?
     FROM conferences c
-    WHERE c.identifier=? AND p.url_name=?
+    WHERE c.identifier=? AND e.identifier=?
   SQL
 
   Mojo::IOLoop->delay(
-    sub { $self->_query($sql, $status, $self->conference, $self->url_name, shift->begin) },
+    sub { $self->_query($sql, $status, $self->conference, $self->identifier, shift->begin) },
     sub {
       my ($delay, $err, $res) = @_;
       $self->status($status) unless $err;
@@ -44,9 +48,9 @@ sub change_status {
   return $self;
 }
 
-sub abstract_to_html {
+sub description_to_html {
   my ($self, $args) = @_;
-  my $dom = Mojo::DOM->new(Text::Markdown::markdown(xml_escape $self->abstract));
+  my $dom = Mojo::DOM->new(Text::Markdown::markdown(xml_escape $self->description));
 
   if (my $level = $args->{headings}) {
     for my $e ($dom->find('h1,h2,h3,h4,h5,h6')->each) {
@@ -64,14 +68,14 @@ sub validate {
   my ($self, $validation) = @_;
 
   $validation->required('title');
-  $validation->required('abstract');
-  $validation->optional('url_name');
+  $validation->required('description');
+  $validation->optional('identifier');
 
   my $output = $validation->output;
-  if (my $title = $output->{title} and not $output->{url_name}) {
+  if (my $title = $output->{title} and not $output->{identifier}) {
     $title =~ s/\s+/-/g;
     $title =~ s/(\W)/$1 eq '-' ? '-' : ''/eg;
-    $output->{url_name} = lc $title;
+    $output->{identifier} = lc $title;
   }
 
   return $validation;
@@ -79,50 +83,54 @@ sub validate {
 
 sub _load_sst {
   my $self = shift;
-  my $key  = $self->id ? 'id' : 'url_name';
+  my $key  = $self->id ? 'id' : 'identifier';
 
   <<"  SQL", map { $self->$_ } 'conference', $key;
     SELECT
-      p.id,
+      e.id,
       c.identifier as conference,
       c.name as conference_name,
       u.username as author,
       u.name as author_name,
-      p.duration,
-      p.status,
-      p.url_name,
-      p.title,
-      p.abstract
-    FROM presentations p
-    JOIN conferences c ON c.id=p.conference_id
-    JOIN users u ON u.id=p.user_id
+      e.duration as duration,
+      e.external_url as external_url,
+      e.status as status,
+      e.identifier as identifier,
+      e.title as title,
+      e.description as description,
+      e.type as type
+    FROM events e
+    JOIN conferences c ON c.id=e.conference_id
+    JOIN users u ON u.id=e.user_id
     WHERE
       c.identifier=?
-      AND p.$key=?
+      AND e.$key=?
   SQL
 }
 
 sub _insert_sst {
   my $self = shift;
   # http://sqlfiddle.com/#!15/e1168/1/3
-  <<'  SQL', map { $self->$_ } qw( conference author duration url_name title abstract );
-    INSERT INTO presentations (conference_id, user_id, duration, url_name, title, abstract)
+  <<'  SQL', map { $self->$_ } qw( conference author duration identifier title description external_url type );
+    INSERT INTO events (conference_id, user_id, duration, identifier, title, description, external_url, type)
     VALUES(
       (SELECT c.id FROM conferences c WHERE c.identifier=?),
       (SELECT u.id FROM users u WHERE u.username=?),
-      ?, ?, ?, ?
+      ?, ?, ?, ?, ?, ?
     )
     RETURNING id
   SQL
 }
 
+sub _next_sequence { shift->sequence + 1 }
+
 sub _update_sst {
   my $self = shift;
-  <<'  SQL', map { $self->$_ } qw( url_name title abstract duration conference id );
-    UPDATE presentations p
-    SET url_name=?, title=?, abstract=?, duration=?
+  <<'  SQL', map { $self->$_ } qw( identifier title description duration _next_sequence external_url type conference id );
+    UPDATE events e
+    SET identifier=?, title=?, description=?, duration=?, sequence=?, external_url=?, type=?
     FROM conferences c
-    WHERE c.identifier=? AND p.id=?
+    WHERE c.identifier=? AND e.id=?
   SQL
 }
 
@@ -136,7 +144,7 @@ sub user_can_update {
 
 sub TO_JSON {
   my $self = shift;
-  return { map { ($_, $self->$_) } qw( url_name title abstract author author_name conference id ) };
+  return { map { ($_, $self->$_) } qw( identifier title description author author_name conference id ) };
 }
 
 1;

@@ -19,7 +19,7 @@
       <br>
       %= form_for 'presentation.create' => method => post => begin
         %= form_row(title => undef, 'Title');
-        %= form_row(abstract => undef, 'Abstract', text_area('abstract', style => 'height:200px'));
+        %= form_row(description => undef, 'Abstract', text_area('description', style => 'height:200px'));
         <div class="submit-row"><button>Submit</button></div>
       % end
     </section>
@@ -39,7 +39,7 @@
         % for my $p (@$presentations) {
           <tr>
             <td><%= $p->conference_name %></td>
-            <td><%= link_to $p->title, 'presentation' => {cid => $p->conference, url_name => $p->url_name} %></td>
+            <td><%= link_to $p->title, 'presentation' => {cid => $p->conference, pid => $p->identifier} %></td>
           </tr>
         % }
         </tbody>

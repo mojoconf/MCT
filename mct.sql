@@ -91,6 +91,37 @@ CREATE TABLE user_roles (
   UNIQUE(user_id, conference_id, role)
 );
 DROP TABLE IF EXISTS user_conferences; -- replaced by user_roles
+-- 7 up
+CREATE TABLE locations (
+  id            SERIAL PRIMARY KEY,
+  conference_id INTEGER REFERENCES conferences (id),
+  name          TEXT NOT NULL,
+  location      TEXT NOT NULL DEFAULT '',
+  latitude      REAL,
+  longitude     REAL,
+  UNIQUE (conference_id, name)
+);
+CREATE TABLE events (
+  id            SERIAL               PRIMARY KEY,
+  conference_id INTEGER     NOT NULL REFERENCES conferences (id),
+  user_id       INTEGER     NOT NULL REFERENCES users       (id),
+  location_id   INTEGER              REFERENCES locations   (id),
+  type          VARCHAR(16) NOT NULL,
+  identifier    TEXT        NOT NULL,                     -- /:cid/events/:identifier
+  title         TEXT        NOT NULL,
+  description   TEXT        NOT NULL DEFAULT '',
+  external_url  TEXT        NOT NULL DEFAULT '',
+  sequence      INTEGER              DEFAULT 0,           -- http://www.kanzaki.com/docs/ical/sequence.html
+  status        VARCHAR(16) NOT NULL DEFAULT 'TENTATIVE', -- http://www.kanzaki.com/docs/ical/status.html
+  start_time    TIMESTAMP,
+  duration      INTEGER              DEFAULT 20,
+  created       TIMESTAMP            DEFAULT CURRENT_TIMESTAMP,
+  last_modified TIMESTAMP            DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE (conference_id, identifier)
+);
+INSERT INTO events (id, conference_id, user_id, title, description, identifier, duration, type)
+  SELECT id, conference_id, user_id, title, abstract, url_name, duration, 'talk' FROM presentations;
+DROP TABLE IF EXISTS presentations;
 -- 1 down
 DROP TABLE IF EXISTS presentations;
 DROP TABLE IF EXISTS conferences;
@@ -124,3 +155,19 @@ DROP TABLE IF EXISTS conference_products;
 ALTER TABLE user_products DROP COLUMN status;
 -- 6 down
 DROP TABLE IF EXISTS user_roles;
+-- 7 down
+CREATE TABLE presentations (
+  id SERIAL PRIMARY KEY,
+  conference_id INTEGER REFERENCES conferences (id) ON UPDATE CASCADE,
+  user_id INTEGER NOT NULL REFERENCES users (id),
+  title TEXT NOT NULL,
+  abstract TEXT,
+  url_name TEXT NOT NULL,
+  duration INTEGER DEFAULT 20,
+  status VARCHAR(16) DEFAULT 'waiting', -- waiting,accepted,rejected,confirmed
+  UNIQUE (url_name, conference_id)
+);
+INSERT INTO presentations (id, conference_id, user_id, title, abstract, url_name, duration)
+  SELECT id, conference_id, user_id, title, description, identifier, duration FROM events;
+DROP TABLE IF EXISTS events;
+DROP TABLE IF EXISTS locations;

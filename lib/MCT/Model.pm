@@ -131,4 +131,48 @@ sub import {
   *{"$caller\::col"} = sub { $caller->_col(@_) };
 }
 
+=head1 NAME
+
+MCT::Model - Base model class
+
+=head1 SYNOPSIS
+
+  package MCT::Model::User;
+  use MCT::Model -row;
+
+  col id => undef;
+
+  sub validate {
+    my ($self, $validation) = @_;
+    # ...
+    return $validation;
+  }
+
+  sub _insert_sst { return $sql, @binds }
+  sub _load_sst   { return $sql, @binds }
+  sub _update_sst { return $sql, @binds }
+
+  sub TO_JSON {
+    return {id => $_[0]->id};
+  }
+
+=head1 POSTGRESQL COMMANDS
+
+  # Create databases
+  $ sudo -u postgres createuser $USER
+  $ sudo -u postgres createdb -O $USER mct_development
+  $ sudo -u postgres createdb -O $USER mct_test
+
+  # clear out all tables from mct_test
+  $ sudo -u postgres psql -c "drop schema public cascade" mct_test;
+  $ psql -c "create schema public" mct_test;
+
+=head1 AUTHOR
+
+Jan Henning Thorsen - C<jhthorsen@cpan.org>
+
+Joel Berger - C<jberger@cpan.org>
+
+=cut
+
 1;

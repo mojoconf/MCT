@@ -26,12 +26,13 @@ my $_test_table = sub {
 };
 
 sub t {
+  my ($class, %args) = @_;
   Test::More::plan(skip_all => "TEST_ONLINE=postgresql://@{[scalar getpwuid $<]}\@/mct_test") unless $ENV{TEST_ONLINE};
   $ENV{MCT_SKIP_MIGRATION} //= 1;
   $ENV{MCT_DATABASE_DSN} = $ENV{TEST_ONLINE};
   $ENV{MCT_MOCK} //= 1;
   my $t = Test::Mojo->new('MCT');
-  $t->app->migrations->migrate(0)->migrate;
+  $t->app->migrations->migrate(0)->migrate($args{migrate_to});
   $t;
 }
 

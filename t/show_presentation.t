@@ -10,8 +10,8 @@ my $presentation = $app->model->presentation(
   author => 'jberger',
   conference => $conf->{identifier},
   title => 'My Talk',
-  url_name => 'my-talk',
-  abstract => "# Cool talk\nMy content here\n\nAnother paragraph\n\n",
+  identifier => 'my-talk',
+  description => "# Cool talk\nMy content here\n\nAnother paragraph\n\n",
 )->save;
 
 $t->get_ok("/$conf->{identifier}/presentations/my-talk")

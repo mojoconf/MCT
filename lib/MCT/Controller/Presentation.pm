@@ -4,10 +4,8 @@ use Mojo::Base 'Mojolicious::Controller';
 
 sub show {
   my $c = shift;
-  my $p = $c->model->presentation(
-    conference => $c->stash('conference')->identifier,
-    url_name   => $c->stash('url_name'),
-  );
+  my $p = $c->model->presentation(conference => $c->stash('conference')->identifier, identifier => $c->stash('pid'));
+
   $c->delay(
     sub { $p->load(shift->begin) },
     sub {
@@ -20,10 +18,7 @@ sub show {
 
 sub edit {
   my $c = shift;
-  my $p = $c->model->presentation(
-    conference => $c->stash('conference')->identifier,
-    id   => $c->stash('url_name'),
-  );
+  my $p = $c->model->presentation(conference => $c->stash('conference')->identifier, id => $c->stash('pid'));
 
   $c->delay(
     sub { $p->load(shift->begin) },
@@ -39,12 +34,10 @@ sub edit {
 sub store {
   my $c = shift;
   my $validation = $c->validation;
-
   my $id = $c->param('id');
-  my $p = $c->model->presentation(
-    conference => $c->stash('conference')->identifier,
-    $id ? (id => $id) : (),
-  );
+  my $p = $c->model->presentation(conference => $c->stash('conference')->identifier);
+
+  $p->id($id) if $id;
 
   # if validation fails, render the edit page
   if ($p->validate($validation)->has_error) {
@@ -66,7 +59,7 @@ sub store {
       my ($delay, $err) = @_;
       die $err if $err;
       return $c->render('presentation/edit', p => $p, saved => 1) if $id and !$c->param('view');
-      return $c->redirect_to('presentation', url_name => $p->url_name);
+      return $c->redirect_to('presentation', pid => $p->identifier);
     },
   );
 }

@@ -117,7 +117,7 @@ sub _routes {
   my $presentations = $conf->any('/presentations')->to('presentation#');
   $presentations->get('/')->to('#list')->name('presentations'); # TODO
 
-  my $presentation = $presentations->any('/:url_name');
+  my $presentation = $presentations->any('/:pid');
   $presentation->get('/')->to('#show')->name('presentation');
   $presentation->get('/edit')->to('#edit')->name('presentation.edit');
   $presentation->post('/edit')->to('#store')->name('presentation.update');

@@ -14,7 +14,7 @@
       <br>
       %= form_for 'presentation.update' => begin
         %= form_row(title => $p, 'Title');
-        %= form_row(abstract => $p, 'Abstract', text_area(abstract => $p->abstract, style => 'height:200px'));
+        %= form_row(description => $p, 'Abstract', text_area(description => $p->description, style => 'height:200px'));
         <div class="submit-row">
           <button class="pure-button pure-button-primary"><%= $stored ? 'Save' : 'Submit' %></button>
           % if ($stored) {

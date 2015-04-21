@@ -217,6 +217,25 @@ Conference data, user information and talks are stored in the local database.
 
 =back
 
+=head1 SYNOPSIS
+
+=head2 Production
+
+To use the default settings, simply start the application with
+L<hypnotoad|Mojo::Server::Hypnotoad>:
+
+  $ hypnotoad /path/to/mct/script/mct;
+
+=head2 Development
+
+To start developing, it's suggested to start mct with these options:
+
+  # MCT_MOCK: Mock interaction with GitHub and other third parties
+  #       -w: Watch the directories for changes in case AssetPack need
+  #           to rebuild the static files.
+
+  $ MCT_MOCK=1 morbo script/mct -w public/sass -w public/js -w lib
+
 =head1 AUTHOR
 
 Glen Hinkle E<lt>tempire@cpan.org<gt>

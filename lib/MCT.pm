@@ -219,6 +219,20 @@ Conference data, user information and talks are stored in the local database.
 
 =head1 SYNOPSIS
 
+=head2 Create databases
+
+Below is how you would create the databases in Ubuntu/Debian:
+
+  $ sudo -u postgres createuser $USER
+  $ sudo -u postgres createdb -O $USER mct_development
+  $ sudo -u postgres createdb -O $USER mct_production
+  $ sudo -u postgres createdb -O $USER mct_test
+
+Below is a nifty command that is usefule while developing. This command will
+drop all the tables in a database:
+
+  $ psql -c 'drop schema public cascade;create schema public' mct_test
+
 =head2 Production
 
 To use the default settings, simply start the application with

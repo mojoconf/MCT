@@ -17,6 +17,7 @@ col status => '';
 has description => '';
 has name => '';
 has username => '';
+has email => '';
 has conference_name => '';
 
 sub human_price { sprintf '%.2f', shift->price / 100 }

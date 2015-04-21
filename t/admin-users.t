@@ -13,7 +13,7 @@ $t->get_ok('/devops/user/admin/users')
   ->status_is(200)
   ->$_test_table([
     [
-      'John Doe',
+      ['a[href="/devops/user/john_gh/profile"]', 'John Doe'],
       ['a[href="mailto:john@example.com"]', 'john@example.com'],
     ]
   ]);

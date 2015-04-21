@@ -29,7 +29,10 @@
           % $total->currency($p->currency);
           % $total->price($total->price + $p->price);
           <tr>
-            <td><%= $p->username %></td>
+            <td>
+              <a href="mailto:<%= $p->email %>"><i class="fa fa-envelope"></i></a>
+              %= link_to $p->username, 'user.public_profile', {username=> $p->username}
+            </td>
             <td><%= link_to $p->name, 'event.show', {id=> $p->product_id} %></td>
             <td><%= $p->human_price %>&nbsp;<%= $p->currency %></td>
             <td><%= link_to ucfirst($p->status), $p->external_url %></td>

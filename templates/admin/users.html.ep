@@ -24,7 +24,7 @@
         <tbody>
         % for my $u (@$users) {
           <tr>
-            <td><%= $u->name || $u->username %></td>
+            <td><%= link_to +($u->name || $u->username), 'user.public_profile', {username => $u->username} %></td>
             <td><a href="mailto:<%= $u->email %>"><%= $u->email || '-' %></a></td>
           </tr>
         % }

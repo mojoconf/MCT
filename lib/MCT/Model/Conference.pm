@@ -190,6 +190,7 @@ sub purchases {
     up.price as price,
     up.status as status,
     u.username as username,
+    u.email as email,
     c.name as conference_name
   FROM users u
   JOIN user_products up ON up.user_id=u.id

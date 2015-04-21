@@ -5,7 +5,7 @@ my $conference = $t->app->model->conference(name => 'xyz', country => 'NO')->sav
 
 $t->get_ok('/user/connect?code=42')->status_is(302);
 my $user = $t->app->model->user(username => 'john_gh')->load->bio('I do my little turn on the catwalk.')->save;
-$t->get_ok('/xyz/user/logout')->status_is(200);
+$t->get_ok('/xyz/user/logout')->status_is(302)->header_is(Location => '/xyz');
 
 $t->get_ok('/xyz/user/whatever/profile')->status_is(404);
 $t->get_ok('/xyz/user/john_gh/profile')->status_is(200)

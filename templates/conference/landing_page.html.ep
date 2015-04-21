@@ -5,6 +5,12 @@
 
 <div class="content-wrapper">
   <div class="content landing-page">
+    % if (flash 'logged_out') {
+    <section>
+      <p class="logged-out">You have been logged out.</p>
+    </section>
+    % }
+
     %= include 'partial/mojoconf-content-header', header => $conference->name
 
     <section>

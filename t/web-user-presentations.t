@@ -37,7 +37,7 @@ $t->get_ok('/all-the-presentations/user/presentations')->status_is(200)
     ],
   ]);
 
-$t->get_ok('/all-the-presentations/user/logout')->status_is(200);
+$t->get_ok('/all-the-presentations/user/logout')->status_is(302);
 $t->get_ok('/all-the-presentations/user/presentations')->status_is(302);
 
 done_testing;

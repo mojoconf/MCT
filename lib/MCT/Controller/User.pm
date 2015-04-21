@@ -5,7 +5,7 @@ use Mojo::Base 'Mojolicious::Controller';
 sub logout {
   my $c = shift;
   delete $c->session->{$_} for qw( connected_with uid username );
-  $c->render('user/logout');
+  $c->flash(logged_out => 1)->redirect_to('landing_page');
 }
 
 sub presentations {

@@ -4,7 +4,7 @@ my $t = t::Helper->t;
 
 $t->app->model->conference(name => 'Testing Connect', country => 'GB')->save(sub {});
 
-$t->get_ok('/testing-connect/user/logout')->status_is(200);
+$t->get_ok('/testing-connect/user/logout')->status_is(302);
 
 # redirected to github connect page
 $t->get_ok('/testing-connect/user/profile')->status_is(302);
@@ -28,7 +28,10 @@ $t->get_ok($url)->status_is(302)->header_is(Location => '/testing-connect/user/p
 $t->get_ok('/testing-connect/user/profile')->status_is(200);
 
 # logged out
-$t->get_ok('/testing-connect/user/logout')->status_is(200)->content_like(qr{Logged out});
+$t->get_ok('/testing-connect/user/logout')->status_is(302);
+my $location = $t->tx->res->headers->location;
+$t->get_ok($location)->status_is(200)->element_exists('.logged-out');
+$t->get_ok($location)->status_is(200)->element_exists_not('.logged-out'); # removed because of flash
 $t->get_ok('/testing-connect/user/profile')->status_is(302);
 
 $t->app->oauth2->providers->{mocked}{return_token} = 123;

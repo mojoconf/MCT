@@ -1,6 +1,7 @@
 % layout 'default';
 % title 'My Presentations';
 %= include 'partial/header';
+% use MCT::Model::Presentation;
 
 <div class="splash-container">
   <div class="splash for-profile">
@@ -17,14 +18,7 @@
     <section>
       <h3><i class="fa fa-edit"></i>Submit presentation to <%= $conference->name %></h3>
       <br>
-      %= form_for 'presentation.create' => method => post => begin
-        %= form_row(title => undef, 'Title');
-        %= form_row(description => undef, 'Abstract', text_area('description', style => 'height:200px'));
-        <div class="submit-row"><button>Submit</button></div>
-      % end
-    </section>
 
-    <section>
     % if (@$presentations) {
       <h3><i class="fa fa-list"></i>Your presentations</h3>
       <br>
@@ -47,6 +41,16 @@
     % } else {
       <h3><i class="fa fa-edit"></i>No presentations</h3>
     % }
+    </section>
+
+    <section>
+      %= form_for 'presentation.create' => method => post => begin
+        %= form_row(title => undef, 'Title');
+        % param duration => 20 unless param 'duration';
+        %= form_row(duration => undef, 'Duration', select_field(duration => [MCT::Model::Presentation->valid_durations]));
+        %= form_row(description => undef, 'Abstract', text_area('description', style => 'height:200px'));
+        <div class="submit-row"><button>Submit</button></div>
+      % end
     </section>
   </div>
 

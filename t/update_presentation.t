@@ -15,17 +15,20 @@ $t->get_ok('/2015/user/presentations')
   ->text_is('title' => 'Mojoconf 2015 - My Presentations')
   ->element_exists('form[action="/2015/user/presentations"][method="post"]')
   ->element_exists('form input[name="title"]')
+  ->element_exists('form select[name="duration"] option[value="20"][selected]')
   ->element_exists('form textarea[name="description"]');
 
 # test validation failure
-$t->post_ok('/2015/user/presentations', form => {})
+$t->post_ok('/2015/user/presentations', form => {duration => 40})
   ->status_is(200)
   ->text_is('title' => 'Mojoconf 2015 - Submit a presentation')
   ->element_exists('input.field-with-error[name="title"]')
+  ->element_exists('select[name="duration"] option[value="40"][selected]')
   ->element_exists('textarea.field-with-error[name="description"]');
 
 my $pres = {
   title => 'My Title',
+  duration => 20,
   description => 'My content here',
 };
 my $location = '/2015/presentations/my-title';
@@ -46,6 +49,7 @@ $t->get_ok("/2015/presentations/1/edit")
   ->text_is('title' => 'Mojoconf 2015 - My Title')
   ->element_exists('form[method="POST"][action="/2015/presentations/1/edit"]')
   ->element_exists('input[name="title"][value="My Title"]')
+  ->element_exists('select[name="duration"] option[value="20"][selected]')
   ->text_is('textarea[name="description"]' => 'My content here')
   ->element_exists('button[name="view"][value="1"]')
   ->element_exists_not('.saved')
@@ -53,12 +57,14 @@ $t->get_ok("/2015/presentations/1/edit")
 
 # add the id and make a change
 $pres->{id} = $t->tx->res->dom->at('input[name="id"]')->{value};
+$pres->{duration} = 40;
 $pres->{description} = 'New content here';
 
 $t->post_ok('/2015/presentations/1/edit', form => $pres)
   ->status_is(200)
   ->text_is('title' => 'Mojoconf 2015 - My Title')
   ->element_exists('input[name="title"][value="My Title"]')
+  ->element_exists('select[name="duration"] option[value="40"][selected]')
   ->text_is('textarea[name="description"]' => 'New content here')
   ->element_exists('.saved');
 

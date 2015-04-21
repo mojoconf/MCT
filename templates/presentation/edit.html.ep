@@ -14,6 +14,8 @@
       <br>
       %= form_for 'presentation.update' => begin
         %= form_row(title => $p, 'Title');
+        % param duration => $p->duration unless param 'duration';
+        %= form_row(duration => undef, 'Duration', select_field(duration => [MCT::Model::Presentation->valid_durations]));
         %= form_row(description => $p, 'Abstract', text_area(description => $p->description, style => 'height:200px'));
         <div class="submit-row">
           <button class="pure-button pure-button-primary"><%= $stored ? 'Save' : 'Submit' %></button>

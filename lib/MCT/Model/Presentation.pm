@@ -70,6 +70,7 @@ sub validate {
   $validation->required('title');
   $validation->required('description');
   $validation->optional('identifier');
+  $validation->optional('duration')->in($self->valid_durations);
 
   my $output = $validation->output;
   if (my $title = $output->{title} and not $output->{identifier}) {
@@ -80,6 +81,8 @@ sub validate {
 
   return $validation;
 }
+
+sub valid_durations { qw( 5 20 40 60 ) }
 
 sub _load_sst {
   my $self = shift;

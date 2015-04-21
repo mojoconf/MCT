@@ -25,13 +25,13 @@ $t->get_ok('/fun-fun-fun/user/admin/purchases')
       'john_gh',
       ['a[href="/fun-fun-fun/events/2"]', 'Happy meal'],
       '12.00 USD',
-      ['a[href="https://dashboard.stripe.com/test/payments/ch_15ceESLV2Qt9u2twk0Arv0Z8"]', 'Captured'],
+      ['a[href="https://dashboard.stripe.com/payments/ch_15ceESLV2Qt9u2twk0Arv0Z8"]', 'Captured'],
     ],
     [
       'john_gh',
       ['a[href="/fun-fun-fun/events/1"]', 'Horse ride'],
       '43.00 USD',
-      ['a[href="https://dashboard.stripe.com/test/payments/ch_15ceESLV2Qt9u2twk0Arv0Z8"]', 'Captured'],
+      ['a[href="https://dashboard.stripe.com/payments/ch_15ceESLV2Qt9u2twk0Arv0Z8"]', 'Captured'],
     ],
     [
       'Total',

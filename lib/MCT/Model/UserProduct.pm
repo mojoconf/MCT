@@ -4,6 +4,7 @@ use MCT::Model -row;
 
 use constant CAPTURED_STATUS => 'captured';
 use constant CREATED_STATUS => 'created';
+use constant STRIPE_DASHBOARD_URL => $ENV{STRIPE_DASHBOARD_URL} || 'https://dashboard.stripe.com/payments/%s';
 
 col id => undef;
 
@@ -24,7 +25,7 @@ sub external_url {
   my $self = shift;
 
   return "" unless $self->external_link;
-  return "https://dashboard.stripe.com/test/payments/$1" if $self->external_link =~ m!^stripe://(.*)!;
+  return sprintf STRIPE_DASHBOARD_URL, $1 if $self->external_link =~ m!^stripe://(.*)!;
   return "";
 }
 

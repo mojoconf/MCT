@@ -16,9 +16,6 @@
 <div class="content-wrapper">
   <div class="content">
     <section>
-      <h3><i class="fa fa-edit"></i>Submit presentation to <%= $conference->name %></h3>
-      <br>
-
     % if (@$presentations) {
       <h3><i class="fa fa-list"></i>Your presentations</h3>
       <br>
@@ -44,6 +41,8 @@
     </section>
 
     <section>
+      <h3><i class="fa fa-edit"></i>Submit presentation to <%= $conference->name %></h3>
+      <br>
       %= form_for 'presentation.create' => method => post => begin
         %= form_row(title => undef, 'Title');
         % param duration => 20 unless param 'duration';

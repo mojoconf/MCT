@@ -8,7 +8,7 @@ $t->app->model->conference(name => 'Other conference')->save;
 
 $t->get_ok('/user/connect', form => {code => 42})->status_is(302);
 $t->get_ok('/all-the-presentations/user/presentations')->status_is(200)
-  ->text_is('section:nth-of-child(2) > h3', 'No presentations')
+  ->text_is('section:nth-of-child(1) > h3', 'No presentations')
   ->element_exists_not('table');
 
 my $pres = { title => 'Extremely cool talk about users', description => "# Cool talk\nMy content here\nAnother paragraph\n\n" };
@@ -21,7 +21,7 @@ $pres->{title} = 'Yet a talk';
 $t->post_ok('/other-conference/user/presentations', form => $pres)->status_is(302);
 
 $t->get_ok('/all-the-presentations/user/presentations')->status_is(200)
-  ->text_is('section:nth-of-child(2) > h3', 'Your presentations')
+  ->text_is('section:nth-of-child(1) > h3', 'Your presentations')
   ->$_test_table([
     [
       'Other conference',

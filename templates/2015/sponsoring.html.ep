@@ -1,0 +1,60 @@
+% layout 'default';
+% title 'Sponsoring Mojoconf';
+
+%= include 'partial/header';
+%= include 'partial/top_image';
+
+<div class="content-wrapper">
+  %= include 'partial/mojoconf-content-header', header => 'Sponsoring Mojoconf'
+  <div class="content">
+    <section>
+
+      <h3><i class="fa fa-map-marker"></i>About Mojoconf</h3>
+      <p>
+        Mojoconf is an annual conference that brings together WebDev and WebOps
+        professionals from around the globe. It focuses on the Mojolicious web
+        development framework, which enables developers and designers to move
+        quickly from proof-of-concept to production quality web applications.
+      </p>
+
+      <h3><i class="fa fa-map-marker"></i>Get the Prospectus</h3>
+      <p>
+        The <%= link_to '/2015/prospectus.pdf' => ( target => '_blank' ) => begin %>
+        Sponsorship Prospectus <% end %> for Mojoconf 2015 is now available. This
+        year, we have sponsorship packages for both organizations and individuals.
+      </p>
+
+      <h3><i class="fa fa-map-marker"></i>Get Seen. By Everyone.</h3>
+      <p>
+        With your sponsorship, we give you direct exposure to attendees in the
+        WebDev and WebOps space. Whether it’s recruiting, development tools,
+        cloud services, or another relevant offering, sponsorship will highlight
+        your deep interest and commitment to attendee interests.
+      </p>
+
+      <h3><i class="fa fa-map-marker"></i>Focused Attention</h3>
+      <p>
+        The conference size means more time for you to build relationships with
+        attendees. You will have visibility to every attendee at the conference.
+        That means better, more concrete opportunities for you.
+      </p>
+
+      <h3><i class="fa fa-map-marker"></i>Succeed with Clear Messaging</h3>
+      <p>
+        The conference focus means you can better target your marketing to the
+        audience. When your sponsorship includes exhibition space, your marketing
+        collateral can focus on Web development and delivery, making it easier
+        for you to express your offering’s value.
+      </p>
+
+      <h3><i class="fa fa-map-marker"></i>Feel the Passion</h3>
+      <p>
+        The conference speakers, especially those who develop, extend, and build
+        applications on the Mojolicious framework, draws attendees who are
+        excited about extending their individual capabilities. The excitement
+        reinforces the positive vibe your offerings can give.
+      </p>
+    </section>
+  </div>
+  %= include 'partial/footer'
+</div>

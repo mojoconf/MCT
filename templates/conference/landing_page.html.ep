@@ -33,7 +33,7 @@
               <div class="topic">Training</div>
             </td>
             <td>
-              Mojoconf is offering 
+              Mojoconf is offering
               %= link_to 'two great Mojolicious courses' => 'conference.page', {page => 'training'}
               for you this year. These courses are a great shortcut to getting the edge you need to create great apps.
             </td>
@@ -56,13 +56,21 @@
               June 6th
               <div class="topic">Hackathon</div>
             </td>
-            <td>Working together to create great products with Mojolicious is what this conference is all about. 
+            <td>Working together to create great products with Mojolicious is what this conference is all about.
               %= link_to 'Join us!', 'user.register'
             </td>
           </tr>
         </tbody>
       </table>
       <p>
+
+      <h3><i class="fa fa-map-marker"></i>Sponsoring</h3>
+      <p>
+        This year, we have both individual and corporate sponsorships available.
+        Go to the
+        %= link_to 'Sponsoring' => 'conference.page', { page => 'sponsoring' }
+        page for details!
+      </p>
 
       <h3><i class="fa fa-map-marker"></i>Location</h3>
       <p>

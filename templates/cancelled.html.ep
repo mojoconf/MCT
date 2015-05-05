@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mojoconf 2015</title>
+  </head>
+  <body style="background:#222;color:#eee;margin:3em;">
+    <pre style="margin:0 auto;padding:0;width:44em;font-size:12px;">
+Hello,
+
+Due to unforeseen circumstances, Mojoconf 2015 has been cancelled.
+It is truly an unfortunate situation.
+
+For those who have purchased tickets and/or training, your payment
+refund will be processed as soon as possible.
+
+For those who have already booked travel to NYC, I apologize.
+Please enjoy your time in New York.
+There are conversations happening to have a Saturday event in lieu
+of the cancellation.  If that happens, then I will send email to you.
+
+Thank you for wishing to take part in Mojoconf 2015.
+
+
+
+<a style="color:#ccc;" href="mailto:hello@mojoconf.com">hello@mojoconf.com</a>
+
+
+<span style="color:#aaa;font-size:10px">See also:</span>
+<a style="color:#aaa;font-size:10px" href="https://twitter.com/mojoconf/status/595618252132331520">@mojoconf</a>
+<a style="color:#aaa;font-size:10px" href="https://twitter.com/briandfoy_perl/status/595665972222173184">@briandfoy</a>
+
+
+---------------------------------------------------------------------
+<a style="color:#aaa;font-size:10px" href="https://mojoconf.org/mojo2014">Mojoconf 2014</a>
+    </pre>
+
+  % use MCT::Model::Conference;
+  % my $conference = MCT::Model::Conference->new;
+  % if ($conference and app->mode eq 'production' and $conference->analytics_code) {
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', '<%= $conference->analytics_code %>', 'auto');
+      ga('send', 'pageview');
+    </script>
+  % }
+  </body>
+</html>

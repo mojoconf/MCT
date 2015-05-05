@@ -21,7 +21,7 @@ sub startup {
   $app->plugin('Config' => file => $ENV{MOJO_CONFIG} || $app->home->rel_file('mct.conf'));
   $app->sessions->default_expiration(3600 * 24);
 
-  $app->_setup_database;
+  #$app->_setup_database;
   $app->_setup_secrets;
   $app->_setup_stripe;
   $app->_setup_validation;
@@ -83,44 +83,9 @@ sub _form_row {
 sub _routes {
   my $app = shift;
 
-  $app->routes->get('/')->to('conference#latest_conference')->name('index');
-  $app->routes->post('/')->to('conference#create')->name('conference.create');
-
   # back compat
   $app->plugin('MCT::Plugin::ACT' => {alias => ['/mojo2014'], path => '/2014', url => 'http://act.yapc.eu/mojo2014/'});
-
-  my $conf = $app->routes->under('/:cid')->to('conference#load');
-  $conf->get('/')->to('conference#landing_page')->name('landing_page');
-  $conf->get('/register')->to('conference#register')->name('user.register');
-  $conf->get('/user/logout')->to('user#logout')->name('user.logout');
-  $conf->get('/:page')->to('conference#page')->name('conference.page');
-
-  $conf->get('/user/:username/profile')->to('user#public_profile')->name('user.public_profile');
-
-  my $user = $app->connect->authorized_route($conf->any('/user'));
-  $user->any('/profile')->to('user#profile')->name('user.profile');
-  $user->get('/presentations')->to('user#presentations')->name('user.presentations');
-  $user->get('/purchases')->to('user#purchases')->name('user.purchases');
-  $user->post('/presentations')->to('presentation#store')->name('presentation.create');
-  $user->post('/purchase')->to('conference#purchase')->name('product.purchase');
-
-  my $user_admin = $user->under('/admin')->to('admin#authorize');
-  $user_admin->get('/presentations')->to('admin#presentations')->name('admin.presentations');
-  $user_admin->get('/purchases')->to('admin#purchases')->name('admin.purchases');
-  $user_admin->get('/users')->to('admin#users')->name('admin.users');
-
-  my $event = $conf->any('/events/:id');
-  $event->get('/')->to('event#show')->name('event.show');
-  $event->get('/edit')->to('event#edit')->name('event.edit');
-  $event->post('/edit')->to('event#store')->name('event.update');
-
-  my $presentations = $conf->any('/presentations')->to('presentation#');
-  $presentations->get('/')->to('#list')->name('presentations'); # TODO
-
-  my $presentation = $presentations->any('/:pid');
-  $presentation->get('/')->to('#show')->name('presentation');
-  $presentation->get('/edit')->to('#edit')->name('presentation.edit');
-  $presentation->post('/edit')->to('#store')->name('presentation.update');
+  $app->routes->any('/*whatever' => {whatever => ''})->to(template => 'cancelled');
 }
 
 sub _setup_database {
